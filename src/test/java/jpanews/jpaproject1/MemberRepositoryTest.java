@@ -1,7 +1,7 @@
 package jpanews.jpaproject1;
 
 import jpanews.jpaproject1.domain.Member;
-import jpanews.jpaproject1.domain.MemberRepository;
+import jpanews.jpaproject1.repository.MemberRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +24,7 @@ public class MemberRepositoryTest {
         member.setUsername("memberA");
         //when
         Long savedId = memberRepository.save(member);
-        Member findMember = memberRepository.find(savedId);
+        Member findMember = memberRepository.findOne(savedId);
 
         //then
         Assertions.assertThat(findMember.getId()).isEqualTo(member.getId());
