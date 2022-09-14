@@ -15,9 +15,10 @@ public class WordList {
     @Column(name="wordlist_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany
+    @OneToMany(mappedBy = "wordList", cascade = CascadeType.ALL)
     private List<WordListToWord> wordListToWords = new ArrayList<>();
 }
