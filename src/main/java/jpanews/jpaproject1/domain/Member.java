@@ -10,6 +10,7 @@ import java.util.List;
 @Entity
 @Getter @Setter
 public class Member {
+
     @Id @GeneratedValue
     @Column(name="member_id")
     private Long Id;
@@ -19,5 +20,5 @@ public class Member {
     private String password;
 
     @OneToMany(mappedBy = "member")
-    private List<WordList> myWordLists = new ArrayList<>();
+    private List<WordList> WordLists = new ArrayList<>();
 }
