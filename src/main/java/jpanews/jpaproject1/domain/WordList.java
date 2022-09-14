@@ -12,7 +12,7 @@ import java.util.List;
 public class WordList {
 
     @Id @GeneratedValue
-    @Column(name="list_id")
+    @Column(name="wordlist_id")
     private Long id;
 
     @ManyToOne
