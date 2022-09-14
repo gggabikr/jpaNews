@@ -4,9 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -18,14 +15,14 @@ public class Word {
 
     private String name;
 
-    private EngType langType;
+    private Language langType;
 
-    @OneToMany
-    private List<String> korean = new ArrayList<>();
+    private WordClass wordClass;
 
-    @OneToMany
-    private List<String> english = new ArrayList<>();
+    @ManyToOne
+    private WordListToWord word;
 
+    private String meaning;
 
 
 }
