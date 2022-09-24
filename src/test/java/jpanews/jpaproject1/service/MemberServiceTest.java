@@ -44,7 +44,7 @@ public class MemberServiceTest {
         member1.setUsername("Breece");
         member2.setUsername("Breece");
 
-//        error should not be arisen -> fail() method need to be worked
+//        for the below code, error should not be arisen -> fail() method need to be worked
 //        member2.setUsername("Breece2");
 
         //when
