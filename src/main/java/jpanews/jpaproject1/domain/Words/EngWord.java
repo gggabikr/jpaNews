@@ -11,4 +11,9 @@ import javax.persistence.Entity;
 @DiscriminatorValue("E")
 public class EngWord extends Word{
     private String eMeaning;
+
+    @Override
+    public String getMeaning(){
+        return this.eMeaning;
+    }
 }
