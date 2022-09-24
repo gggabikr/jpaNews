@@ -28,7 +28,7 @@ public class WordListToWord {
 
     private LocalDateTime addDate;
 
-    private boolean status;
+    private boolean status; //[Active, Inactive]
 
-    private int failedCount;
+    private int failedCount; //틀린횟수
 }
