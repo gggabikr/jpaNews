@@ -1,13 +1,10 @@
 package jpanews.jpaproject1.repository;
 
-import jpanews.jpaproject1.domain.Words.EngWord;
-import jpanews.jpaproject1.domain.Words.KorWord;
 import jpanews.jpaproject1.domain.Words.Word;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository

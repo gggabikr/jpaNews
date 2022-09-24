@@ -18,7 +18,7 @@ public class MemberService {
 
     //Sign Up
     @Transactional
-    public Long join(Member member){
+    public Long join(Member member) throws Exception{
         //checking for a username if it is duplicated.
         validateDuplicateMember(member);
         memberRepository.save(member);
