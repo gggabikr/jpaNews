@@ -32,3 +32,6 @@ public class MemberRepository {
                 .getResultList();
     }
 }
+//@Query("SELECT w.name FROM Word w WHERE UPPER(w.name) LIKE CONCAT('%',UPPER(TRIM((:part)),'%'))
+//List<String> findWordsWithPart(@Param("part") String part);
+//
