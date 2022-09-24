@@ -11,4 +11,9 @@ import javax.persistence.Entity;
 @DiscriminatorValue("K")
 public class KorWord extends Word{
     private String kMeaning;
+
+    @Override
+    public String getMeaning(){
+        return this.kMeaning;
+    }
 }
