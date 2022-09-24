@@ -14,7 +14,7 @@ public class MemberRepository {
     private final EntityManager em;
 
     public Long save(Member member) throws Exception{
-        if(this.findByUsername(member.getUsername()) != null){
+        if(!this.findByUsername(member.getUsername()).isEmpty()){
             throw new IllegalStateException("There is an user with a same username.");
         }
         em.persist(member);
