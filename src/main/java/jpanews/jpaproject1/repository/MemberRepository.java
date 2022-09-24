@@ -13,7 +13,10 @@ public class MemberRepository {
 
     private final EntityManager em;
 
-    public Long save(Member member){
+    public Long save(Member member) throws Exception{
+        if(this.findByUsername(member.getUsername()) != null){
+            throw new IllegalStateException("There is an user with a same username.");
+        }
         em.persist(member);
         return member.getId();
     }
