@@ -79,8 +79,8 @@ public class WordRepository {
 
 
     public void occurTooShortInputException(String input){
-        if (input.length() < 3) {
-            throw new IllegalStateException("The length of input must be more than 2.");
+        if (input.length() < 2) {
+            throw new IllegalStateException("The length of input must be bigger than 1.");
         }
     }
 }
