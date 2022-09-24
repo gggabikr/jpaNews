@@ -20,4 +20,14 @@ public abstract class Word {
 
     @Enumerated(EnumType.STRING)
     private WordClass wordClass;
+
+    public abstract String getMeaning();
+
+    //added it to make JSQL queries work for 'w.language'
+    @Column(insertable = false, updatable = false)
+    private String language;
+
+
+    //==main methods==//
+
 }
