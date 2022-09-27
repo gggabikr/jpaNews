@@ -14,6 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 @SpringBootTest
@@ -26,17 +29,36 @@ public class WordServiceTest {
 
     @Test
     public void saveWordToDb() throws Exception {
-        KorWord word = new KorWord();
-        word.setKMeaning("바보");
-        word.setWordClass(WordClass.ADVERB);
-        word.setName("pool");
+        //given
+        KorWord word1 = new KorWord();
+        word1.setName("pool");
+        word1.setKMeaning("바보");
+        word1.setWordClass(WordClass.NOUN);
 
-        wordService.saveWordToDb(word);
+        KorWord word2 = new KorWord();
+        word2.setName("cat");
+        word2.setKMeaning("고양이");
+        word2.setWordClass(WordClass.NOUN);
 
-        Assertions.assertEquals(word, wordRepository.findOne(word.getId()));
-        Assertions.assertEquals(word.getName(), wordRepository.findByName("pool").get(0).getName());
-//        Assertions.assertEquals(word);
+        //when
+        wordService.saveWordToDb(word1);
+        wordService.saveWordToDb(word2);
 
+        //then
+        Assertions.assertEquals(word1, wordRepository.findOne(word1.getId()));
+        Assertions.assertEquals(1, wordRepository.findByName("pool").size());
+        Assertions.assertEquals(word1.getName(), wordRepository.findByName("pool").get(0).getName());
+        Assertions.assertEquals("NOUN", wordRepository.findAllKorWord().get(0).getWordClass().toString());
+
+        List<Word> list = new ArrayList<>();
+        list.add(word1);
+        list.add(word2);
+        Assertions.assertEquals(list, wordRepository.findAllKorWord());
+        Assertions.assertEquals(list, wordRepository.findAll());
+        Assertions.assertEquals(list, wordRepository.findByWordClass("NOUN"));
+        Assertions.assertEquals(list, wordRepository.findByWordClass("Noun"));
+        Assertions.assertEquals(list, wordRepository.findByWordClass("nOUn"));
+        Assertions.assertEquals(list, wordRepository.findByWordClass("noun"));
 
     }
 
