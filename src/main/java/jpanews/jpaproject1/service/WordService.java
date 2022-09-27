@@ -45,6 +45,14 @@ public class WordService {
         return wordRepository.findAllEngWord();
     }
 
+    public List<Word> findWithWordClass(String str) throws Exception {
+        return wordRepository.findByWordClass(str);
+
+//            NOUN, VERB, ADJECTIVE, ADVERB,
+//            PRONOUN, DETERMINER, PREPOSITION,
+//            CONJUNCTION, INTERJECTION
+    }
+
     public List<Word> findWithString(String str) throws Exception{
         int length = str.length();
 
