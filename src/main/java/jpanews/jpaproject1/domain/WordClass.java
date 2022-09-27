@@ -15,8 +15,8 @@ public enum WordClass {
         this.text = text;
     }
 
-    @Override
-    public String toString() {
-        return text;
-    }
+//    @Override
+//    public String toString() {
+//        return text;
+//    }
 }
