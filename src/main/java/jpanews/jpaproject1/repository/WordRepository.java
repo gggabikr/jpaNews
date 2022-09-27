@@ -77,6 +77,13 @@ public class WordRepository {
                 .getResultList();
     }
 
+    public List<Word> findByWordClass(String wordClass) throws Exception{
+//        occurTooShortInputException(wordClass);
+        return em.createQuery("SELECT w FROM Word w WHERE UPPER(w.wordClass) LIKE UPPER(TRIM(:wordClass))", Word.class)
+                .setParameter("wordClass", wordClass)
+                .getResultList();
+    }
+
 
     public void occurTooShortInputException(String input){
         if (input.length() < 2) {
