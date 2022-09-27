@@ -56,8 +56,13 @@ public class MemberServiceTest {
         fail("error must be arisen");
     }
 
-//    @Test
-//    public void enumTest() throws Exception{
-//        System.out.println(WordClass.ADVERB);
-//    }
+    @Test
+    public void enumTest() throws Exception{
+        System.out.println(WordClass.ADVERB);
+        System.out.println(WordClass.ADVERB.toString());
+
+        System.out.println(WordClass.ADVERB.getClass());
+        System.out.println(WordClass.ADVERB.toString().getClass());
+
+    }
 }
