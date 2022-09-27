@@ -1,6 +1,7 @@
 package jpanews.jpaproject1.service;
 
 import jpanews.jpaproject1.domain.Member;
+import jpanews.jpaproject1.domain.WordClass;
 import jpanews.jpaproject1.repository.MemberRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -54,4 +55,9 @@ public class MemberServiceTest {
         //then
         fail("error must be arisen");
     }
+
+//    @Test
+//    public void enumTest() throws Exception{
+//        System.out.println(WordClass.ADVERB);
+//    }
 }
