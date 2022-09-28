@@ -54,7 +54,6 @@ public class WordRepository {
     }
 
     public List<Word> findByNameStartingWith(String name) throws Exception{
-        occurTooShortInputException(name);
         return em.createQuery(
                         "SELECT w FROM Word w WHERE UPPER(w.name) LIKE CONCAT(UPPER(TRIM(:name)), '%')",Word.class)
                 .setParameter("name", name)
@@ -62,7 +61,6 @@ public class WordRepository {
     }
 
     public List<Word> findByNameEndingWith(String name) throws Exception{
-        occurTooShortInputException(name);
         return em.createQuery(
                         "SELECT w FROM Word w WHERE UPPER(w.name) LIKE CONCAT('%' ,UPPER(TRIM(:name)))",Word.class)
                 .setParameter("name", name)
