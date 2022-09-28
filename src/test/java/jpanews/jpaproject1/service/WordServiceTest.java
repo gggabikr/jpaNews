@@ -144,17 +144,134 @@ public class WordServiceTest {
     }
 
 
-
     @Test
-    public void findWithString() {
+    public void findWithString() throws Exception {
         //given
+        KorWord word1 = new KorWord();
+        word1.setName("pool");
+        word1.setKMeaning("바보");
+        word1.setWordClass(WordClass.NOUN);
 
+        KorWord word2 = new KorWord();
+        word2.setName("cat");
+        word2.setKMeaning("고양이");
+        word2.setWordClass(WordClass.NOUN);
+
+        EngWord word3 = new EngWord();
+        word3.setName("great");
+        word3.setEMeaning("aaaaaaaaaa");
+        word3.setWordClass(WordClass.ADJECTIVE);
+
+        KorWord word4 = new KorWord();
+        word4.setName("catacomb");
+        word4.setKMeaning("지하묘지");
+        word4.setWordClass(WordClass.NOUN);
+
+        KorWord word5 = new KorWord();
+        word5.setName("meat");
+        word5.setKMeaning("고기");
+        word5.setWordClass(WordClass.NOUN);
+
+        EngWord word6 = new EngWord();
+        word6.setName("great");
+        word6.setEMeaning("Something great");
+        word6.setWordClass(WordClass.ADJECTIVE);
+
+        EngWord word7 = new EngWord();
+        word7.setName("wheat");
+        word7.setEMeaning("plant of rice");
+        word7.setWordClass(WordClass.NOUN);
+
+        EngWord word8 = new EngWord();
+        word8.setName("whaaaaaaeat");
+        word8.setEMeaning("plant oaaaaaaaaf rice");
+        word8.setWordClass(WordClass.NOUN);
+
+        EngWord word9 = new EngWord();
+        word9.setName("aaaaawheataaaaa");
+        word9.setEMeaning("plant of rice");
+        word9.setWordClass(WordClass.NOUN);
+
+        EngWord word10 = new EngWord();
+        word10.setName("wheeeedddat");
+        word10.setEMeaning("sssss");
+        word10.setWordClass(WordClass.NOUN);
+
+        KorWord word11 = new KorWord();
+        word11.setName("hey");
+        word11.setKMeaning("어이");
+        word11.setWordClass(WordClass.NOUN);
 
         //when
+        wordService.saveWordToDb(word1);
+        wordService.saveWordToDb(word2);
+        wordService.saveWordToDb(word3);
+        wordService.saveWordToDb(word4);
+        wordService.saveWordToDb(word5);
+        wordService.saveWordToDb(word6);
+        wordService.saveWordToDb(word7);
+        wordService.saveWordToDb(word8);
+        wordService.saveWordToDb(word9);
+        wordService.saveWordToDb(word10);
+        wordService.saveWordToDb(word11);
 
 
         //then
+        //just string
+        List<Word> list = new ArrayList<>();
+        list.add(word2);
+        list.add(word4);
+        Assertions.assertEquals(list, wordService.findWithString("Cat"));
+        list.clear();
 
+        list.add(word7);
+        list.add(word8);
+        list.add(word9);
+        list.add(word10);
+        Assertions.assertEquals(list, wordService.findWithString("wH"));
+        list.clear();
+
+        //string with asterisks at the end
+        list.add(word7);
+        list.add(word8);
+        list.add(word10);
+        Assertions.assertEquals(list, wordService.findWithString("wh*"));
+        list.clear();
+
+        list.add(word2);
+        list.add(word4);
+        Assertions.assertEquals(list, wordService.findWithString("cat*"));
+        list.clear();
+
+        //string  with asterisks at the front
+        list.add(word3);
+        list.add(word5);
+        list.add(word6);
+        list.add(word7);
+        list.add(word8);
+        Assertions.assertEquals(list, wordService.findWithString("*eat"));
+        list.clear();
+
+        list.add(word2);
+        list.add(word3);
+        list.add(word5);
+        list.add(word6);
+        list.add(word7);
+        list.add(word8);
+        list.add(word10);
+        Assertions.assertEquals(list, wordService.findWithString("*at"));
+        list.clear();
+
+        //string with asterisks at the front and the end
+        list.add(word7);
+        list.add(word9);
+        list.add(word10);
+        Assertions.assertEquals(list, wordService.findWithString("*he*"));
+        list.clear();
+
+        //string with asterisks in the middle of it
+
+        //다하고 워드 서비스 if문 다시 손보기.
     }
 
     @Test
