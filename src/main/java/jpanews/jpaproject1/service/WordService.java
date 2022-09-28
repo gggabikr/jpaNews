@@ -56,11 +56,15 @@ public class WordService {
     public List<Word> findWithString(String str) throws Exception{
         int length = str.length();
 
-        boolean ifFirstCharIsStar = String.valueOf(str.charAt(0)) == "*";
-        boolean ifLastCharIsStar = String.valueOf(str.charAt(length - 1)) == "*";
+        boolean ifFirstCharIsStar = String.valueOf(str.charAt(0)).equals("*");
+        boolean ifLastCharIsStar = String.valueOf(str.charAt(length - 1)).equals("*");
 
-        List<Word> wordsNameStartingWith = wordRepository.findByNameStartingWith(str.substring(0, length - 1));
-        List<Word> wordsNameEndingWith = wordRepository.findByNameEndingWith(str.substring(1));
+        String wordWithoutLastChar = str.substring(0, length - 1);
+        String wordWithoutFirstChar = str.substring(1);
+        String wordWithoutBothEnd = str.substring(1,length - 1);
+
+        List<Word> wordsNameStartingWith = wordRepository.findByNameStartingWith(wordWithoutLastChar);
+        List<Word> wordsNameEndingWith = wordRepository.findByNameEndingWith(wordWithoutFirstChar);
         List<Word> exactMatch = wordRepository.findByName(str);
         List<Word> containWords = wordRepository.findByNameContaining(str);
 
@@ -69,6 +73,9 @@ public class WordService {
             exactMatch.addAll(containWords);
             return exactMatch;
         } else if(ifFirstCharIsStar && ifLastCharIsStar){   //e.g) '*cat*'
+            containWords = wordRepository.findByNameContaining(str.substring(1,length-1));
+            wordsNameStartingWith = wordRepository.findByNameStartingWith(wordWithoutBothEnd);
+            wordsNameEndingWith = wordRepository.findByNameEndingWith(wordWithoutBothEnd);
             containWords.removeAll(wordsNameStartingWith);
             containWords.removeAll(wordsNameEndingWith);
             return containWords;
