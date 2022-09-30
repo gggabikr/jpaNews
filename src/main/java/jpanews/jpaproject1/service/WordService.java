@@ -54,6 +54,10 @@ public class WordService {
     }
 
     public List<Word> findWithString(String str) throws Exception{
+//        if(!str.matches("[a-zA-Z*]")){
+//            throw new IllegalArgumentException("Only alphabetic characters and * are acceptable");
+//        }
+
         int length = str.length();
 
         boolean ifFirstCharIsStar = String.valueOf(str.charAt(0)).equals("*");
@@ -73,7 +77,7 @@ public class WordService {
             exactMatch.addAll(containWords);
             return exactMatch;
         } else if(ifFirstCharIsStar && ifLastCharIsStar){   //e.g) '*cat*'
-            containWords = wordRepository.findByNameContaining(str.substring(1,length-1));
+            containWords = wordRepository.findByNameContaining(wordWithoutBothEnd);
             wordsNameStartingWith = wordRepository.findByNameStartingWith(wordWithoutBothEnd);
             wordsNameEndingWith = wordRepository.findByNameEndingWith(wordWithoutBothEnd);
             containWords.removeAll(wordsNameStartingWith);
@@ -83,8 +87,11 @@ public class WordService {
             return wordsNameEndingWith;
         } else if(ifLastCharIsStar){    //e.g) 'pre*'
             return wordsNameStartingWith;
-        } else {    //e.g) 'pre*tion'
+        } else if(str.matches("[a-zA-Z*]+")){    //e.g) 'pre*tion'
             ArrayList<Word> finalWords = new ArrayList<Word>();
+            String[] parts = str.split("\\*");
+            wordsNameStartingWith = wordRepository.findByNameStartingWith(parts[0]);
+            wordsNameEndingWith = wordRepository.findByNameEndingWith(parts[1]);
             for (Word wordA:wordsNameEndingWith) {
                 for (Word wordB:wordsNameStartingWith) {
                     if(wordA.equals(wordB)){
@@ -93,6 +100,8 @@ public class WordService {
                 }
             }
             return finalWords;
+        } else{
+            return new ArrayList<Word>();
         }
     }
 }
