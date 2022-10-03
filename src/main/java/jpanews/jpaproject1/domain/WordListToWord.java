@@ -31,4 +31,8 @@ public class WordListToWord {
     private boolean status; //[Active, Inactive]
 
     private int failedCount; //틀린횟수
+
+    public void delete() {
+        this.wordList.getWordListToWords().remove(this);
+    }
 }
