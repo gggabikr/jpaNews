@@ -28,9 +28,34 @@ public class WordListToWord {
 
     private LocalDateTime addDate;
 
-    private boolean status; //[Active, Inactive]
+    private boolean status; //[1 = Active, 0 = Inactive]
 
-    private int failedCount; //틀린횟수
+    private int failedCount; //틀린 횟수
+
+    private int testedCount; //테스트 횟수
+
+
+    //==Constructor==//
+    public static WordListToWord createWordListToWord(Word word){
+        WordListToWord wordListToWord = new WordListToWord();
+
+        wordListToWord.setWord(word);
+        wordListToWord.setAddDate(LocalDateTime.now());
+        wordListToWord.setStatus(true);
+        wordListToWord.setFailedCount(0);
+        wordListToWord.setTestedCount(0);
+
+        return wordListToWord;
+    }
+
+    public void updateDate(){
+        this.setAddDate(LocalDateTime.now());
+    }
+
+    public void updateStatus(){
+        this.status = !this.status;
+    }
+
 
     public void delete() {
         this.wordList.getWordListToWords().remove(this);
