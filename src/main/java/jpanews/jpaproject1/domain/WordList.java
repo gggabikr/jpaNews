@@ -28,9 +28,9 @@ public class WordList {
 
     private int denominator; //분모
 
-//    public int updateTestResults(){
-//
-//    }
+    public int updateTestResults(){
+
+    }
 
     //==relational methods==//
     public void setMember(Member member){
