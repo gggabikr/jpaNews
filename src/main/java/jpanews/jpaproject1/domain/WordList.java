@@ -22,12 +22,15 @@ public class WordList {
     @OneToMany(mappedBy = "wordList", cascade = CascadeType.ALL)
     private List<WordListToWord> wordListToWords = new ArrayList<>();
 
-    //finish rate
+    //memorized rate
 
     private int numerator; //분자
 
     private int denominator; //분모
 
+//    public int updateTestResults(){
+//
+//    }
 
     //==relational methods==//
     public void setMember(Member member){
@@ -58,6 +61,5 @@ public class WordList {
         for (WordListToWord wordListToWord : this.wordListToWords) {
             wordListToWord.delete();
         }
-
     }
 }
