@@ -34,6 +34,7 @@ public class WordListToWord {
 
     private int testedCount; //테스트 횟수
 
+    private String recentTest = ""; //recent 10 test result
 
     //==Constructor==//
     public static WordListToWord createWordListToWord(Word word){
@@ -48,14 +49,31 @@ public class WordListToWord {
         return wordListToWord;
     }
 
-    public void updateDate(){
-        this.setAddDate(LocalDateTime.now());
-    }
+//    public void updateDate(){
+//        this.setAddDate(LocalDateTime.now());
+//    }
 
     public void updateStatus(){
         this.status = !this.status;
     }
 
+    public void resetTestResults(){
+        this.setFailedCount(0);
+        this.setFailedCount(0);
+        this.setRecentTest("");
+    }
+
+    public float getCorrectAnswerRate(){
+        return (float)(testedCount-failedCount)/testedCount;
+    }
+
+    public void updateRecentTest(int a){
+        String result = String.valueOf(a);
+        if (getRecentTest().length() >= 10) {
+            setRecentTest(getRecentTest().substring(1));
+        }
+        setRecentTest(getRecentTest()+result);
+    }
 
     public void delete() {
         this.wordList.getWordListToWords().remove(this);
