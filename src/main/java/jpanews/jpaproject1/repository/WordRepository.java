@@ -1,5 +1,6 @@
 package jpanews.jpaproject1.repository;
 
+import jpanews.jpaproject1.domain.WordList;
 import jpanews.jpaproject1.domain.Words.Word;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -79,6 +80,13 @@ public class WordRepository {
 //        occurTooShortInputException(wordClass);
         return em.createQuery("SELECT w FROM Word w WHERE UPPER(w.wordClass) LIKE UPPER(TRIM(:wordClass))", Word.class)
                 .setParameter("wordClass", wordClass)
+                .getResultList();
+    }
+
+    public List<Word> RandomSelect(Long wordListId, int number) {
+        return em.createQuery("SELECT wlw FROM WordListToWord wlw WHERE wlw.id = :wordListId ORDER BY RAND()",Word.class)
+                .setParameter("wordListId", wordListId)
+                .setMaxResults(number)
                 .getResultList();
     }
 
