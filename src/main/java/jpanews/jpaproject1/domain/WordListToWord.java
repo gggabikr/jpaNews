@@ -34,7 +34,7 @@ public class WordListToWord {
 
     private int testedCount; //테스트 횟수
 
-    private String recentTest = ""; //recent 10 test result
+    private String recentTest; //recent 10 test result
 
     //==Constructor==//
     public static WordListToWord createWordListToWord(Word word){
@@ -45,13 +45,17 @@ public class WordListToWord {
         wordListToWord.setStatus(true);
         wordListToWord.setFailedCount(0);
         wordListToWord.setTestedCount(0);
-
+        wordListToWord.recentTest = "";
         return wordListToWord;
     }
 
 //    public void updateDate(){
 //        this.setAddDate(LocalDateTime.now());
 //    }
+
+    public boolean getStatus(){
+        return this.status;
+    }
 
     public void updateStatus(){
         this.status = !this.status;
