@@ -1,7 +1,6 @@
 package jpanews.jpaproject1.domain;
 
 import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -28,8 +27,24 @@ public class WordList {
 
     private int denominator; //분모
 
-    public int updateTestResults(){
+    public void updateTestResults(String testResults) {
+        for (int i = 0; i < testResults.length(); i++) {
+            wordListToWords.get(i).updateRecentTest(testResults.charAt(i));
+        }
+//        for (WordListToWord wordListToWord:wordListToWords) {
+//            wordListToWord.updateRecentTest();
+//        }
+    }
 
+    public void updateMemorizingStatus(){
+        int temp = 0;
+        for(WordListToWord wordListToWord : getWordListToWords()){
+            if(wordListToWord.getStatus()){
+                temp++;
+            }
+        }
+        this.numerator =temp;
+        this.denominator = getWordListToWords().size();
     }
 
     //==relational methods==//
