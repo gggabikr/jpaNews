@@ -22,7 +22,6 @@ public class WordList {
     private List<WordListToWord> wordListToWords = new ArrayList<>();
 
     //memorized rate
-
     private int numerator; //분자
 
     private int denominator; //분모
@@ -36,7 +35,7 @@ public class WordList {
 //        }
     }
 
-    public void updateMemorizingStatus(){
+    public void updateMemorizedStatus(){
         int temp = 0;
         for(WordListToWord wordListToWord : getWordListToWords()){
             if(wordListToWord.getStatus()){
@@ -77,4 +76,8 @@ public class WordList {
             wordListToWord.delete();
         }
     }
+
+//    public int[] testWords(int numOfWords){
+//
+//    }
 }
