@@ -29,6 +29,7 @@ public class WordList {
 
     private int denominator; //분모
 
+
     public void updateTestResults(String testResults) {
         for (int i = 0; i < testResults.length(); i++) {
             wordListToWords.get(i).updateTestResult(testResults.charAt(i));
@@ -62,11 +63,11 @@ public class WordList {
 
 
     //constructor
-    public static WordList createWordList(Member member, WordListToWord... wordListToWords){
+    public static WordList createNewWordList(Member member, List<WordListToWord> wlws){
         WordList wordList = new WordList();
         wordList.setMember(member);
 
-        for(WordListToWord wordListToWord : wordListToWords){
+        for(WordListToWord wordListToWord : wlws){
             wordList.saveWordListToWord(wordListToWord);
         }
         wordList.denominator = wordList.getWordListToWords().size();
