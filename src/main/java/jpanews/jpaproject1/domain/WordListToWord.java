@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 @Entity
 @Getter @Setter
@@ -26,7 +27,7 @@ public class WordListToWord {
     @JoinColumn(name = "word_id")
     private Word word;
 
-    private LocalDateTime addDate;
+    private Long addDate;
 
     private boolean status; //[1 = Active, 0 = Inactive]
 
@@ -41,7 +42,7 @@ public class WordListToWord {
         WordListToWord wordListToWord = new WordListToWord();
 
         wordListToWord.setWord(word);
-        wordListToWord.setAddDate(LocalDateTime.now());
+        wordListToWord.setAddDate(Timestamp.valueOf(LocalDateTime.now()).getTime());
         wordListToWord.setStatus(true);
         wordListToWord.setFailedCount(0);
         wordListToWord.setTestedCount(0);
@@ -52,6 +53,7 @@ public class WordListToWord {
 //    public void updateDate(){
 //        this.setAddDate(LocalDateTime.now());
 //    }
+
 
     public boolean getStatus(){
         return this.status;
@@ -71,7 +73,7 @@ public class WordListToWord {
         return (float)(testedCount-failedCount)/testedCount;
     }
 
-    public void updateRecentTest(int a){
+    public void updateTestResult(int a){
         String result = String.valueOf(a);
         if (getRecentTest().length() >= 10) {
             setRecentTest(getRecentTest().substring(1));
@@ -82,4 +84,6 @@ public class WordListToWord {
     public void delete() {
         this.wordList.getWordListToWords().remove(this);
     }
+
+
 }
