@@ -54,6 +54,30 @@ public class WordListService {
     }
 
     //==test==//
+    public int testOneWord(WordListToWord wlw) throws Exception {
+        //여기에서 단어만 하나 받아서 answers를 만들고 순서 섞고 해서 문제 낸다음
+        List<String> answers = new ArrayList<>();
+        String rightAnswer = wlw.getWord().getMeaning();
+        answers.add(rightAnswer);
+        List<Word> byWordClass = wordRepository.findByWordClass(String.valueOf(wlw.getWord().getWordClass()));
+        for (int i = 0; i<3; i++){
+            String wrongAnswer = byWordClass.get((int) (Math.random() * byWordClass.size())).getMeaning();
+            answers.add(wrongAnswer);
+        }
+        Collections.shuffle(answers);
+
+        //유저인풋 받는거 고민해보기
+        int indexOfRightAnswer = answers.indexOf(rightAnswer);
+        int OX; //right answer = 1, wrong answer = 0
+        int userAnswer = 999; //choice of 0~3
+        if (userAnswer==indexOfRightAnswer){
+            return 1;
+        } else {return 0;}
+        //정답여부를 0 과 1로 리턴하는 것까지 하기.
+        //그리고 아래 메서드에서 리턴된 숫자와 랜덤으로 뽑힌 단어들을 가지고 결과기록하는 방식으로 진행.
+    }
+
+
     @Transactional
     public String testWords(Long wordListId,int numOfWords) throws Exception {
 
@@ -63,15 +87,7 @@ public class WordListService {
         HashMap<Integer, List<String>> hashMapOfTestQ = new HashMap<>();
 
         for (WordListToWord wlw : randomSelectedWlws) {
-            List<String> answers = new ArrayList<>();
-            String rightAnswer = wlw.getWord().getMeaning();
-            answers.add(rightAnswer);
-            List<Word> byWordClass = wordRepository.findByWordClass(String.valueOf(wlw.getWord().getWordClass()));
-            for (int i = 0; i<3; i++){
-                String wrongAnswer = byWordClass.get((int) (Math.random() * byWordClass.size())).getMeaning();
-                answers.add(wrongAnswer);
-            }
-            Collections.shuffle(answers);
+
             hashMapOfTestQ.put(answers.indexOf(rightAnswer),answers);
         }
 
