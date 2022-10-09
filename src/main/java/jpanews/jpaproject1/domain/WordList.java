@@ -1,6 +1,8 @@
 package jpanews.jpaproject1.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -8,6 +10,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class WordList {
 
     @Id @GeneratedValue
@@ -28,7 +31,7 @@ public class WordList {
 
     public void updateTestResults(String testResults) {
         for (int i = 0; i < testResults.length(); i++) {
-            wordListToWords.get(i).updateRecentTest(testResults.charAt(i));
+            wordListToWords.get(i).updateTestResult(testResults.charAt(i));
         }
 //        for (WordListToWord wordListToWord:wordListToWords) {
 //            wordListToWord.updateRecentTest();
@@ -76,8 +79,4 @@ public class WordList {
             wordListToWord.delete();
         }
     }
-
-//    public int[] testWords(int numOfWords){
-//
-//    }
 }
