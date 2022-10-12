@@ -1,37 +1,100 @@
 package jpanews.jpaproject1.service;
 
+import jpanews.jpaproject1.domain.Member;
+import jpanews.jpaproject1.domain.WordClass;
+import jpanews.jpaproject1.domain.Words.EngWord;
+import jpanews.jpaproject1.domain.Words.KorWord;
+import jpanews.jpaproject1.repository.MemberRepository;
+import jpanews.jpaproject1.repository.WordListRepository;
+import jpanews.jpaproject1.repository.WordRepository;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
+@SpringBootTest
+@RunWith(SpringRunner.class)
+@Transactional
 public class WordListServiceTest {
+
+    @Autowired MemberRepository memberRepository;
+    @Autowired MemberService memberService;
+    @Autowired WordRepository wordRepository;
+    @Autowired WordService wordService;
+    @Autowired WordListRepository wordListRepository;
+    @Autowired WordListService wordListService;
 
     @Test
     public void createWordList() throws Exception{
+
+        //==WordList with no words==//
         //given
+        Member member = new Member();
+
+        //when
+        memberService.join(member);
+        Long wordList = wordListService.createWordList(member.getId());
+
+        //then
+        Assertions.assertEquals(wordList, member.getWordLists().get(0).getId());
+        Assertions.assertEquals(0, member.getWordLists().get(0).getWordListToWords().size());
+        Assertions.assertEquals(wordListService.findOneWordList(wordList), member.getWordLists().get(0));
+
+
+        //==WordList with words==//
+        //will use same member above
+        //given
+        KorWord word1 = new KorWord();
+        word1.setName("pool");
+        word1.setKMeaning("바보");
+        word1.setWordClass(WordClass.NOUN);
+
+        KorWord word2 = new KorWord();
+        word2.setName("cat");
+        word2.setKMeaning("고양이");
+        word2.setWordClass(WordClass.NOUN);
+
+        EngWord word3 = new EngWord();
+        word3.setName("great");
+        word3.setEMeaning("aaaaaaaaaa");
+        word3.setWordClass(WordClass.ADJECTIVE);
 
 
         //when
+        memberService.join(member);
 
+        wordService.saveWordToDb(word1);
+        wordService.saveWordToDb(word2);
+        wordService.saveWordToDb(word3);
 
-        //then
+        List<Long> wordIdList = new ArrayList<>();
+        wordIdList.add(word1.getId());
+        wordIdList.add(word2.getId());
+        wordIdList.add(word3.getId());
 
-
-    }
-
-
-    @Test
-    public void testCreateWordList() throws Exception{
-        //given
-
-
-        //when
-
+        Long wordList2 = wordListService.createWordList(member.getId(), wordIdList);
 
         //then
-
-
+        Assertions.assertEquals(member, memberService.findOne(member.getId()));
+        Assertions.assertEquals(wordList2, member.getWordLists().get(1).getId());
+        Assertions.assertEquals(3,member.getWordLists().get(1).getWordListToWords().size());
+        Assertions.assertEquals(wordListService.findOneWordList(wordList2), member.getWordLists().get(1));
+        Assertions.assertEquals(word1, member.getWordLists().get(1).getWordListToWords().get(0).getWord());
+        Assertions.assertEquals(word2, member.getWordLists().get(1).getWordListToWords().get(1).getWord());
+        Assertions.assertEquals(word3, member.getWordLists().get(1).getWordListToWords().get(2).getWord());
+        Assertions.assertEquals(2, member.getWordLists().size());
+        Assertions.assertEquals(3, member.getWordLists().get(1).getDenominator());
+        Assertions.assertEquals(0, member.getWordLists().get(1).getNumerator());
     }
+
 
     @Test
     public void deleteWordList() throws Exception{
