@@ -30,14 +30,14 @@ public class WordList {
     private int denominator; //분모
 
 
-    public void updateTestResults(String testResults) {
-        for (int i = 0; i < testResults.length(); i++) {
-            wordListToWords.get(i).updateTestResult(testResults.charAt(i));
-        }
-//        for (WordListToWord wordListToWord:wordListToWords) {
-//            wordListToWord.updateRecentTest();
+//    public void updateTestResults(String testResults) {
+//        for (int i = 0; i < testResults.length(); i++) {
+//            wordListToWords.get(i).updateTestResult(testResults.charAt(i));
 //        }
-    }
+////        for (WordListToWord wordListToWord:wordListToWords) {
+////            wordListToWord.updateRecentTest();
+////        }
+//    }
 
     public void updateMemorizedStatus(){
         int temp = 0;
