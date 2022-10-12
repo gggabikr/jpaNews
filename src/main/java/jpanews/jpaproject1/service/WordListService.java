@@ -38,10 +38,19 @@ public class WordListService {
             WordListToWord wlw = WordListToWord.createWordListToWord(word);
             wlws.add(wlw);
         }
-        WordList newWordList = WordList.createNewWordList(member, wlws);
+        WordList newWordList = WordList.createWordList(member, wlws);
 
         return newWordList.getId();
     }
+
+    public Long createWordList(Long memberId){
+        //Refer entities
+        Member member = memberRepository.findOne(memberId);
+
+        WordList newWordList = WordList.createWordList(member);
+        return newWordList.getId();
+    }
+
 
     //==delete WordList==//
     @Transactional
