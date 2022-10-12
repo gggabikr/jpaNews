@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Collections;
 
@@ -54,8 +53,7 @@ public class WordListService {
     }
 
     //==test==//
-    public int testOneWord(WordListToWord wlw) throws Exception {
-        //여기에서 단어만 하나 받아서 answers를 만들고 순서 섞고 해서 문제 낸다음
+    public List<String> makeAnswerList(WordListToWord wlw) throws Exception {
         List<String> answers = new ArrayList<>();
         String rightAnswer = wlw.getWord().getMeaning();
         answers.add(rightAnswer);
@@ -65,31 +63,36 @@ public class WordListService {
             answers.add(wrongAnswer);
         }
         Collections.shuffle(answers);
+        return answers;
+    }
 
-        //유저인풋 받는거 고민해보기
-        int indexOfRightAnswer = answers.indexOf(rightAnswer);
-        int OX; //right answer = 1, wrong answer = 0
-        int userAnswer = 999; //choice of 0~3
-        if (userAnswer==indexOfRightAnswer){
+    public int checkRightOrWrong(WordListToWord rightAnswer, int userInput) throws Exception {
+        List<String> answerList = makeAnswerList(rightAnswer);
+        int indexOfRightAnswer = answerList.indexOf(rightAnswer.getWord().getMeaning());
+        if (userInput==indexOfRightAnswer){
             return 1;
         } else {return 0;}
-        //정답여부를 0 과 1로 리턴하는 것까지 하기.
-        //그리고 아래 메서드에서 리턴된 숫자와 랜덤으로 뽑힌 단어들을 가지고 결과기록하는 방식으로 진행.
     }
 
 
     @Transactional
-    public String testWords(Long wordListId,int numOfWords) throws Exception {
+    public void testWords(Long wordListId,int numOfWords) throws Exception {
 
         List<WordListToWord> randomSelectedWlws
                 = wlwRepository.RandomSelect(wordListId, numOfWords);
 
-        HashMap<Integer, List<String>> hashMapOfTestQ = new HashMap<>();
+        StringBuilder OxList = new StringBuilder();
+//        HashMap<Integer, List<String>> hashMapOfTestQ = new HashMap<>();
 
         for (WordListToWord wlw : randomSelectedWlws) {
-
-            hashMapOfTestQ.put(answers.indexOf(rightAnswer),answers);
+            //need to be replaced with actual user input//
+            int userInput = 999;
+            int OX = checkRightOrWrong(wlw, userInput);
+            OxList.append(OX);
         }
 
+        for(int i=0; i< randomSelectedWlws.size(); i++){
+            randomSelectedWlws.get(i).updateTestResult(OxList.charAt(i));
+        }
     }
 }
