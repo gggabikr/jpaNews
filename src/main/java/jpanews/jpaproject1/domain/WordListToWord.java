@@ -61,6 +61,7 @@ public class WordListToWord {
 
     public void updateStatus(){
         this.status = !this.status;
+        this.wordList.updateMemorizedStatus();
     }
 
     public void resetTestResults(){
@@ -79,6 +80,11 @@ public class WordListToWord {
             setRecentTest(getRecentTest().substring(1));
         }
         setRecentTest(getRecentTest()+result);
+
+        if (a == 0){
+            failedCount++;
+        }
+        testedCount++;
     }
 
     public void delete() {
