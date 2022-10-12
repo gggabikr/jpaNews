@@ -6,6 +6,7 @@ import jpanews.jpaproject1.domain.Words.EngWord;
 import jpanews.jpaproject1.domain.Words.KorWord;
 import jpanews.jpaproject1.repository.MemberRepository;
 import jpanews.jpaproject1.repository.WordListRepository;
+import jpanews.jpaproject1.repository.WordListToWordRepository;
 import jpanews.jpaproject1.repository.WordRepository;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -31,6 +32,7 @@ public class WordListServiceTest {
     @Autowired WordService wordService;
     @Autowired WordListRepository wordListRepository;
     @Autowired WordListService wordListService;
+    @Autowired WordListToWordRepository wordListToWordRepository;
 
     @Test
     public void createWordList() throws Exception{
@@ -93,16 +95,53 @@ public class WordListServiceTest {
         Assertions.assertEquals(2, member.getWordLists().size());
         Assertions.assertEquals(3, member.getWordLists().get(1).getDenominator());
         Assertions.assertEquals(0, member.getWordLists().get(1).getNumerator());
+        Assertions.assertEquals(3, wordListToWordRepository.findAll().size());
     }
 
 
     @Test
     public void deleteWordList() throws Exception{
         //given
+        Member member = new Member();
 
+        KorWord word1 = new KorWord();
+        word1.setName("pool");
+        word1.setKMeaning("바보");
+        word1.setWordClass(WordClass.NOUN);
+
+        KorWord word2 = new KorWord();
+        word2.setName("cat");
+        word2.setKMeaning("고양이");
+        word2.setWordClass(WordClass.NOUN);
+
+        EngWord word3 = new EngWord();
+        word3.setName("great");
+        word3.setEMeaning("aaaaaaaaaa");
+        word3.setWordClass(WordClass.ADJECTIVE);
 
         //when
+        memberService.join(member);
 
+        wordService.saveWordToDb(word1);
+        wordService.saveWordToDb(word2);
+        wordService.saveWordToDb(word3);
+
+        List<Long> wordIdList = new ArrayList<>();
+        wordIdList.add(word1.getId());
+        wordIdList.add(word2.getId());
+        wordIdList.add(word3.getId());
+
+        Long wordList1 = wordListService.createWordList(member.getId());
+        Long wordList2 = wordListService.createWordList(member.getId(),wordIdList);
+        Long wordList3 = wordListService.createWordList(member.getId());
+
+        Assertions.assertEquals(3, member.getWordLists().size());
+        Assertions.assertEquals(3, wordListToWordRepository.findAll().size());
+        Assertions.assertEquals(3, member.getWordLists().get(1).getWordListToWords().size());
+        //when
+        //1번 지우고 멤버의 단어장 수 체크
+        //2번 지우고 동일작업+ wlw 지워졌는지?? 지워지는게 맞나?
+        //안지워진다면 wlw의 wordlist가 null인지 아닌지 확인하거나...암튼.
 
         //then
 
