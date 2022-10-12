@@ -39,15 +39,17 @@ public class WordListService {
             wlws.add(wlw);
         }
         WordList newWordList = WordList.createWordList(member, wlws);
-
+        wordListRepository.save(newWordList);
         return newWordList.getId();
     }
 
+    @Transactional
     public Long createWordList(Long memberId){
         //Refer entities
         Member member = memberRepository.findOne(memberId);
 
         WordList newWordList = WordList.createWordList(member);
+        wordListRepository.save(newWordList);
         return newWordList.getId();
     }
 
@@ -61,7 +63,26 @@ public class WordListService {
         }
     }
 
-    //==test==//
+    public Long saveWordListToDb(WordList wordList){
+        return wordListRepository.save(wordList);
+    }
+
+    public WordList findOneWordList(Long wordListId){
+        return wordListRepository.findOne(wordListId);
+    }
+
+    public List<WordList> findAllWordListByMember(Long memberId){
+        return wordListRepository.findAllByMember(memberId);
+    }
+
+    public List<WordList> findAllByWordListWithMemorizedStatus(Long memberId, int percent){
+        return wordListRepository.findAllByMemorizedStatus(memberId,percent);
+    }
+
+    /*
+         //==test==//
+    */
+
     public List<String> makeAnswerList(WordListToWord wlw) throws Exception {
         List<String> answers = new ArrayList<>();
         String rightAnswer = wlw.getWord().getMeaning();
