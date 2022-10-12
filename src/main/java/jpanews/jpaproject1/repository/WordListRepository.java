@@ -14,8 +14,9 @@ public class WordListRepository {
 
     private final EntityManager em;
 
-    public void save(WordList wordList){
+    public Long save(WordList wordList){
         em.persist(wordList);
+        return wordList.getId();
     }
 
     public WordList findOne(Long id){
