@@ -63,7 +63,7 @@ public class WordList {
 
 
     //constructor
-    public static WordList createNewWordList(Member member, List<WordListToWord> wlws){
+    public static WordList createWordList(Member member, List<WordListToWord> wlws){
         WordList wordList = new WordList();
         wordList.setMember(member);
 
@@ -71,6 +71,15 @@ public class WordList {
             wordList.saveWordListToWord(wordListToWord);
         }
         wordList.denominator = wordList.getWordListToWords().size();
+        wordList.numerator = 0;
+        return wordList;
+    }
+
+    public static WordList createWordList(Member member){
+        WordList wordList = new WordList();
+        wordList.setMember(member);
+
+        wordList.denominator = 0;
         wordList.numerator = 0;
         return wordList;
     }
