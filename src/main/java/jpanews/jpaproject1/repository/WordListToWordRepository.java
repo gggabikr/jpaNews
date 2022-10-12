@@ -1,5 +1,6 @@
 package jpanews.jpaproject1.repository;
 
+import jpanews.jpaproject1.domain.WordList;
 import jpanews.jpaproject1.domain.WordListToWord;
 import jpanews.jpaproject1.domain.Words.Word;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,12 @@ public class WordListToWordRepository {
 //    public void addWLW(WordListToWord wlw){
 //        em.persist(wlw);
 //    }
+
+    public List<WordListToWord> findAll(){
+        return em.createQuery(
+                        "SELECT wlw FROM WordListToWord wlw", WordListToWord.class)
+                .getResultList();
+    }
 
 
 
