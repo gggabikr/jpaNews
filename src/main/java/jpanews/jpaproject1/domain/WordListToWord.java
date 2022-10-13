@@ -88,7 +88,7 @@ public class WordListToWord {
     }
 
     public void delete() {
-        this.wordList.getWordListToWords().remove(this);
+        getWordList().getWordListToWords().remove(this);
     }
 
 
