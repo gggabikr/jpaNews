@@ -83,10 +83,4 @@ public class WordList {
         wordList.numerator = 0;
         return wordList;
     }
-
-    public void deleteWordList(){
-        for (WordListToWord wordListToWord : this.wordListToWords) {
-            wordListToWord.delete();
-        }
-    }
 }
