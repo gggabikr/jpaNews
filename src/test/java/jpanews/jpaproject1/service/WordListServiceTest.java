@@ -121,6 +121,7 @@ public class WordListServiceTest {
 
         //when
         memberService.join(member);
+        Assertions.assertEquals(member, memberService.findOne(member.getId()));
 
         wordService.saveWordToDb(word1);
         wordService.saveWordToDb(word2);
@@ -138,12 +139,16 @@ public class WordListServiceTest {
         Assertions.assertEquals(3, member.getWordLists().size());
         Assertions.assertEquals(3, wordListToWordRepository.findAll().size());
         Assertions.assertEquals(3, member.getWordLists().get(1).getWordListToWords().size());
-        //when
-        //1번 지우고 멤버의 단어장 수 체크
+        //1번 지우고 멤버의 단어장 수 체크 - 지우기 기능이 작동안함. @@이유를 찾아보자@@
         //2번 지우고 동일작업+ wlw 지워졌는지?? 지워지는게 맞나?
         //안지워진다면 wlw의 wordlist가 null인지 아닌지 확인하거나...암튼.
 
         //then
+//        System.out.println("member's wordList: "+ member.getWordLists());
+        wordListService.findAllWordListByMember(member.getId());
+        wordListService.deleteWordList(wordList1);
+        System.out.println("member's wordList: "+ member.getWordLists());
+        Assertions.assertEquals(2, member.getWordLists().size());
 
 
     }
