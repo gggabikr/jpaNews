@@ -1,6 +1,7 @@
 package jpanews.jpaproject1.repository;
 
 import jpanews.jpaproject1.domain.WordList;
+import jpanews.jpaproject1.domain.WordListToWord;
 import jpanews.jpaproject1.domain.Words.Word;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -25,7 +26,7 @@ public class WordListRepository {
 
     public List<WordList> findAllByMember(Long memberId){
         return em.createQuery(
-                        "SELECT wl FROM WordList wl WHERE wl.member = :memberId", WordList.class)
+                        "SELECT wl FROM WordList wl WHERE wl.member.Id = :memberId", WordList.class)
                 .setParameter("memberId", memberId)
                 .getResultList();
     }
@@ -40,5 +41,16 @@ public class WordListRepository {
         return em.createQuery("SELECT wl FROM WordList wl WHERE wl.numerator/wl.denominator < :percent AND wl.member = :memberId",WordList.class)
                 .setParameter("percent",percent).setParameter("memberId", memberId)
                 .getResultList();
+    }
+
+    public void deleteWordList(Long wordListId){
+        for (WordListToWord wordListToWord : findOne(wordListId).getWordListToWords()) {
+            wordListToWord.delete();
+        }
+        em.createQuery("DELETE FROM WordList wl WHERE wl.id = :wordListId")
+                .setParameter("wordListId",wordListId)
+                .executeUpdate();
+
+        em.remove(findOne(wordListId));
     }
 }
