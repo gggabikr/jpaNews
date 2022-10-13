@@ -57,10 +57,7 @@ public class WordListService {
     //==delete WordList==//
     @Transactional
     public void deleteWordList(Long wordListId){
-        WordList wordList = wordListRepository.findOne(wordListId);
-        for(WordListToWord wlw: wordList.getWordListToWords()){
-            wlw.delete();
-        }
+        wordListRepository.deleteWordList(wordListId);
     }
 
     public Long saveWordListToDb(WordList wordList){
