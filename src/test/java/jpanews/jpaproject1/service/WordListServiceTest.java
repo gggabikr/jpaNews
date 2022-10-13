@@ -145,8 +145,10 @@ public class WordListServiceTest {
 
         //then
 //        System.out.println("member's wordList: "+ member.getWordLists());
-        wordListService.findAllWordListByMember(member.getId());
+        System.out.println("member's wordList before line below"+wordListService.findAllWordListByMember(member.getId()));
         wordListService.deleteWordList(wordList1);
+        System.out.println("member's wordList after line above"+wordListService.findAllWordListByMember(member.getId()));
+
         System.out.println("member's wordList: "+ member.getWordLists());
         Assertions.assertEquals(2, member.getWordLists().size());
 
