@@ -57,6 +57,10 @@ public class WordListService {
     //==delete WordList==//
     @Transactional
     public void deleteWordList(Long wordListId){
+        List<WordListToWord> allWlwByWordList = wlwRepository.findAllByWordList(wordListId);
+        for(WordListToWord wlw: allWlwByWordList){
+        wlwRepository.deleteWlw(wlw.getId());
+        }
         wordListRepository.deleteWordList(wordListId);
     }
 
