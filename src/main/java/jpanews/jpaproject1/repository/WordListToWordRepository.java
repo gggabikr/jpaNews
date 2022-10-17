@@ -1,8 +1,6 @@
 package jpanews.jpaproject1.repository;
 
-import jpanews.jpaproject1.domain.WordList;
 import jpanews.jpaproject1.domain.WordListToWord;
-import jpanews.jpaproject1.domain.Words.Word;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -26,6 +24,12 @@ public class WordListToWordRepository {
                 .getResultList();
     }
 
+    public List<WordListToWord> findAllByWordList(Long wordListId){
+        return em.createQuery(
+                "SELECT wlw FROM WordListToWord wlw WHERE wlw.wordList.id=:wordListId",WordListToWord.class)
+                .setParameter("wordListId", wordListId)
+                .getResultList();
+    }
 
 
     public List<WordListToWord> RandomSelect(Long wordListId, int number) {
@@ -53,5 +57,9 @@ public class WordListToWordRepository {
         }
 
         return selectedWordListToWords;
+    }
+
+    public void deleteWlw(Long wlwId){
+        em.remove(em.find(WordListToWord.class, wlwId));
     }
 }
