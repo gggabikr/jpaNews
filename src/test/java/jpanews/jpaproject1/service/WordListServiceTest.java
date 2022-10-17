@@ -151,8 +151,11 @@ public class WordListServiceTest {
 
         System.out.println("member's wordList: "+ member.getWordLists());
         Assertions.assertEquals(2, member.getWordLists().size());
+        Assertions.assertEquals(2, wordListService.findAllWordListByMember(member.getId()).size());
 
+        wordListService.deleteWordList(wordList2);
 
+        Assertions.assertEquals(2,wordListToWordRepository.findAll().size());
     }
 
     @Test
