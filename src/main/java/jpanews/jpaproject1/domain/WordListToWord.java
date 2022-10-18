@@ -9,6 +9,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -38,17 +40,23 @@ public class WordListToWord {
     private String recentTest; //recent 10 test result
 
     //==Constructor==//
-    public static WordListToWord createWordListToWord(Word word){
-        WordListToWord wordListToWord = new WordListToWord();
+    public static List<WordListToWord> createWordListToWord(Word... words){
 
+        ArrayList<WordListToWord> wlws = new ArrayList<>();
+        for(Word word: words){
+        WordListToWord wordListToWord = new WordListToWord();
         wordListToWord.setWord(word);
         wordListToWord.setAddDate(Timestamp.valueOf(LocalDateTime.now()).getTime());
         wordListToWord.setStatus(true);
         wordListToWord.setFailedCount(0);
         wordListToWord.setTestedCount(0);
         wordListToWord.recentTest = "";
-        return wordListToWord;
+        //don't set WordList here yet
+         wlws.add(wordListToWord);
+        }
+        return wlws;
     }
+
 
 //    public void updateDate(){
 //        this.setAddDate(LocalDateTime.now());
