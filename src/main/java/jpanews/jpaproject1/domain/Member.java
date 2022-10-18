@@ -19,6 +19,6 @@ public class Member {
 
     private String password;
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<WordList> WordLists = new ArrayList<>();
 }
