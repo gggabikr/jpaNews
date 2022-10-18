@@ -144,18 +144,14 @@ public class WordListServiceTest {
         //안지워진다면 wlw의 wordlist가 null인지 아닌지 확인하거나...암튼.
 
         //then
-//        System.out.println("member's wordList: "+ member.getWordLists());
-        System.out.println("member's wordList before line below"+wordListService.findAllWordListByMember(member.getId()));
         wordListService.deleteWordList(wordList1);
-        System.out.println("member's wordList after line above"+wordListService.findAllWordListByMember(member.getId()));
-
         System.out.println("member's wordList: "+ member.getWordLists());
         Assertions.assertEquals(2, member.getWordLists().size());
         Assertions.assertEquals(2, wordListService.findAllWordListByMember(member.getId()).size());
 
         wordListService.deleteWordList(wordList2);
-
-        Assertions.assertEquals(2,wordListToWordRepository.findAll().size());
+        Assertions.assertEquals(1, member.getWordLists().size());
+        Assertions.assertEquals(0,wordListToWordRepository.findAll().size());
     }
 
     @Test
