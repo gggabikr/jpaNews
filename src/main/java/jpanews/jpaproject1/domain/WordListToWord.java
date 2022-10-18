@@ -86,10 +86,10 @@ public class WordListToWord {
         }
         testedCount++;
     }
-
-    public void delete() {
-        getWordList().getWordListToWords().remove(this);
-    }
+//    Not needed
+//    public void delete() {
+//        getWordList().getWordListToWords().remove(this);
+//    }
 
 
 }
