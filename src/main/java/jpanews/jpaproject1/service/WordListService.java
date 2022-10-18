@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
+import java.util.Scanner;
 
 @Service
 @RequiredArgsConstructor
@@ -27,30 +28,21 @@ public class WordListService {
 
     //==create WordList==//
     @Transactional
-    public Long createWordList(Long memberId, List<Long> wordIdList) {
+    public Long createWordList(Long memberId, Word... words) {
 
         //Refer entities
         Member member = memberRepository.findOne(memberId);
 
-        List<WordListToWord> wlws = new ArrayList<>();
-        for(Long wordId : wordIdList){
-            Word word = wordRepository.findOne(wordId);
-            WordListToWord wlw = WordListToWord.createWordListToWord(word);
-            wlws.add(wlw);
+        if(words.length >0){
+            List<WordListToWord> wlws = WordListToWord.createWordListToWord(words);
+            WordList newWordList = WordList.createWordList(member, wlws.toArray(new WordListToWord[0]));
+            wordListRepository.save(newWordList);
+            return newWordList.getId();
+        }else {
+            WordList newWordList = WordList.createWordList(member);
+            wordListRepository.save(newWordList);
+            return newWordList.getId();
         }
-        WordList newWordList = WordList.createWordList(member, wlws);
-        wordListRepository.save(newWordList);
-        return newWordList.getId();
-    }
-
-    @Transactional
-    public Long createWordList(Long memberId){
-        //Refer entities
-        Member member = memberRepository.findOne(memberId);
-
-        WordList newWordList = WordList.createWordList(member);
-        wordListRepository.save(newWordList);
-        return newWordList.getId();
     }
 
 
@@ -87,15 +79,28 @@ public class WordListService {
         List<Word> byWordClass = wordRepository.findByWordClass(String.valueOf(wlw.getWord().getWordClass()));
         for (int i = 0; i<3; i++){
             String wrongAnswer = byWordClass.get((int) (Math.random() * byWordClass.size())).getMeaning();
+            if(!answers.contains(wrongAnswer))
             answers.add(wrongAnswer);
         }
+        if(answers.size()<4){
+            List<Word> allWords = wordRepository.findAll();
+            while(answers.size()<4){
+                String wrongAnswer = allWords.get((int) (Math.random() * allWords.size())).getMeaning();
+                if(!answers.contains(wrongAnswer))
+                    answers.add(wrongAnswer);
+            }
+        }
         Collections.shuffle(answers);
+        System.out.println("단어: "+ wlw.getWord().getName());
+        System.out.println("선택지: "+ answers);
         return answers;
     }
 
     public int checkRightOrWrong(WordListToWord rightAnswer, int userInput) throws Exception {
         List<String> answerList = makeAnswerList(rightAnswer);
         int indexOfRightAnswer = answerList.indexOf(rightAnswer.getWord().getMeaning());
+        System.out.println("정답: "+ indexOfRightAnswer);
+        System.out.println("유저의 답: "+ userInput);
         if (userInput==indexOfRightAnswer){
             return 1;
         } else {return 0;}
@@ -108,18 +113,26 @@ public class WordListService {
         List<WordListToWord> randomSelectedWlws
                 = wlwRepository.RandomSelect(wordListId, numOfWords);
 
-        StringBuilder OxList = new StringBuilder();
-//        HashMap<Integer, List<String>> hashMapOfTestQ = new HashMap<>();
+//        StringBuilder OxList = new StringBuilder();
+        String OxList = "";
 
         for (WordListToWord wlw : randomSelectedWlws) {
-            //need to be replaced with actual user input//
-            int userInput = 999;
-            int OX = checkRightOrWrong(wlw, userInput);
-            OxList.append(OX);
-        }
 
+//            //==for test the method==//
+//            Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+//            System.out.println("Enter the answer");
+//            int userInput = myObj.nextInt();  // Read user input
+
+            //need to be replaced with actual user input//
+            int userInput = 0;
+            System.out.println();
+            int OX = checkRightOrWrong(wlw, userInput);
+//            OxList.append(OX);
+            OxList += OX;
+        }
+        System.out.println(OxList);
         for(int i=0; i< randomSelectedWlws.size(); i++){
-            randomSelectedWlws.get(i).updateTestResult(OxList.charAt(i));
+            randomSelectedWlws.get(i).updateTestResult(Integer.parseInt(String.valueOf(OxList.charAt(i))));
         }
     }
 }
