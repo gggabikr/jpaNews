@@ -2,6 +2,8 @@ package jpanews.jpaproject1.service;
 
 import jpanews.jpaproject1.domain.Member;
 import jpanews.jpaproject1.domain.WordClass;
+import jpanews.jpaproject1.domain.WordList;
+import jpanews.jpaproject1.domain.WordListToWord;
 import jpanews.jpaproject1.domain.Words.EngWord;
 import jpanews.jpaproject1.domain.Words.KorWord;
 import jpanews.jpaproject1.repository.MemberRepository;
@@ -16,9 +18,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
+import static jpanews.jpaproject1.domain.WordListToWord.createWordListToWord;
 import static org.junit.Assert.*;
 
 @SpringBootTest
@@ -77,12 +80,8 @@ public class WordListServiceTest {
         wordService.saveWordToDb(word2);
         wordService.saveWordToDb(word3);
 
-        List<Long> wordIdList = new ArrayList<>();
-        wordIdList.add(word1.getId());
-        wordIdList.add(word2.getId());
-        wordIdList.add(word3.getId());
 
-        Long wordList2 = wordListService.createWordList(member.getId(), wordIdList);
+        Long wordList2 = wordListService.createWordList(member.getId(), word1, word2, word3);
 
         //then
         Assertions.assertEquals(member, memberService.findOne(member.getId()));
@@ -127,25 +126,17 @@ public class WordListServiceTest {
         wordService.saveWordToDb(word2);
         wordService.saveWordToDb(word3);
 
-        List<Long> wordIdList = new ArrayList<>();
-        wordIdList.add(word1.getId());
-        wordIdList.add(word2.getId());
-        wordIdList.add(word3.getId());
 
         Long wordList1 = wordListService.createWordList(member.getId());
-        Long wordList2 = wordListService.createWordList(member.getId(),wordIdList);
+        Long wordList2 = wordListService.createWordList(member.getId(),word1, word2, word3);
         Long wordList3 = wordListService.createWordList(member.getId());
 
         Assertions.assertEquals(3, member.getWordLists().size());
         Assertions.assertEquals(3, wordListToWordRepository.findAll().size());
         Assertions.assertEquals(3, member.getWordLists().get(1).getWordListToWords().size());
-        //1번 지우고 멤버의 단어장 수 체크 - 지우기 기능이 작동안함. @@이유를 찾아보자@@
-        //2번 지우고 동일작업+ wlw 지워졌는지?? 지워지는게 맞나?
-        //안지워진다면 wlw의 wordlist가 null인지 아닌지 확인하거나...암튼.
 
         //then
         wordListService.deleteWordList(wordList1);
-        System.out.println("member's wordList: "+ member.getWordLists());
         Assertions.assertEquals(2, member.getWordLists().size());
         Assertions.assertEquals(2, wordListService.findAllWordListByMember(member.getId()).size());
 
@@ -157,39 +148,120 @@ public class WordListServiceTest {
     @Test
     public void makeAnswerList() throws Exception{
         //given
+        KorWord word1 = new KorWord();
+        word1.setName("pool");
+        word1.setKMeaning("바보");
+        word1.setWordClass(WordClass.NOUN);
 
+        KorWord word2 = new KorWord();
+        word2.setName("cat");
+        word2.setKMeaning("고양이");
+        word2.setWordClass(WordClass.NOUN);
+
+        EngWord word3 = new EngWord();
+        word3.setName("great");
+        word3.setEMeaning("very good");
+        word3.setWordClass(WordClass.ADJECTIVE);
+
+        KorWord word4 = new KorWord();
+        word4.setName("catacomb");
+        word4.setKMeaning("지하묘지");
+        word4.setWordClass(WordClass.NOUN);
+
+        KorWord word5 = new KorWord();
+        word5.setName("meat");
+        word5.setKMeaning("고기");
+        word5.setWordClass(WordClass.NOUN);
+
+        EngWord word6 = new EngWord();
+        word6.setName("giant");
+        word6.setEMeaning("big man");
+        word6.setWordClass(WordClass.ADJECTIVE);
+
+        EngWord word7 = new EngWord();
+        word7.setName("wheat");
+        word7.setEMeaning("plant of rice");
+        word7.setWordClass(WordClass.NOUN);
+
+        EngWord word8 = new EngWord();
+        word8.setName("sky");
+        word8.setEMeaning("the region of the atmosphere and outer space seen from the earth");
+        word8.setWordClass(WordClass.NOUN);
+
+        EngWord word9 = new EngWord();
+        word9.setName("phone");
+        word9.setEMeaning("phone");
+        word9.setWordClass(WordClass.NOUN);
+
+        EngWord word10 = new EngWord();
+        word10.setName("java");
+        word10.setEMeaning("A programming language I am writing now");
+        word10.setWordClass(WordClass.NOUN);
+
+        KorWord word11 = new KorWord();
+        word11.setName("hey");
+        word11.setKMeaning("어이");
+        word11.setWordClass(WordClass.NOUN);
+
+        EngWord word12 = new EngWord();
+        word12.setName("small");
+        word12.setEMeaning("of a size that is less than normal or usual.");
+        word12.setWordClass(WordClass.ADJECTIVE);
+
+        EngWord word13 = new EngWord();
+        word13.setName("big");
+        word13.setEMeaning("of considerable size, extent, or intensity.");
+        word13.setWordClass(WordClass.ADJECTIVE);
+
+        wordService.saveWordToDb(word1);
+        wordService.saveWordToDb(word2);
+        wordService.saveWordToDb(word3);
+        wordService.saveWordToDb(word4);
+        wordService.saveWordToDb(word5);
+        wordService.saveWordToDb(word6);
+        wordService.saveWordToDb(word7);
+        wordService.saveWordToDb(word8);
+        wordService.saveWordToDb(word9);
+        wordService.saveWordToDb(word10);
+        wordService.saveWordToDb(word11);
+        wordService.saveWordToDb(word12);
+        wordService.saveWordToDb(word13);
 
         //when
+        Member member = new Member();
+        memberService.join(member);
+        Long wordListId = wordListService.createWordList(member.getId(), word1, word2, word3, word4, word5, word6,word7,word8,word9,word10,word11,word12,word13);
 
-
+        //==test setting==//
+        int howManyTest = 11;
+        int howManyWord = 13;
+        for(int i=0; i<howManyTest;i++) {
+            wordListService.testWords(wordListId, howManyWord);
+        }
         //then
+        Assertions.assertEquals(1, member.getWordLists().size());
+        Assertions.assertEquals(13, member.getWordLists().get(0).getWordListToWords().size());
 
 
-    }
 
-    @Test
-    public void checkRightOrWrong() throws Exception{
-        //given
+        for(int i=0; i<howManyWord;i++){
+            System.out.println("----------------------------------------------------");
+            System.out.println("word: " + member.getWordLists().get(0).getWordListToWords().get(i).getWord().getName());
+            System.out.println("test results: " + member.getWordLists().get(0).getWordListToWords().get(i).getRecentTest());
+            System.out.println("failed count: " + member.getWordLists().get(0).getWordListToWords().get(i).getFailedCount());
+            System.out.println("tested count: " + member.getWordLists().get(0).getWordListToWords().get(i).getTestedCount());
+            System.out.println("correct answer rate: " + member.getWordLists().get(0).getWordListToWords().get(i).getCorrectAnswerRate());
+            System.out.println("----------------------------------------------------");
+        }
 
+        for(int i=0; i<howManyWord;i++){
+            Assertions.assertEquals(howManyTest, member.getWordLists().get(0).getWordListToWords().get(i).getTestedCount());
+        }
 
-        //when
-
-
-        //then
-
-
-    }
-
-    @Test
-    public void testWords() throws Exception{
-        //given
-
-
-        //when
-
-
-        //then
-
-
+        if(howManyTest>=10){
+            for(int i=0; i<howManyWord;i++){
+            Assertions.assertEquals(10, member.getWordLists().get(0).getWordListToWords().get(i).getRecentTest().length());
+            }
+        }
     }
 }
