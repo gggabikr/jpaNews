@@ -1,8 +1,7 @@
 package jpanews.jpaproject1.repository;
 
+import jpanews.jpaproject1.domain.Member;
 import jpanews.jpaproject1.domain.WordList;
-import jpanews.jpaproject1.domain.WordListToWord;
-import jpanews.jpaproject1.domain.Words.Word;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -44,13 +43,11 @@ public class WordListRepository {
     }
 
     public void deleteWordList(Long wordListId){
-        for (WordListToWord wordListToWord : findOne(wordListId).getWordListToWords()) {
-            wordListToWord.delete();
-        }
-        em.createQuery("DELETE FROM WordList wl WHERE wl.id = :wordListId")
-                .setParameter("wordListId",wordListId)
-                .executeUpdate();
-
+//        for (WordListToWord wordListToWord : findOne(wordListId).getWordListToWords()) {
+//            wordListToWord.delete();
+//        }
+        Member member = em.find(Member.class, findOne(wordListId).getMember().getId());
+        member.getWordLists().remove(findOne(wordListId));
         em.remove(findOne(wordListId));
     }
 }
