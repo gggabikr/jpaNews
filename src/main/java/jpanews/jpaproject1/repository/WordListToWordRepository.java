@@ -34,7 +34,7 @@ public class WordListToWordRepository {
 
     public List<WordListToWord> RandomSelect(Long wordListId, int number) {
         List<WordListToWord> selectedWordList =
-                em.createQuery("SELECT wlw FROM WordListToWord wlw WHERE wlw.id = :wordListId", WordListToWord.class)
+                em.createQuery("SELECT wlw FROM WordListToWord wlw WHERE wlw.wordList.id = :wordListId", WordListToWord.class)
                 .setParameter("wordListId", wordListId)
                 .getResultList();
         int qty = selectedWordList.size();
