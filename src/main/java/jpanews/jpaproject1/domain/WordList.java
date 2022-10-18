@@ -63,24 +63,28 @@ public class WordList {
 
 
     //constructor
-    public static WordList createWordList(Member member, List<WordListToWord> wlws){
+    public static WordList createWordList(Member member, WordListToWord... wlws){
         WordList wordList = new WordList();
         wordList.setMember(member);
 
-        for(WordListToWord wordListToWord : wlws){
-            wordList.saveWordListToWord(wordListToWord);
+        if(wlws.length>0){
+            for(WordListToWord wordListToWord : wlws){
+                wordList.saveWordListToWord(wordListToWord);
+            }
+            wordList.denominator = wordList.getWordListToWords().size();
+        } else{
+            wordList.denominator = 0;
         }
-        wordList.denominator = wordList.getWordListToWords().size();
         wordList.numerator = 0;
         return wordList;
     }
 
-    public static WordList createWordList(Member member){
-        WordList wordList = new WordList();
-        wordList.setMember(member);
-
-        wordList.denominator = 0;
-        wordList.numerator = 0;
-        return wordList;
-    }
+//    public static WordList createWordList(Member member){
+//        WordList wordList = new WordList();
+//        wordList.setMember(member);
+//
+//        wordList.denominator = 0;
+//        wordList.numerator = 0;
+//        return wordList;
+//    }
 }
