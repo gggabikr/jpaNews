@@ -146,7 +146,7 @@ public class WordListServiceTest {
     }
 
     @Test
-    public void makeAnswerList() throws Exception{
+    public void testWords() throws Exception{
         //given
         KorWord word1 = new KorWord();
         word1.setName("pool");
@@ -234,9 +234,10 @@ public class WordListServiceTest {
 
         //==test setting==//
         int howManyTest = 11;
-        int howManyWord = 13;
+        int howManyWordToTest = 2;
+        int howManyWordsExist = 13;
         for(int i=0; i<howManyTest;i++) {
-            wordListService.testWords(wordListId, howManyWord);
+            wordListService.testWords(wordListId, howManyWordToTest);
         }
         //then
         Assertions.assertEquals(1, member.getWordLists().size());
@@ -244,7 +245,7 @@ public class WordListServiceTest {
 
 
 
-        for(int i=0; i<howManyWord;i++){
+        for(int i=0; i<howManyWordsExist;i++){
             System.out.println("----------------------------------------------------");
             System.out.println("word: " + member.getWordLists().get(0).getWordListToWords().get(i).getWord().getName());
             System.out.println("test results: " + member.getWordLists().get(0).getWordListToWords().get(i).getRecentTest());
@@ -254,13 +255,15 @@ public class WordListServiceTest {
             System.out.println("----------------------------------------------------");
         }
 
-        for(int i=0; i<howManyWord;i++){
-            Assertions.assertEquals(howManyTest, member.getWordLists().get(0).getWordListToWords().get(i).getTestedCount());
-        }
+        if(howManyWordToTest==13){
+            for(int i=0; i<howManyWordToTest;i++){
+                Assertions.assertEquals(howManyTest, member.getWordLists().get(0).getWordListToWords().get(i).getTestedCount());
+            }
 
-        if(howManyTest>=10){
-            for(int i=0; i<howManyWord;i++){
-            Assertions.assertEquals(10, member.getWordLists().get(0).getWordListToWords().get(i).getRecentTest().length());
+            if(howManyTest>=10){
+                for(int i=0; i<howManyWordToTest;i++){
+                    Assertions.assertEquals(10, member.getWordLists().get(0).getWordListToWords().get(i).getRecentTest().length());
+                }
             }
         }
     }
