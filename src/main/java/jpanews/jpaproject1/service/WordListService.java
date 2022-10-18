@@ -113,8 +113,7 @@ public class WordListService {
         List<WordListToWord> randomSelectedWlws
                 = wlwRepository.RandomSelect(wordListId, numOfWords);
 
-//        StringBuilder OxList = new StringBuilder();
-        String OxList = "";
+        StringBuilder OxList = new StringBuilder();
 
         for (WordListToWord wlw : randomSelectedWlws) {
 
@@ -127,8 +126,7 @@ public class WordListService {
             int userInput = 0;
             System.out.println();
             int OX = checkRightOrWrong(wlw, userInput);
-//            OxList.append(OX);
-            OxList += OX;
+            OxList.append(OX);
         }
         System.out.println(OxList);
         for(int i=0; i< randomSelectedWlws.size(); i++){
