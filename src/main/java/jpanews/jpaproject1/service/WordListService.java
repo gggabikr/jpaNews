@@ -64,10 +64,6 @@ public class WordListService {
         wordListRepository.deleteWordList(wordListId);
     }
 
-    public Long saveWordListToDb(WordList wordList){
-        return wordListRepository.save(wordList);
-    }
-
     public WordList findOneWordList(Long wordListId){
         return wordListRepository.findOne(wordListId);
     }
