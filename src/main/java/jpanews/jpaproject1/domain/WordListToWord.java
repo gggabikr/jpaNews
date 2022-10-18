@@ -79,6 +79,9 @@ public class WordListToWord {
     }
 
     public float getCorrectAnswerRate(){
+        if(testedCount ==0){
+            return 0;
+        }
         return (float)(testedCount-failedCount)/testedCount;
     }
 
