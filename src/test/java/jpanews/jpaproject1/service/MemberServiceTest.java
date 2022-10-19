@@ -29,13 +29,8 @@ public class MemberServiceTest {
         Long savedId = memberService.join("JasonLee","aaa");
 
         //then
-
-        System.out.println(passwordEncoder.encode("aaa"));
-        System.out.println(passwordEncoder.encode("aaa"));
-        System.out.println(passwordEncoder.encode("aaa"));
         assertEquals(savedId, memberRepository.findByUsername("JasonLee").get(0).getId());
         assertEquals(savedId, memberRepository.findOne(savedId).getId());
-//        assertEquals(passwordEncoder.encode("aaa"), memberRepository.findOne(savedId).getPassword());
 
     }
 
