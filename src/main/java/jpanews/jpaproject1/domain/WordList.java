@@ -46,7 +46,7 @@ public class WordList {
                 temp++;
             }
         }
-        this.numerator =temp;
+        this.numerator = getWordListToWords().size() - temp;
         this.denominator = getWordListToWords().size();
     }
 
