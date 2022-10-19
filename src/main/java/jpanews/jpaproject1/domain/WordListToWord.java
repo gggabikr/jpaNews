@@ -31,7 +31,7 @@ public class WordListToWord {
 
     private Long addDate;
 
-    private boolean status; //[1 = Active, 0 = Inactive]
+    private boolean status; //[1 = Active = not memorized yet, 0 = Inactive = memorized]
 
     private int failedCount; //틀린 횟수
 
