@@ -107,6 +107,7 @@ public class WordListService {
     }
 
 
+    //단어선택해서 테스트하는 메서드도 하나 만들기
     @Transactional
     public void testWords(Long wordListId,int numOfWords) throws Exception {
 
