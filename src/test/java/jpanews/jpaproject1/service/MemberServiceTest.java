@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,38 +20,37 @@ public class MemberServiceTest {
 
     @Autowired MemberService memberService;
     @Autowired MemberRepository memberRepository;
+    @Autowired PasswordEncoder passwordEncoder;
 
     @Test
     public void JoinMember() throws Exception{
         //given
-        Member member = new Member();
-        member.setUsername("JasonLee");
-
         //when
-        Long savedId = memberService.join(member);
+        Long savedId = memberService.join("JasonLee","aaa");
 
         //then
-        assertEquals(member, memberRepository.findByUsername("JasonLee").get(0));
-        assertEquals(member, memberRepository.findOne(savedId));
-        assertEquals(member.getPassword(), memberRepository.findOne(savedId).getPassword());
+
+        System.out.println(passwordEncoder.encode("aaa"));
+        System.out.println(passwordEncoder.encode("aaa"));
+        System.out.println(passwordEncoder.encode("aaa"));
+        assertEquals(savedId, memberRepository.findByUsername("JasonLee").get(0).getId());
+        assertEquals(savedId, memberRepository.findOne(savedId).getId());
+//        assertEquals(passwordEncoder.encode("aaa"), memberRepository.findOne(savedId).getPassword());
 
     }
 
     @Test(expected = IllegalStateException.class)
     public void exceptionForDuplicated() throws Exception{
+
+
+
         //given
-        Member member1 = new Member();
-        Member member2 = new Member();
-
-        member1.setUsername("Breece");
-        member2.setUsername("Breece");
-
-//        for the below code, error should not be arisen -> fail() method need to be worked
-//        member2.setUsername("Breece2");
-
         //when
-        memberService.join(member1);
-        memberService.join(member2); //error should be arisen
+        //for the below code, error should not be arisen -> fail() method need to be worked
+        //memberService.join("Breece2","bbb");
+
+        memberService.join("Breece","bbb");
+        memberService.join("Breece","ccc"); //error should be arisen
 
         //then
         fail("error must be arisen");
