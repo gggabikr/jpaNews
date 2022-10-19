@@ -37,8 +37,9 @@ public class WordListRepository {
 //    }
 
     public List<WordList> findAllByMemorizedStatus(Long memberId, int percent){
-        return em.createQuery("SELECT wl FROM WordList wl WHERE wl.numerator/wl.denominator < :percent AND wl.member = :memberId",WordList.class)
-                .setParameter("percent",percent).setParameter("memberId", memberId)
+        return em.createQuery("SELECT wl FROM WordList wl " +
+                        "WHERE wl.numerator*100000/wl.denominator < :percent AND wl.member.Id = :memberId",WordList.class)
+                .setParameter("percent",percent*1000).setParameter("memberId", memberId)
                 .getResultList();
     }
 
