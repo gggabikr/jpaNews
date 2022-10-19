@@ -42,16 +42,14 @@ public class WordListServiceTest {
 
         //==WordList with no words==//
         //given
-        Member member = new Member();
-
         //when
-        memberService.join(member);
-        Long wordList = wordListService.createWordList(member.getId());
+        Long savedId = memberService.join("member", "eee");
+        Long wordList = wordListService.createWordList(savedId);
 
         //then
-        Assertions.assertEquals(wordList, member.getWordLists().get(0).getId());
-        Assertions.assertEquals(0, member.getWordLists().get(0).getWordListToWords().size());
-        Assertions.assertEquals(wordListService.findOneWordList(wordList), member.getWordLists().get(0));
+        Assertions.assertEquals(wordList, memberService.findOne(savedId).getWordLists().get(0).getId());
+        Assertions.assertEquals(0, memberService.findOne(savedId).getWordLists().get(0).getWordListToWords().size());
+        Assertions.assertEquals(wordListService.findOneWordList(wordList), memberService.findOne(savedId).getWordLists().get(0));
 
 
         //==WordList with words==//
@@ -74,26 +72,26 @@ public class WordListServiceTest {
 
 
         //when
-        memberService.join(member);
+//        Long savedId2 = memberService.join("member2", "rrr");
 
         wordService.saveWordToDb(word1);
         wordService.saveWordToDb(word2);
         wordService.saveWordToDb(word3);
 
 
-        Long wordList2 = wordListService.createWordList(member.getId(), word1, word2, word3);
+        Long wordList2Id = wordListService.createWordList(savedId, word1, word2, word3);
 
         //then
-        Assertions.assertEquals(member, memberService.findOne(member.getId()));
-        Assertions.assertEquals(wordList2, member.getWordLists().get(1).getId());
-        Assertions.assertEquals(3,member.getWordLists().get(1).getWordListToWords().size());
-        Assertions.assertEquals(wordListService.findOneWordList(wordList2), member.getWordLists().get(1));
-        Assertions.assertEquals(word1, member.getWordLists().get(1).getWordListToWords().get(0).getWord());
-        Assertions.assertEquals(word2, member.getWordLists().get(1).getWordListToWords().get(1).getWord());
-        Assertions.assertEquals(word3, member.getWordLists().get(1).getWordListToWords().get(2).getWord());
-        Assertions.assertEquals(2, member.getWordLists().size());
-        Assertions.assertEquals(3, member.getWordLists().get(1).getDenominator());
-        Assertions.assertEquals(0, member.getWordLists().get(1).getNumerator());
+        Assertions.assertEquals("member", memberService.findOne(savedId).getUsername());
+        Assertions.assertEquals(wordList2Id, memberService.findOne(savedId).getWordLists().get(1).getId());
+        Assertions.assertEquals(3,memberService.findOne(savedId).getWordLists().get(1).getWordListToWords().size());
+        Assertions.assertEquals(wordListService.findOneWordList(wordList2Id), memberService.findOne(savedId).getWordLists().get(1));
+        Assertions.assertEquals(word1, memberService.findOne(savedId).getWordLists().get(1).getWordListToWords().get(0).getWord());
+        Assertions.assertEquals(word2, memberService.findOne(savedId).getWordLists().get(1).getWordListToWords().get(1).getWord());
+        Assertions.assertEquals(word3, memberService.findOne(savedId).getWordLists().get(1).getWordListToWords().get(2).getWord());
+        Assertions.assertEquals(2, memberService.findOne(savedId).getWordLists().size());
+        Assertions.assertEquals(3, memberService.findOne(savedId).getWordLists().get(1).getDenominator());
+        Assertions.assertEquals(0, memberService.findOne(savedId).getWordLists().get(1).getNumerator());
         Assertions.assertEquals(3, wordListToWordRepository.findAll().size());
     }
 
@@ -101,8 +99,6 @@ public class WordListServiceTest {
     @Test
     public void deleteWordList() throws Exception{
         //given
-        Member member = new Member();
-
         KorWord word1 = new KorWord();
         word1.setName("pool");
         word1.setKMeaning("바보");
@@ -119,29 +115,29 @@ public class WordListServiceTest {
         word3.setWordClass(WordClass.ADJECTIVE);
 
         //when
-        memberService.join(member);
-        Assertions.assertEquals(member, memberService.findOne(member.getId()));
+        Long savedId = memberService.join("member", "ggg");
+        Assertions.assertEquals("member", memberService.findOne(savedId).getUsername());
 
         wordService.saveWordToDb(word1);
         wordService.saveWordToDb(word2);
         wordService.saveWordToDb(word3);
 
 
-        Long wordList1 = wordListService.createWordList(member.getId());
-        Long wordList2 = wordListService.createWordList(member.getId(),word1, word2, word3);
-        Long wordList3 = wordListService.createWordList(member.getId());
+        Long wordList1 = wordListService.createWordList(memberService.findOne(savedId).getId());
+        Long wordList2 = wordListService.createWordList(memberService.findOne(savedId).getId(),word1, word2, word3);
+        Long wordList3 = wordListService.createWordList(memberService.findOne(savedId).getId());
 
-        Assertions.assertEquals(3, member.getWordLists().size());
+        Assertions.assertEquals(3, memberService.findOne(savedId).getWordLists().size());
         Assertions.assertEquals(3, wordListToWordRepository.findAll().size());
-        Assertions.assertEquals(3, member.getWordLists().get(1).getWordListToWords().size());
+        Assertions.assertEquals(3, memberService.findOne(savedId).getWordLists().get(1).getWordListToWords().size());
 
         //then
         wordListService.deleteWordList(wordList1);
-        Assertions.assertEquals(2, member.getWordLists().size());
-        Assertions.assertEquals(2, wordListService.findAllWordListByMember(member.getId()).size());
+        Assertions.assertEquals(2, memberService.findOne(savedId).getWordLists().size());
+        Assertions.assertEquals(2, wordListService.findAllWordListByMember(memberService.findOne(savedId).getId()).size());
 
         wordListService.deleteWordList(wordList2);
-        Assertions.assertEquals(1, member.getWordLists().size());
+        Assertions.assertEquals(1, memberService.findOne(savedId).getWordLists().size());
         Assertions.assertEquals(0,wordListToWordRepository.findAll().size());
     }
 
@@ -228,9 +224,8 @@ public class WordListServiceTest {
         wordService.saveWordToDb(word13);
 
         //when
-        Member member = new Member();
-        memberService.join(member);
-        Long wordListId = wordListService.createWordList(member.getId(), word1, word2, word3, word4, word5, word6,word7,word8,word9,word10,word11,word12,word13);
+        Long memberId = memberService.join("member", "qqq");
+        Long wordListId = wordListService.createWordList(memberId, word1, word2, word3, word4, word5, word6,word7,word8,word9,word10,word11,word12,word13);
 
         //==test setting==//
         int howManyTest = 11;
@@ -240,31 +235,68 @@ public class WordListServiceTest {
             wordListService.testWords(wordListId, howManyWordToTest);
         }
         //then
-        Assertions.assertEquals(1, member.getWordLists().size());
-        Assertions.assertEquals(13, member.getWordLists().get(0).getWordListToWords().size());
+        Assertions.assertEquals(1, memberService.findOne(memberId).getWordLists().size());
+        Assertions.assertEquals(13, memberService.findOne(memberId).getWordLists().get(0).getWordListToWords().size());
 
 
 
         for(int i=0; i<howManyWordsExist;i++){
             System.out.println("----------------------------------------------------");
-            System.out.println("word: " + member.getWordLists().get(0).getWordListToWords().get(i).getWord().getName());
-            System.out.println("test results: " + member.getWordLists().get(0).getWordListToWords().get(i).getRecentTest());
-            System.out.println("failed count: " + member.getWordLists().get(0).getWordListToWords().get(i).getFailedCount());
-            System.out.println("tested count: " + member.getWordLists().get(0).getWordListToWords().get(i).getTestedCount());
-            System.out.println("correct answer rate: " + member.getWordLists().get(0).getWordListToWords().get(i).getCorrectAnswerRate());
+            System.out.println("word: " + memberService.findOne(memberId).getWordLists().get(0).getWordListToWords().get(i).getWord().getName());
+            System.out.println("test results: " + memberService.findOne(memberId).getWordLists().get(0).getWordListToWords().get(i).getRecentTest());
+            System.out.println("failed count: " + memberService.findOne(memberId).getWordLists().get(0).getWordListToWords().get(i).getFailedCount());
+            System.out.println("tested count: " + memberService.findOne(memberId).getWordLists().get(0).getWordListToWords().get(i).getTestedCount());
+            System.out.println("correct answer rate: " + memberService.findOne(memberId).getWordLists().get(0).getWordListToWords().get(i).getCorrectAnswerRate());
             System.out.println("----------------------------------------------------");
         }
 
         if(howManyWordToTest==13){
             for(int i=0; i<howManyWordToTest;i++){
-                Assertions.assertEquals(howManyTest, member.getWordLists().get(0).getWordListToWords().get(i).getTestedCount());
+                Assertions.assertEquals(howManyTest, memberService.findOne(memberId).getWordLists().get(0).getWordListToWords().get(i).getTestedCount());
             }
 
             if(howManyTest>=10){
                 for(int i=0; i<howManyWordToTest;i++){
-                    Assertions.assertEquals(10, member.getWordLists().get(0).getWordListToWords().get(i).getRecentTest().length());
+                    Assertions.assertEquals(10, memberService.findOne(memberId).getWordLists().get(0).getWordListToWords().get(i).getRecentTest().length());
                 }
             }
         }
+
+        Assertions.assertEquals(0, memberService.findOne(memberId).getWordLists().get(0).getNumerator());
+        Assertions.assertEquals(13, memberService.findOne(memberId).getWordLists().get(0).getDenominator());
+
+        memberService.findOne(memberId).getWordLists().get(0).getWordListToWords().get(1).updateStatus();
+
+        Assertions.assertEquals(1, memberService.findOne(memberId).getWordLists().get(0).getNumerator());
+        Assertions.assertEquals(13, memberService.findOne(memberId).getWordLists().get(0).getDenominator());
+
+        memberService.findOne(memberId).getWordLists().get(0).getWordListToWords().get(2).updateStatus();
+        memberService.findOne(memberId).getWordLists().get(0).getWordListToWords().get(3).updateStatus();
+        memberService.findOne(memberId).getWordLists().get(0).getWordListToWords().get(4).updateStatus();
+        memberService.findOne(memberId).getWordLists().get(0).getWordListToWords().get(5).updateStatus();
+        memberService.findOne(memberId).getWordLists().get(0).getWordListToWords().get(6).updateStatus();
+
+        Assertions.assertEquals(6, memberService.findOne(memberId).getWordLists().get(0).getNumerator());
+        Assertions.assertEquals(13, memberService.findOne(memberId).getWordLists().get(0).getDenominator());
+
+        memberService.findOne(memberId).getWordLists().get(0).getWordListToWords().get(3).updateStatus();
+        memberService.findOne(memberId).getWordLists().get(0).getWordListToWords().get(4).updateStatus();
+
+        Assertions.assertEquals(4, memberService.findOne(memberId).getWordLists().get(0).getNumerator());
+        Assertions.assertEquals(13, memberService.findOne(memberId).getWordLists().get(0).getDenominator());
+
+        Assertions.assertEquals(1, wordListService.findAllByWordListWithMemorizedStatus(memberService.findOne(memberId).getId(),100).size());
+        Assertions.assertEquals(1, wordListService.findAllByWordListWithMemorizedStatus(memberService.findOne(memberId).getId(),95).size());
+        Assertions.assertEquals(1, wordListService.findAllByWordListWithMemorizedStatus(memberService.findOne(memberId).getId(),90).size());
+        Assertions.assertEquals(1, wordListService.findAllByWordListWithMemorizedStatus(memberService.findOne(memberId).getId(),80).size());
+        Assertions.assertEquals(1, wordListService.findAllByWordListWithMemorizedStatus(memberService.findOne(memberId).getId(),60).size());
+        Assertions.assertEquals(1, wordListService.findAllByWordListWithMemorizedStatus(memberService.findOne(memberId).getId(),40).size());
+        Assertions.assertEquals(1, wordListService.findAllByWordListWithMemorizedStatus(memberService.findOne(memberId).getId(),35).size());
+        Assertions.assertEquals(1, wordListService.findAllByWordListWithMemorizedStatus(memberService.findOne(memberId).getId(),31).size());
+        Assertions.assertEquals(0, wordListService.findAllByWordListWithMemorizedStatus(memberService.findOne(memberId).getId(),30).size());
+        Assertions.assertEquals(0, wordListService.findAllByWordListWithMemorizedStatus(memberService.findOne(memberId).getId(),20).size());
+        Assertions.assertEquals(0, wordListService.findAllByWordListWithMemorizedStatus(memberService.findOne(memberId).getId(),0).size());
+
+
     }
 }
