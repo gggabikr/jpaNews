@@ -1,6 +1,8 @@
 package jpanews.jpaproject1.service;
 
 import jpanews.jpaproject1.domain.WordClass;
+import jpanews.jpaproject1.domain.WordList;
+import jpanews.jpaproject1.domain.WordListToWord;
 import jpanews.jpaproject1.domain.Words.EngWord;
 import jpanews.jpaproject1.domain.Words.KorWord;
 import jpanews.jpaproject1.repository.MemberRepository;
@@ -14,6 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @SpringBootTest
@@ -136,7 +141,7 @@ public class WordListServiceTest {
     }
 
     @Test
-    public void testWords() throws Exception{
+    public void testRandomWords() throws Exception{
         //given
         KorWord word1 = new KorWord();
         word1.setName("pool");
@@ -290,7 +295,158 @@ public class WordListServiceTest {
         Assertions.assertEquals(0, wordListService.findAllByWordListWithMemorizedStatus(memberService.findOne(memberId).getId(),30).size());
         Assertions.assertEquals(0, wordListService.findAllByWordListWithMemorizedStatus(memberService.findOne(memberId).getId(),20).size());
         Assertions.assertEquals(0, wordListService.findAllByWordListWithMemorizedStatus(memberService.findOne(memberId).getId(),0).size());
+    }
+
+    @Test
+    public void testSelectedWords() throws Exception{
+        //given
+        KorWord word1 = new KorWord();
+        word1.setName("pool");
+        word1.setKMeaning("바보");
+        word1.setWordClass(WordClass.NOUN);
+
+        KorWord word2 = new KorWord();
+        word2.setName("cat");
+        word2.setKMeaning("고양이");
+        word2.setWordClass(WordClass.NOUN);
+
+        EngWord word3 = new EngWord();
+        word3.setName("great");
+        word3.setEMeaning("very good");
+        word3.setWordClass(WordClass.ADJECTIVE);
+
+        KorWord word4 = new KorWord();
+        word4.setName("catacomb");
+        word4.setKMeaning("지하묘지");
+        word4.setWordClass(WordClass.NOUN);
+
+        KorWord word5 = new KorWord();
+        word5.setName("meat");
+        word5.setKMeaning("고기");
+        word5.setWordClass(WordClass.NOUN);
+
+        EngWord word6 = new EngWord();
+        word6.setName("giant");
+        word6.setEMeaning("big man");
+        word6.setWordClass(WordClass.ADJECTIVE);
+
+        EngWord word7 = new EngWord();
+        word7.setName("wheat");
+        word7.setEMeaning("plant of rice");
+        word7.setWordClass(WordClass.NOUN);
+
+        EngWord word8 = new EngWord();
+        word8.setName("sky");
+        word8.setEMeaning("the region of the atmosphere and outer space seen from the earth");
+        word8.setWordClass(WordClass.NOUN);
+
+        EngWord word9 = new EngWord();
+        word9.setName("phone");
+        word9.setEMeaning("phone");
+        word9.setWordClass(WordClass.NOUN);
+
+        EngWord word10 = new EngWord();
+        word10.setName("java");
+        word10.setEMeaning("A programming language I am writing now");
+        word10.setWordClass(WordClass.NOUN);
+
+        KorWord word11 = new KorWord();
+        word11.setName("hey");
+        word11.setKMeaning("어이");
+        word11.setWordClass(WordClass.NOUN);
+
+        EngWord word12 = new EngWord();
+        word12.setName("small");
+        word12.setEMeaning("of a size that is less than normal or usual.");
+        word12.setWordClass(WordClass.ADJECTIVE);
+
+        EngWord word13 = new EngWord();
+        word13.setName("big");
+        word13.setEMeaning("of considerable size, extent, or intensity.");
+        word13.setWordClass(WordClass.ADJECTIVE);
+
+        wordService.saveWordToDb(word1);
+        wordService.saveWordToDb(word2);
+        wordService.saveWordToDb(word3);
+        wordService.saveWordToDb(word4);
+        wordService.saveWordToDb(word5);
+        wordService.saveWordToDb(word6);
+        wordService.saveWordToDb(word7);
+        wordService.saveWordToDb(word8);
+        wordService.saveWordToDb(word9);
+        wordService.saveWordToDb(word10);
+        wordService.saveWordToDb(word11);
+        wordService.saveWordToDb(word12);
+        wordService.saveWordToDb(word13);
+
+        Long memberId = memberService.join("JasonLee", "aass1");
+        Long wordListId = wordListService.createWordList(memberId, word1, word2, word3, word4, word5, word6, word7, word8, word9, word10, word11, word12, word13);
+
+        //when
+        List<WordListToWord> allByWordList = wordListToWordRepository.findAllByWordList(wordListId);
+
+        //then
+        for(int i=0;i<5;i++){
+            wordListService.testWords(wordListId,
+                    allByWordList.get(0),
+                    allByWordList.get(2),
+                    allByWordList.get(4),
+                    allByWordList.get(6),
+                    allByWordList.get(8));
+        }
+
+        for(int i=0; i<9;i+=2){
+            Assertions.assertEquals(5, wordListService.findOneWordList(wordListId).getWordListToWords().get(i).getRecentTest().length());
+        }
+
+        //test for 'resetTestResults'
+        allByWordList.get(4).resetTestResults();
+        Assertions.assertEquals(0,allByWordList.get(4).getRecentTest().length());
+        Assertions.assertEquals(0,allByWordList.get(4).getTestedCount());
+        Assertions.assertEquals(0,allByWordList.get(4).getFailedCount());
+        Assertions.assertEquals(0,allByWordList.get(4).getCorrectAnswerRate());
+
+    }
 
 
+    @Test
+    public void addWordsToWordList() throws Exception{
+
+        //==Add==//
+        //given
+        KorWord word1 = new KorWord();
+        word1.setName("pool");
+        word1.setKMeaning("바보");
+        word1.setWordClass(WordClass.NOUN);
+
+        KorWord word2 = new KorWord();
+        word2.setName("cat");
+        word2.setKMeaning("고양이");
+        word2.setWordClass(WordClass.NOUN);
+
+        EngWord word3 = new EngWord();
+        word3.setName("great");
+        word3.setEMeaning("very good");
+        word3.setWordClass(WordClass.ADJECTIVE);
+
+        wordService.saveWordToDb(word1);
+        wordService.saveWordToDb(word2);
+        wordService.saveWordToDb(word3);
+
+        Long memberId = memberService.join("JasonLee", "aass1");
+        Long wordListId = wordListService.createWordList(memberId, word1, word2);
+        Assertions.assertEquals(2, wordListService.findOneWordList(wordListId).getWordListToWords().size());
+        //when
+        wordListService.addWordsToWordList(wordListId,word3);
+
+        //then
+        Assertions.assertEquals(3, wordListService.findOneWordList(wordListId).getWordListToWords().size());
+
+        //==Delete==//
+        wordListService.deleteWordsFromWordList(wordListId,wordListService.findOneWordList(wordListId).getWordListToWords().get(1));
+        Assertions.assertEquals(2, wordListService.findOneWordList(wordListId).getWordListToWords().size());
+        Assertions.assertEquals("pool", wordListToWordRepository.findAllByWordList(wordListId).get(0).getWord().getName());
+        Assertions.assertEquals("great", wordListToWordRepository.findAllByWordList(wordListId).get(1).getWord().getName());
+        Assertions.assertEquals(2, wordListToWordRepository.findAll().size());
     }
 }
