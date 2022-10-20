@@ -44,15 +44,15 @@ public class WordListToWord {
 
         ArrayList<WordListToWord> wlws = new ArrayList<>();
         for(Word word: words){
-        WordListToWord wordListToWord = new WordListToWord();
-        wordListToWord.setWord(word);
-        wordListToWord.setAddDate(Timestamp.valueOf(LocalDateTime.now()).getTime());
-        wordListToWord.setStatus(true);
-        wordListToWord.setFailedCount(0);
-        wordListToWord.setTestedCount(0);
-        wordListToWord.recentTest = "";
-        //don't set WordList here yet
-         wlws.add(wordListToWord);
+            WordListToWord wordListToWord = new WordListToWord();
+            wordListToWord.setWord(word);
+            wordListToWord.setAddDate(Timestamp.valueOf(LocalDateTime.now()).getTime());
+            wordListToWord.setStatus(true);
+            wordListToWord.setFailedCount(0);
+            wordListToWord.setTestedCount(0);
+            wordListToWord.setRecentTest("");
+            //don't set WordList here yet
+            wlws.add(wordListToWord);
         }
         return wlws;
     }
@@ -97,10 +97,8 @@ public class WordListToWord {
         }
         testedCount++;
     }
-//    Not needed
+//    Not needed -> wlws is deleted when wordlist is deleted.
 //    public void delete() {
 //        getWordList().getWordListToWords().remove(this);
 //    }
-
-
 }
