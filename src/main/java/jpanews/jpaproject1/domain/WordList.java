@@ -13,8 +13,9 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class WordList {
 
-    @Id @GeneratedValue
-    @Column(name="wordlist_id")
+    @Id
+    @GeneratedValue
+    @Column(name = "wordlist_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -39,10 +40,10 @@ public class WordList {
 ////        }
 //    }
 
-    public void updateMemorizedStatus(){
+    public void updateMemorizedStatus() {
         int temp = 0;
-        for(WordListToWord wordListToWord : getWordListToWords()){
-            if(wordListToWord.getStatus()){
+        for (WordListToWord wordListToWord : getWordListToWords()) {
+            if (wordListToWord.getStatus()) {
                 temp++;
             }
         }
@@ -51,40 +52,32 @@ public class WordList {
     }
 
     //==relational methods==//
-    public void setMember(Member member){
+    public void setMember(Member member) {
         this.member = member;
         member.getWordLists().add(this);
     }
 
-    public void saveWordListToWord(WordListToWord wordListToWord){
-        this.getWordListToWords().add(wordListToWord);
-        wordListToWord.setWordList(this);
+    public void saveWordListToWord(WordListToWord... wordListToWords) {
+        for (WordListToWord wlw : wordListToWords) {
+            this.getWordListToWords().add(wlw);
+            wlw.setWordList(this);
+        }
     }
 
-
     //constructor
-    public static WordList createWordList(Member member, WordListToWord... wlws){
+    public static WordList createWordList(Member member, WordListToWord... wlws) {
         WordList wordList = new WordList();
         wordList.setMember(member);
 
-        if(wlws.length>0){
-            for(WordListToWord wordListToWord : wlws){
+        if (wlws.length > 0) {
+            for (WordListToWord wordListToWord : wlws) {
                 wordList.saveWordListToWord(wordListToWord);
             }
             wordList.denominator = wordList.getWordListToWords().size();
-        } else{
+        } else {
             wordList.denominator = 0;
         }
         wordList.numerator = 0;
         return wordList;
     }
-
-//    public static WordList createWordList(Member member){
-//        WordList wordList = new WordList();
-//        wordList.setMember(member);
-//
-//        wordList.denominator = 0;
-//        wordList.numerator = 0;
-//        return wordList;
-//    }
 }
