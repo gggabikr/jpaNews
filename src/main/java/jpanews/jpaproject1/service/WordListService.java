@@ -130,13 +130,25 @@ public class WordListService {
     }
 
 
-    //단어선택해서 테스트하는 메서드도 하나 만들기
+    //Test words for selected words
+    @Transactional
+    public void testWords(Long wordListId, WordListToWord... wlws) throws Exception {
+
+        List<WordListToWord> randomSelectedWlws = List.of(wlws);
+        testWords_code_fragment(randomSelectedWlws);
+    }
+
+    //Test random selected words
     @Transactional
     public void testWords(Long wordListId,int numOfWords) throws Exception {
 
         List<WordListToWord> randomSelectedWlws
                 = wlwRepository.RandomSelect(wordListId, numOfWords);
 
+        testWords_code_fragment(randomSelectedWlws);
+    }
+
+    private void testWords_code_fragment(List<WordListToWord> randomSelectedWlws) throws Exception {
         StringBuilder OxList = new StringBuilder();
 
         for (WordListToWord wlw : randomSelectedWlws) {
@@ -153,7 +165,7 @@ public class WordListService {
             OxList.append(OX);
         }
         System.out.println(OxList);
-        for(int i=0; i< randomSelectedWlws.size(); i++){
+        for(int i = 0; i< randomSelectedWlws.size(); i++){
             randomSelectedWlws.get(i).updateTestResult(Integer.parseInt(String.valueOf(OxList.charAt(i))));
         }
     }
