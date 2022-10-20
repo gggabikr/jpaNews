@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 @RequiredArgsConstructor
@@ -15,7 +16,11 @@ public class MemberRepository {
 
     public Long save(Member member) throws Exception{
         if(!this.findByUsername(member.getUsername()).isEmpty()){
-            throw new IllegalStateException("There is an user with a same username.");
+            if(!Objects.equals(member.getId(), this.findByUsername(member.getUsername()).get(0).getId())){
+                throw new IllegalStateException("There is an user with a same username.");
+            } else {
+                em.merge(member);
+            }
         }
         em.persist(member);
         return member.getId();
