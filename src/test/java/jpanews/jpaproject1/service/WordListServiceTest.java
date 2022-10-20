@@ -1,9 +1,6 @@
 package jpanews.jpaproject1.service;
 
-import jpanews.jpaproject1.domain.Member;
 import jpanews.jpaproject1.domain.WordClass;
-import jpanews.jpaproject1.domain.WordList;
-import jpanews.jpaproject1.domain.WordListToWord;
 import jpanews.jpaproject1.domain.Words.EngWord;
 import jpanews.jpaproject1.domain.Words.KorWord;
 import jpanews.jpaproject1.repository.MemberRepository;
@@ -18,11 +15,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-
-import java.util.List;
-
-import static jpanews.jpaproject1.domain.WordListToWord.createWordListToWord;
-import static org.junit.Assert.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -130,6 +122,8 @@ public class WordListServiceTest {
         Assertions.assertEquals(3, memberService.findOne(savedId).getWordLists().size());
         Assertions.assertEquals(3, wordListToWordRepository.findAll().size());
         Assertions.assertEquals(3, memberService.findOne(savedId).getWordLists().get(1).getWordListToWords().size());
+        Assertions.assertEquals(3,wordListToWordRepository.findAll().size());
+
 
         //then
         wordListService.deleteWordList(wordList1);
