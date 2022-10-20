@@ -168,13 +168,12 @@ public class MemberServiceTest {
         Long member3 = memberService.join("DanielLee", "ffgghh");
 
         //when
-        List<Member> members = memberRepository.findAll();
+        List<Member> members = memberService.findAllMembers();
 
         //then
         Assertions.assertEquals("JasonLee", members.get(0).getUsername());
         Assertions.assertEquals("BreecePark", members.get(1).getUsername());
         Assertions.assertEquals("DanielLee", members.get(2).getUsername());
-
     }
 
 //    @Test
