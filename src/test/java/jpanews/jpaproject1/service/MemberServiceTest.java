@@ -1,6 +1,7 @@
 package jpanews.jpaproject1.service;
 
 
+import jpanews.jpaproject1.domain.Member;
 import jpanews.jpaproject1.domain.WordClass;
 import jpanews.jpaproject1.domain.Words.EngWord;
 import jpanews.jpaproject1.domain.Words.KorWord;
@@ -14,6 +15,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -154,6 +157,23 @@ public class MemberServiceTest {
         Assertions.assertEquals(memberId, memberIdAfterChangePassword);
         Assertions.assertEquals(wordListId2, memberService.findOne(memberId).getWordLists().get(1).getId());
         Assertions.assertEquals(wordListToWordRepository.findAllByWordList(wordListId2), memberService.findByUsername("JasonLee").get(0).getWordLists().get(1).getWordListToWords());
+
+    }
+
+    @Test
+    public void findAllMembers() throws Exception{
+        //given
+        Long member1 = memberService.join("JasonLee", "aabbccd");
+        Long member2 = memberService.join("BreecePark", "ssddff");
+        Long member3 = memberService.join("DanielLee", "ffgghh");
+
+        //when
+        List<Member> members = memberRepository.findAll();
+
+        //then
+        Assertions.assertEquals("JasonLee", members.get(0).getUsername());
+        Assertions.assertEquals("BreecePark", members.get(1).getUsername());
+        Assertions.assertEquals("DanielLee", members.get(2).getUsername());
 
     }
 
