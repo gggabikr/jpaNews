@@ -23,6 +23,7 @@ import java.util.Scanner;
 public class WordListService {
     private final WordRepository wordRepository;
     private final WordListRepository wordListRepository;
+    private final  WordListToWordRepository wordListToWordRepository;
     private final WordListToWordRepository wlwRepository;
     private final MemberRepository memberRepository;
 
@@ -67,6 +68,28 @@ public class WordListService {
     public List<WordList> findAllByWordListWithMemorizedStatus(Long memberId, int percent){
         return wordListRepository.findAllByMemorizedStatus(memberId,percent);
     }
+
+    //add & delete wlw from the wordlist
+    public Long addWordsToWordList(Long wordListId, Word... words){
+        WordList wordList = wordListRepository.findOne(wordListId);
+        List<WordListToWord> wordListToWords = WordListToWord.createWordListToWord(words);
+        for(WordListToWord wlw: wordListToWords){
+            wordList.saveWordListToWord(wlw);
+        }
+        return wordListId;
+    }
+
+    public Long deleteWordsFromWordList(Long wordListId, WordListToWord... wordListToWords){
+        WordList wordList = wordListRepository.findOne(wordListId);
+        for(WordListToWord wlw: wordListToWords){
+//            wordList.getWordListToWords().remove(wlw);
+//            wlw.setWordList(null);
+            wordListToWordRepository.deleteWlw(wlw.getId());
+        }
+        return wordListId;
+    }
+
+
 
     /*
          //==test==//
