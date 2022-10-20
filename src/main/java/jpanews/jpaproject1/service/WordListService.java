@@ -82,8 +82,7 @@ public class WordListService {
     public Long deleteWordsFromWordList(Long wordListId, WordListToWord... wordListToWords){
         WordList wordList = wordListRepository.findOne(wordListId);
         for(WordListToWord wlw: wordListToWords){
-//            wordList.getWordListToWords().remove(wlw);
-//            wlw.setWordList(null);
+            wordList.getWordListToWords().remove(wlw);
             wordListToWordRepository.deleteWlw(wlw.getId());
         }
         return wordListId;
