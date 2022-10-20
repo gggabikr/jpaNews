@@ -3,7 +3,6 @@ package jpanews.jpaproject1.service;
 import jpanews.jpaproject1.domain.Member;
 import jpanews.jpaproject1.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +19,7 @@ public class MemberService {
 
     //Sign Up
     @Transactional
-    public Long join(String userName, String password) throws Exception{
+    public Long join(String userName, String password) throws Exception {
         Member member = new Member();
         member.setUsername(userName);
         //checking for a username if it is duplicated.
@@ -33,9 +32,9 @@ public class MemberService {
         return member.getId();
     }
 
-    private void validateDuplicateMember(Member member){
+    private void validateDuplicateMember(Member member) {
         List<Member> findMembers = memberRepository.findByUsername(member.getUsername());
-        if (!findMembers.isEmpty()){
+        if (!findMembers.isEmpty()) {
             throw new IllegalStateException("There is an user with a same username.");
         }
     }
@@ -47,25 +46,29 @@ public class MemberService {
     // 가입후 워드리스트, wlw등 생성하고, 그 후 비번 바꿈. 기존것들 다 연동되어있는지 체크등등.)
 
     @Transactional
-    public Long changePassword(Long memberId, String newPassword) throws Exception{
+    public Long changePassword(Long memberId, String newPassword) throws Exception {
         Member member = memberRepository.findOne(memberId);
         member.setPassword(passwordEncoder.encode(newPassword));
         memberRepository.save(member);
         return memberId;
     }
 
-    public Boolean login(String username, String rawPw){
+    public Boolean login(String username, String rawPw) {
         Member member = memberRepository.findByUsername(username).get(0);
         return passwordEncoder.matches(rawPw, member.getPassword());
     }
 
     //referring all the members
-    public List<Member> findAllMembers(){
+    public List<Member> findAllMembers() {
         return memberRepository.findAll();
     }
 
     //referring one member
     public Member findOne(Long memberId) {
         return memberRepository.findOne(memberId);
+    }
+
+    public List<Member> findByUsername(String username) {
+        return memberRepository.findByUsername(username);
     }
 }
