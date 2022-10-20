@@ -1,7 +1,11 @@
 package jpanews.jpaproject1.service;
 
 
+import jpanews.jpaproject1.domain.WordClass;
+import jpanews.jpaproject1.domain.Words.EngWord;
+import jpanews.jpaproject1.domain.Words.KorWord;
 import jpanews.jpaproject1.repository.MemberRepository;
+import jpanews.jpaproject1.repository.WordListToWordRepository;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
@@ -21,6 +25,9 @@ public class MemberServiceTest {
     @Autowired MemberService memberService;
     @Autowired MemberRepository memberRepository;
     @Autowired PasswordEncoder passwordEncoder;
+    @Autowired WordListService wordListService;
+    @Autowired WordListToWordRepository wordListToWordRepository;
+    @Autowired WordService wordService;
 
     @Test
     public void JoinMember() throws Exception{
@@ -108,6 +115,47 @@ public class MemberServiceTest {
         Assertions.assertEquals(false, loginFail20);
     }
 
+    @Test
+    public void changePassword() throws Exception{
+        //given
+        Long memberId = memberService.join("JasonLee", "abcdef");
+        Assertions.assertEquals(true, memberService.login("JasonLee", "abcdef"));
+        Long wordListId = wordListService.createWordList(memberId);
+
+        KorWord word1 = new KorWord();
+        word1.setName("pool");
+        word1.setKMeaning("바보");
+        word1.setWordClass(WordClass.NOUN);
+
+        KorWord word2 = new KorWord();
+        word2.setName("cat");
+        word2.setKMeaning("고양이");
+        word2.setWordClass(WordClass.NOUN);
+
+        EngWord word3 = new EngWord();
+        word3.setName("great");
+        word3.setEMeaning("aaaaaaaaaa");
+        word3.setWordClass(WordClass.ADJECTIVE);
+
+        wordService.saveWordToDb(word1);
+        wordService.saveWordToDb(word2);
+        wordService.saveWordToDb(word3);
+
+        Long wordListId2 = wordListService.createWordList(memberId, word1, word2, word3);
+        wordListService.findOneWordList(wordListId).saveWordListToWord();
+
+
+        //when
+        Long memberIdAfterChangePassword = memberService.changePassword(memberId, "abcccd");
+
+        //then
+        Assertions.assertEquals(false, memberService.login("JasonLee", "abcdef"));
+        Assertions.assertEquals(true, memberService.login("JasonLee", "abcccd"));
+        Assertions.assertEquals(memberId, memberIdAfterChangePassword);
+        Assertions.assertEquals(wordListId2, memberService.findOne(memberId).getWordLists().get(1).getId());
+        Assertions.assertEquals(wordListToWordRepository.findAllByWordList(wordListId2), memberService.findByUsername("JasonLee").get(0).getWordLists().get(1).getWordListToWords());
+
+    }
 
 //    @Test
 //    public void enumTest() throws Exception{
