@@ -73,7 +73,7 @@ public class WordListToWord {
     }
 
     public void resetTestResults(){
-        this.setFailedCount(0);
+        this.setTestedCount(0);
         this.setFailedCount(0);
         this.setRecentTest("");
     }
