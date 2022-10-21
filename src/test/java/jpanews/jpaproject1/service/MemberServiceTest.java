@@ -6,7 +6,7 @@ import jpanews.jpaproject1.domain.WordClass;
 import jpanews.jpaproject1.domain.Words.EngWord;
 import jpanews.jpaproject1.domain.Words.KorWord;
 import jpanews.jpaproject1.repository.MemberRepository;
-import jpanews.jpaproject1.repository.WordListToWordRepository;
+import jpanews.jpaproject1.repository.CustomWordListToWordRepository;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
@@ -29,7 +29,8 @@ public class MemberServiceTest {
     @Autowired MemberRepository memberRepository;
     @Autowired PasswordEncoder passwordEncoder;
     @Autowired WordListService wordListService;
-    @Autowired WordListToWordRepository wordListToWordRepository;
+    @Autowired
+    CustomWordListToWordRepository wordListToWordRepository;
     @Autowired WordService wordService;
 
     @Test
