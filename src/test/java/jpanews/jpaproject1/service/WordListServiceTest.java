@@ -1,13 +1,12 @@
 package jpanews.jpaproject1.service;
 
 import jpanews.jpaproject1.domain.WordClass;
-import jpanews.jpaproject1.domain.WordList;
 import jpanews.jpaproject1.domain.WordListToWord;
 import jpanews.jpaproject1.domain.Words.EngWord;
 import jpanews.jpaproject1.domain.Words.KorWord;
 import jpanews.jpaproject1.repository.MemberRepository;
 import jpanews.jpaproject1.repository.WordListRepository;
-import jpanews.jpaproject1.repository.WordListToWordRepository;
+import jpanews.jpaproject1.repository.CustomWordListToWordRepository;
 import jpanews.jpaproject1.repository.WordRepository;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -17,7 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -32,7 +30,8 @@ public class WordListServiceTest {
     @Autowired WordService wordService;
     @Autowired WordListRepository wordListRepository;
     @Autowired WordListService wordListService;
-    @Autowired WordListToWordRepository wordListToWordRepository;
+    @Autowired
+    CustomWordListToWordRepository wordListToWordRepository;
 
     @Test
     public void createWordList() throws Exception{
