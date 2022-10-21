@@ -6,7 +6,7 @@ import jpanews.jpaproject1.domain.WordListToWord;
 import jpanews.jpaproject1.domain.Words.Word;
 import jpanews.jpaproject1.repository.MemberRepository;
 import jpanews.jpaproject1.repository.WordListRepository;
-import jpanews.jpaproject1.repository.WordListToWordRepository;
+import jpanews.jpaproject1.repository.CustomWordListToWordRepository;
 import jpanews.jpaproject1.repository.WordRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
-import java.util.Scanner;
 
 @Service
 @RequiredArgsConstructor
@@ -23,8 +22,7 @@ import java.util.Scanner;
 public class WordListService {
     private final WordRepository wordRepository;
     private final WordListRepository wordListRepository;
-    private final  WordListToWordRepository wordListToWordRepository;
-    private final WordListToWordRepository wlwRepository;
+    private final CustomWordListToWordRepository wordListToWordRepository;
     private final MemberRepository memberRepository;
 
     //==create WordList==//
@@ -50,9 +48,9 @@ public class WordListService {
     //==delete WordList==//
     @Transactional
     public void deleteWordList(Long wordListId){
-        List<WordListToWord> allWlwByWordList = wlwRepository.findAllByWordList(wordListId);
+        List<WordListToWord> allWlwByWordList = wordListToWordRepository.findAllByWordList(wordListId);
         for(WordListToWord wlw: allWlwByWordList){
-        wlwRepository.deleteWlw(wlw.getId());
+            wordListToWordRepository.deleteWlw(wlw.getId());
         }
         wordListRepository.deleteWordList(wordListId);
     }
@@ -142,7 +140,7 @@ public class WordListService {
     public void testWords(Long wordListId,int numOfWords) throws Exception {
 
         List<WordListToWord> randomSelectedWlws
-                = wlwRepository.RandomSelect(wordListId, numOfWords);
+                = wordListToWordRepository.RandomSelect(wordListId, numOfWords);
 
         testWords_code_fragment(randomSelectedWlws);
     }
