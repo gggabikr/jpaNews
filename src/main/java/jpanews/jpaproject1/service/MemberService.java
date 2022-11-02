@@ -2,7 +2,11 @@ package jpanews.jpaproject1.service;
 
 import jpanews.jpaproject1.domain.Member;
 import jpanews.jpaproject1.repository.MemberRepository;
+import jpanews.jpaproject1.security.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +16,7 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class MemberService {
+public class MemberService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
@@ -66,5 +70,15 @@ public class MemberService {
 
     public List<Member> findByUsername(String username) {
         return memberRepository.findByUsername(username);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        List<Member> member = memberRepository.findByUsername(username);
+        if(member.size() != 0){
+            return new PrincipalDetails(member.get(0));
+        }else {
+            throw new UsernameNotFoundException(username);
+        }
     }
 }
