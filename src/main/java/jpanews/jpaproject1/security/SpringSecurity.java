@@ -15,12 +15,22 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SpringSecurity extends WebSecurityConfigurerAdapter{
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception{
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable();
         http
-                .cors().disable()		//cors방지
-                .csrf().disable()		//csrf방지
-                .formLogin().disable()	//기본 로그인 페이지 없애기
-                .headers().frameOptions().disable();
+                .authorizeRequests()
+                    .antMatchers("/user/**").authenticated()
+                    .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
+                    .anyRequest().permitAll()
+                .and()
+                    .formLogin()
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/")
+                .and()
+                    .logout()
+                        .logoutSuccessUrl("/login")
+                        .invalidateHttpSession(true);
+
     }
 
     @Override
