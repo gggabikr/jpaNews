@@ -25,6 +25,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-devtools'
     implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:${version}")
+    implementation 'org.projectlombok:lombok:1.18.20'
 
 
     compileOnly 'org.projectlombok:lombok'
@@ -38,6 +39,8 @@ dependencies {
 
     //Security
     implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+
     }
 }
 
