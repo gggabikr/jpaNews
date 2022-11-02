@@ -1,6 +1,5 @@
 package jpanews.jpaproject1.repository;
 
-import jpanews.jpaproject1.domain.WordList;
 import jpanews.jpaproject1.domain.WordListToWord;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

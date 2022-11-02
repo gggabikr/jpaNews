@@ -1,7 +1,6 @@
 package jpanews.jpaproject1.repository;
 
 import jpanews.jpaproject1.domain.Member;
-import jpanews.jpaproject1.repository.MemberRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
