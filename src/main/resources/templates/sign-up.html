@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8">
     <title>sign up</title>
@@ -7,7 +7,7 @@
   <body>
     <h1>Sign Up</h1> <hr>
 
-    <form th:action="@{/user}" method="POST">
+    <form th:action="@{/}" method="POST">
       username : <input type="text" name="username"> <br>
       password : <input type="password" name="password"> <br>
       <input type="radio" name="role" value="ROLE_ADMIN,ROLE_USER"> admin
