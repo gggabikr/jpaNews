@@ -1,20 +1,31 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8">
-    <title>sign up</title>
-  </head>
-  <body>
-    <h1>Sign Up</h1> <hr>
+<!DOCTYPE HTML>
+  <html xmlns:th="http://www.thymeleaf.org">
+      <head th:replace="fragments/header :: header"/>
+          <title>NEWSIONARY</title>
+          <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      </head>
 
-    <form th:action="@{/}" method="POST">
-      username : <input type="text" name="username"> <br>
-      password : <input type="password" name="password"> <br>
-      <input type="radio" name="role" value="ROLE_ADMIN,ROLE_USER"> admin
-      <input type="radio" name="role" value="ROLE_USER" checked="checked"> user <br>
-      <button type="submit">Join</button>
-    </form> <br>
+      <body>
+          <div class="container">
+              <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+              <h1>Sign Up</h1> <hr>
+              <form th:action="@{/}" method="POST">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" name="username" class="form-control"> <br>
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" name="password" class="form-control"> <br>
 
-    <a href="/login">Go to login →</a>
-  </body>
-</html>
+                    <label class="radio-inline">
+                      <input type="radio" name="role" id="role" value="ROLE_ADMIN,ROLE_USER"> Admin
+                    </label>
+
+                    <label class="radio-inline">
+                      <input type="radio" name="role" id="role" value="ROLE_USER" checked="checked"> User
+                    </label>
+                    <br><br>
+                    <button type="submit" class="btn btn-primary">Join</button>
+                  </form> <br>
+              <div th:replace="fragments/footer :: footer">
+          </div> <!-- /container -->
+      <body>
+  </html>
