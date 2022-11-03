@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -17,6 +18,12 @@ import javax.servlet.http.HttpServletResponse;
 public class MemberController {
 
     private final MemberService memberService;
+
+    @GetMapping("/sign-up")
+    public String signUp(Model model) throws Exception {
+        model.addAttribute("MemberInfoDto", new MemberInfoDto());
+        return "sign-up";
+    }
 
     @PostMapping("/sign-up")
     public String signUp(MemberInfoDto infoDto) throws Exception { // 회원 추가
