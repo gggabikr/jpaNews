@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +18,13 @@ public class Member {
     @Column(name="member_id")
     private Long Id;
 
+    @NotEmpty(message = "Username is mandatory.")
+    @Column(unique = true)
     private String username;
 
     private String password;
 
-    private String role;
+    private Enum<MemberRole> role;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<WordList> WordLists = new ArrayList<>();
