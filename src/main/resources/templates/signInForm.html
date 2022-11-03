@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+  <html xmlns:th="http://www.thymeleaf.org">
+      <head th:replace="fragments/header :: header"/>
+          <title>NEWSIONARY/Sign In</title>
+          <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      </head>
+
+      <body>
+          <div class="container">
+              <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+              <img src="/img/gorapaduck.jpeg" />
+              <form th:action="@{/user/login}" method="post">
+                  <!--로그인 실패시 파라미터로 에러가 전달되는게 스프링시큐리티의 규칙-->
+                  <div th:if="${param.error}">
+                      <div class="alert alert-danger">
+                          Please check your username or password.
+                      </div>
+                  </div>
+                  <div class="mb-3">
+                      <label for="username" class="form-label">Username</label>
+                      <input type="text" name="username" id="username" class="form-control">
+                  </div>
+                  <div class="mb-3">
+                      <label for="password" class="form-label">Password</label>
+                      <input type="password" name="password" id="password" class="form-control">
+                  </div>
+                  <br>
+                  <button type="submit" class="btn btn-primary">Sign in</button>
+                  <a href="/sign-up" class="btn btn-primary">Sign up →</a>
+              </form>
+
+              <div th:replace="fragments/footer :: footer">
+          </div> <!-- /container -->
+      <body>
+  </html>
