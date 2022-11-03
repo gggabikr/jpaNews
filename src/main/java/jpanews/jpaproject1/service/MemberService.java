@@ -75,10 +75,15 @@ public class MemberService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         List<Member> member = memberRepository.findByUsername(username);
-        if(member.size() != 0){
-            return new PrincipalDetails(member.get(0));
-        }else {
-            throw new UsernameNotFoundException(username);
+        if(member.size() == 0) {
+            throw new UsernameNotFoundException("Cannot find the username: " + username);
         }
+//        List<GrantedAuthority> authorities = new ArrayList<>();
+//        if ("admin".equals(username)) {
+//            authorities.add(new SimpleGrantedAuthority(MemberRole.ADMIN.getValue()));
+//        } else {
+//            authorities.add(new SimpleGrantedAuthority(MemberRole.USER.getValue()));
+//        }
+            return new PrincipalDetails(member.get(0));
     }
 }
