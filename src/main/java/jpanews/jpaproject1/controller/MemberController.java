@@ -18,18 +18,23 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping("/signup")
-    public String signup(MemberInfoDto infoDto) throws Exception { // 회원 추가
+    @PostMapping("/sign-up")
+    public String signUp(MemberInfoDto infoDto) throws Exception { // 회원 추가
         memberService.join(infoDto.getUsername(), infoDto.getPassword());
-        return "redirect:/login";
+        return "redirect:/sign-in";
     }
 
-    @GetMapping(value = "/logout")
+    @GetMapping(value = "/sign-in")
+    public String signIn(){
+        return "signInForm";
+    }
+
+    @GetMapping(value = "/sign-out")
     public String logoutPage(HttpServletRequest request, HttpServletResponse response){
         new SecurityContextLogoutHandler()
                 .logout(request, response,
                         SecurityContextHolder.getContext()
                                 .getAuthentication());
-        return "redirect:/login";
+        return "redirect:/sign-in";
     }
 }
