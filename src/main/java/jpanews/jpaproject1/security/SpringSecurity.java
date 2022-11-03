@@ -24,11 +24,11 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter{
                     .anyRequest().permitAll()
                 .and()
                     .formLogin()
-                        .loginPage("/login")
+                        .loginPage("/sign-in")
                         .defaultSuccessUrl("/")
                 .and()
                     .logout()
-                        .logoutSuccessUrl("/login")
+                        .logoutSuccessUrl("/sign-in")
                         .invalidateHttpSession(true);
 
     }
