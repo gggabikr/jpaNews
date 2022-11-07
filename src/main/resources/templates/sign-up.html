@@ -3,26 +3,52 @@
       <head th:replace="fragments/header :: header"/>
           <title>NEWSIONARY</title>
           <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+          <link th:rel="stylesheet" th:href="@{webjars/font-awesome/6.2.0/css/all.css} "/>
+          <link href="/css/password-validation-css.css" rel="stylesheet">
       </head>
 
       <body>
           <div class="container">
               <div th:replace="fragments/bodyHeader :: bodyHeader"/>
               <h1>Sign Up</h1> <hr>
-              <form role="form" th:action="@{/}" th:object="${MemberInfoDto}" method="POST" onsubmit="return pwdcheck()">
+              <form role="form" th:action="@{/}" th:object="${MemberInfoDto}" method="POST">
                     <div class="form-group">
                         <label for="username" class="form-label">Username</label>
-                        <input type="text" th:field="*{username}" name="username" class="form-control" required> <br>
+                        <input type="text" th:field="*{username}" name="username" id="username" class="form-control" required>
+                        <ul class="id-checker noshow">
+                            <li class="id-length nopassChecker">
+                                <i class="far fa-times-circle"></i>
+                                Username must be longer than 4 characters and less than 16 characters
+                            </li>
+                        </ul>
                     </div>
 
                     <div class="form-group">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" th:field="*{password}" name="password" class="form-control" required> <br>
+                        <input type="password" th:field="*{password}" name="password" id="password" class="form-control" required>
+                        <ul class="pw-checker noshow" style="list-style-type: none;">
+                            <li class="pw-length nopassChecker">
+                                <i class="far fa-times-circle"></i>Password must be longer than 6 characters
+                            </li>
+                            <li class="pw-number nopassChecker">
+                                <i class="far fa-times-circle"></i>Password must contain at least one number
+                            </li>
+                            <li class="pw-case nopassChecker">
+                                <i class="far fa-times-circle"></i>Password must contain at least one
+                                uppercase and lowercase letter
+                            </li>
+                            <li class="pw-special nopassChecker">
+                                <i class="far fa-times-circle"></i>Password must contain at least one special character
+                            </li>
+                            <li class="pw-sameasid nopassChecker">
+                                <i class="far fa-times-circle"></i>Password cannot include the username
+                            </li>
+                        </ul>
                     </div>
 
                     <div class="form-group">
-                        <label for="psw-repeat" class="form-label">Repeat Password</label>
-                        <input type="password" name="psw-repeat" class="form-control" required> <br>
+                        <label for="psw-repeat" class="form-label">Confirm Password</label>
+                        <input type="password" name="psw-repeat" id="psw-repeat" class="form-control" required>
                     </div>
 
                     <div class="form-group">
@@ -42,50 +68,6 @@
                   <br>
               <div th:replace="fragments/footer :: footer">
           </div> <!-- /container -->
-      <body>
-      <script>
-          function pwdcheck(){
-              var password = document.getElementsByName("password")[0].value
-
-              var passwordCapital=/[A-Z]/.test(password)
-              if(passwordCapital == true){
-                  var passwordSmall = /[a-z]/.test(password)
-                  if(passwordSmall == true){
-                      var passwordNumber = /[0-9]/.test(password)
-                      if(passwordNumber == true){
-                          var passwordlength=password.length
-                          if( passwordlength >=8 ){
-                              var confirmPassword = document.getElementsByName("psw-repeat")[0].value
-                              if(password == confirmPassword){
-                                  var pass="OK"
-                              }
-                              else{
-                                  var pass="NO"
-                              }
-                          }
-                          else{
-                              var pass="NO"
-                          }
-                      }
-                      else{
-                          var pass="NO"
-                      }
-                  }
-                  else{
-                      var pass="NO"
-                  }
-              }
-              else{
-                  var pass="NO"
-              }
-
-
-              if(pass=="OK"){
-                  return true
-              }
-              else{
-                  return false
-              }
-          }
-      </script>
+          <script th:src=@{/js/password-validation.js}></script>
+      </body>
   </html>
