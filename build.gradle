@@ -26,6 +26,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-devtools'
     implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:${version}")
     implementation 'org.projectlombok:lombok:1.18.20'
+    implementation group: 'org.webjars', name: 'webjars-locator', version: '0.46'
+    implementation group: 'org.webjars', name: 'font-awesome', version: '6.2.0'
+
+
 
 
     compileOnly 'org.projectlombok:lombok'
