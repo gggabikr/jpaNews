@@ -1,30 +1,39 @@
 function idCheckFunction(){
+    let passOfUsername;
     //length
     if(inputID.value.length >4 && inputID.value.length <16){
         idLength.classList.add('passChecker')
         idLength.classList.remove('nopassChecker')
         idLength.firstElementChild.classList.remove('fa-times-circle')
-        idLength.firstElementChild.classList.add('fa-check-circle')}
+        idLength.firstElementChild.classList.add('fa-check-circle')
+        passOfUsername = true
+    }
     else{
         idLength.classList.remove('passChecker')
         idLength.classList.add('nopassChecker')
         idLength.firstElementChild.classList.add('fa-times-circle')
         idLength.firstElementChild.classList.remove('fa-check-circle')
+        passOfUsername = false
     }
+    return passOfUsername;
 }
 
 function pwCheckFunction(){
+    const passOfPassword = [];
     //length
     if(inputPW.value.length >6){
         pwLength.classList.add('passChecker')
         pwLength.classList.remove('nopassChecker')
         pwLength.firstElementChild.classList.remove('fa-times-circle')
-        pwLength.firstElementChild.classList.add('fa-check-circle')}
+        pwLength.firstElementChild.classList.add('fa-check-circle')
+        passOfPassword[0] = "OK"
+    }
     else{
         pwLength.classList.remove('passChecker')
         pwLength.classList.add('nopassChecker')
         pwLength.firstElementChild.classList.add('fa-times-circle')
         pwLength.firstElementChild.classList.remove('fa-check-circle')
+        passOfPassword[0] = "NO"
     }
 
     //number
@@ -33,12 +42,15 @@ function pwCheckFunction(){
         pwNumber.classList.add('passChecker')
         pwNumber.classList.remove('nopassChecker')
         pwNumber.firstElementChild.classList.remove('fa-times-circle')
-        pwNumber.firstElementChild.classList.add('fa-check-circle')}
+        pwNumber.firstElementChild.classList.add('fa-check-circle')
+        passOfPassword[1] = "OK"
+    }
     else{
         pwNumber.classList.remove('passChecker')
         pwNumber.classList.add('nopassChecker')
         pwNumber.firstElementChild.classList.add('fa-times-circle')
         pwNumber.firstElementChild.classList.remove('fa-check-circle')
+        passOfPassword[1] = "NO"
     }
 
     //case
@@ -48,12 +60,15 @@ function pwCheckFunction(){
         pwCase.classList.add('passChecker')
         pwCase.classList.remove('nopassChecker')
         pwCase.firstElementChild.classList.remove('fa-times-circle')
-        pwCase.firstElementChild.classList.add('fa-check-circle')}
+        pwCase.firstElementChild.classList.add('fa-check-circle')
+        passOfPassword[2] = "OK"
+    }
     else{
         pwCase.classList.remove('passChecker')
         pwCase.classList.add('nopassChecker')
         pwCase.firstElementChild.classList.add('fa-times-circle')
         pwCase.firstElementChild.classList.remove('fa-check-circle')
+        passOfPassword[2] = "NO"
     }
 
     //special
@@ -62,12 +77,15 @@ function pwCheckFunction(){
         pwSpecial.classList.add('passChecker')
         pwSpecial.classList.remove('nopassChecker')
         pwSpecial.firstElementChild.classList.remove('fa-times-circle')
-        pwSpecial.firstElementChild.classList.add('fa-check-circle')}
+        pwSpecial.firstElementChild.classList.add('fa-check-circle')
+        passOfPassword[3] = "OK"
+    }
     else{
         pwSpecial.classList.remove('passChecker')
         pwSpecial.classList.add('nopassChecker')
         pwSpecial.firstElementChild.classList.add('fa-times-circle')
         pwSpecial.firstElementChild.classList.remove('fa-check-circle')
+        passOfPassword[3] = "NO"
     }
 
     //include the username
@@ -75,13 +93,17 @@ function pwCheckFunction(){
         pwSameasid.classList.add('passChecker')
         pwSameasid.classList.remove('nopassChecker')
         pwSameasid.firstElementChild.classList.remove('fa-times-circle')
-        pwSameasid.firstElementChild.classList.add('fa-check-circle')}
+        pwSameasid.firstElementChild.classList.add('fa-check-circle')
+        passOfPassword[4] = "OK"
+    }
     else{
         pwSameasid.classList.remove('passChecker')
         pwSameasid.classList.add('nopassChecker')
         pwSameasid.firstElementChild.classList.add('fa-times-circle')
         pwSameasid.firstElementChild.classList.remove('fa-check-circle')
+        passOfPassword[4] ="NO"
     }
+    return passOfPassword;
 }
 
 
@@ -114,3 +136,18 @@ inputPW.addEventListener("blur", event => { pwChecker.classList = ('pw-checker n
 inputID.addEventListener("keyup",idCheckFunction);
 
 inputPW.addEventListener("keyup", pwCheckFunction);
+
+
+function checkList(a){
+    return a === "OK";
+}
+
+function finalCheck(){
+    let passOfUsername = idCheckFunction();
+    let passOfPassword = pwCheckFunction().every(checkList);
+    let password = document.getElementsByName("password")[0].value;
+    let confirmPassword = document.getElementsByName("psw-repeat")[0].value;
+    let passOfConfirmPassword = password === confirmPassword;
+
+    return passOfUsername === true && passOfPassword === true && passOfConfirmPassword === true;
+}
