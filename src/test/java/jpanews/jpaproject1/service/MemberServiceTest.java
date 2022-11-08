@@ -2,6 +2,7 @@ package jpanews.jpaproject1.service;
 
 
 import jpanews.jpaproject1.domain.Member;
+import jpanews.jpaproject1.domain.MemberRole;
 import jpanews.jpaproject1.domain.WordClass;
 import jpanews.jpaproject1.domain.Words.EngWord;
 import jpanews.jpaproject1.domain.Words.KorWord;
@@ -37,7 +38,7 @@ public class MemberServiceTest {
     public void JoinMember() throws Exception{
         //given
         //when
-        Long savedId = memberService.join("JasonLee","aaa");
+        Long savedId = memberService.join("JasonLee","aaa", MemberRole.USER);
 
         //then
         assertEquals(savedId, memberRepository.findByUsername("JasonLee").get(0).getId());
@@ -53,8 +54,8 @@ public class MemberServiceTest {
         //for the below code, error should not be arisen -> fail() method need to be worked
         //memberService.join("Breece2","bbb");
 
-        memberService.join("Breece","bbb");
-        memberService.join("Breece","ccc"); //error should be arisen
+        memberService.join("Breece","bbb", MemberRole.USER);
+        memberService.join("Breece","ccc", MemberRole.USER); //error should be arisen
 
         //then
         fail("error must be arisen");
@@ -63,8 +64,8 @@ public class MemberServiceTest {
     @Test
     public void login() throws Exception{
         //given
-        Long memberId1 = memberService.join("JasonLee", "abcdef");
-        Long memberId2 = memberService.join("Jasonlee", "abcdef");
+        Long memberId1 = memberService.join("JasonLee", "abcdef", MemberRole.USER);
+        Long memberId2 = memberService.join("Jasonlee", "abcdef", MemberRole.USER);
 
 
         //when
@@ -122,7 +123,7 @@ public class MemberServiceTest {
     @Test
     public void changePassword() throws Exception{
         //given
-        Long memberId = memberService.join("JasonLee", "abcdef");
+        Long memberId = memberService.join("JasonLee", "abcdef", MemberRole.USER);
         Assertions.assertEquals(true, memberService.login("JasonLee", "abcdef"));
         Long wordListId = wordListService.createWordList(memberId);
 
@@ -164,9 +165,9 @@ public class MemberServiceTest {
     @Test
     public void findAllMembers() throws Exception{
         //given
-        Long member1 = memberService.join("JasonLee", "aabbccd");
-        Long member2 = memberService.join("BreecePark", "ssddff");
-        Long member3 = memberService.join("DanielLee", "ffgghh");
+        Long member1 = memberService.join("JasonLee", "aabbccd", MemberRole.USER);
+        Long member2 = memberService.join("BreecePark", "ssddff", MemberRole.USER);
+        Long member3 = memberService.join("DanielLee", "ffgghh", MemberRole.USER);
 
         //when
         List<Member> members = memberService.findAllMembers();

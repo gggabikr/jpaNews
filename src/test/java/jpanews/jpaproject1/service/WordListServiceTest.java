@@ -1,5 +1,6 @@
 package jpanews.jpaproject1.service;
 
+import jpanews.jpaproject1.domain.MemberRole;
 import jpanews.jpaproject1.domain.WordClass;
 import jpanews.jpaproject1.domain.WordListToWord;
 import jpanews.jpaproject1.domain.Words.EngWord;
@@ -39,7 +40,7 @@ public class WordListServiceTest {
         //==WordList with no words==//
         //given
         //when
-        Long savedId = memberService.join("member", "eee");
+        Long savedId = memberService.join("member", "eee", MemberRole.USER);
         Long wordList = wordListService.createWordList(savedId);
 
         //then
@@ -111,7 +112,7 @@ public class WordListServiceTest {
         word3.setWordClass(WordClass.ADJECTIVE);
 
         //when
-        Long savedId = memberService.join("member", "ggg");
+        Long savedId = memberService.join("member", "ggg", MemberRole.USER);
         Assertions.assertEquals("member", memberService.findOne(savedId).getUsername());
 
         wordService.saveWordToDb(word1);
@@ -222,7 +223,7 @@ public class WordListServiceTest {
         wordService.saveWordToDb(word13);
 
         //when
-        Long memberId = memberService.join("member", "qqq");
+        Long memberId = memberService.join("member", "qqq", MemberRole.USER);
         Long wordListId = wordListService.createWordList(memberId, word1, word2, word3, word4, word5, word6,word7,word8,word9,word10,word11,word12,word13);
 
         //==test setting==//
@@ -378,7 +379,7 @@ public class WordListServiceTest {
         wordService.saveWordToDb(word12);
         wordService.saveWordToDb(word13);
 
-        Long memberId = memberService.join("JasonLee", "aass1");
+        Long memberId = memberService.join("JasonLee", "aass1", MemberRole.USER);
         Long wordListId = wordListService.createWordList(memberId, word1, word2, word3, word4, word5, word6, word7, word8, word9, word10, word11, word12, word13);
 
         //when
@@ -432,7 +433,7 @@ public class WordListServiceTest {
         wordService.saveWordToDb(word2);
         wordService.saveWordToDb(word3);
 
-        Long memberId = memberService.join("JasonLee", "aass1");
+        Long memberId = memberService.join("JasonLee", "aass1", MemberRole.USER);
         Long wordListId = wordListService.createWordList(memberId, word1, word2);
         Assertions.assertEquals(2, wordListService.findOneWordList(wordListId).getWordListToWords().size());
         //when

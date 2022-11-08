@@ -1,6 +1,7 @@
 package jpanews.jpaproject1.service;
 
 import jpanews.jpaproject1.domain.Member;
+import jpanews.jpaproject1.domain.MemberRole;
 import jpanews.jpaproject1.repository.MemberRepository;
 import jpanews.jpaproject1.security.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
@@ -23,11 +24,13 @@ public class MemberService implements UserDetailsService {
 
     //Sign Up
     @Transactional
-    public Long join(String userName, String password) throws Exception {
+    public Long join(String userName, String password, MemberRole role) throws Exception {
         Member member = new Member();
         member.setUsername(userName);
         //checking for a username if it is duplicated.
         validateDuplicateMember(member);
+
+        member.setRole(role);
 
         //encoding the password
         String enPw = passwordEncoder.encode(password);

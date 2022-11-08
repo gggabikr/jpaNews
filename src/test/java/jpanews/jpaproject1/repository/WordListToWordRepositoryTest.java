@@ -1,5 +1,6 @@
 package jpanews.jpaproject1.repository;
 
+import jpanews.jpaproject1.domain.MemberRole;
 import jpanews.jpaproject1.domain.WordClass;
 import jpanews.jpaproject1.domain.WordListToWord;
 import jpanews.jpaproject1.domain.Words.EngWord;
@@ -65,7 +66,7 @@ public class WordListToWordRepositoryTest {
         word6.setEMeaning("big man");
         word6.setWordClass(WordClass.ADJECTIVE);
 
-        Long memberId = memberService.join("JasonLee", "aaaaaa");
+        Long memberId = memberService.join("JasonLee", "aaaaaa", MemberRole.USER);
 
         wordService.saveWordToDb(word1);
         wordService.saveWordToDb(word2);
