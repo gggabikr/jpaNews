@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+  <html xmlns:th="http://www.thymeleaf.org">
+      <head th:replace="fragments/header :: header"/>
+          <title>NEWSIONARY</title>
+          <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+          <link th:rel="stylesheet" th:href="@{webjars/font-awesome/6.2.0/css/all.css} "/>
+          <link href="/css/password-validation-css.css" rel="stylesheet">
+      </head>
+
+      <body onload="errorAlertUsernameDupl()">
+          <div class="container">
+              <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+              <br><br><br><br><br><br><br><br>
+              <h1>Something went wrong. :(</h1>
+              <br><br><br><br><br><br><br><br>
+              <br><br><br><br><br><br><br><br>
+              <br><br><br><br><br><br><br><br>
+              <div th:replace="fragments/footer :: footer">
+          </div> <!-- /container -->
+          <script th:src=@{/js/errorAlert.js}></script>
+      </body>
+  </html>
