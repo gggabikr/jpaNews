@@ -40,7 +40,7 @@ public class WordListServiceTest {
         //==WordList with no words==//
         //given
         //when
-        Long savedId = memberService.join("member", "eee", MemberRole.USER);
+        Long savedId = memberService.join("member", "eee", MemberRole.ROLE_USER);
         Long wordList = wordListService.createWordList(savedId);
 
         //then
@@ -112,7 +112,7 @@ public class WordListServiceTest {
         word3.setWordClass(WordClass.ADJECTIVE);
 
         //when
-        Long savedId = memberService.join("member", "ggg", MemberRole.USER);
+        Long savedId = memberService.join("member", "ggg", MemberRole.ROLE_USER);
         Assertions.assertEquals("member", memberService.findOne(savedId).getUsername());
 
         wordService.saveWordToDb(word1);
@@ -223,7 +223,7 @@ public class WordListServiceTest {
         wordService.saveWordToDb(word13);
 
         //when
-        Long memberId = memberService.join("member", "qqq", MemberRole.USER);
+        Long memberId = memberService.join("member", "qqq", MemberRole.ROLE_USER);
         Long wordListId = wordListService.createWordList(memberId, word1, word2, word3, word4, word5, word6,word7,word8,word9,word10,word11,word12,word13);
 
         //==test setting==//
@@ -379,7 +379,7 @@ public class WordListServiceTest {
         wordService.saveWordToDb(word12);
         wordService.saveWordToDb(word13);
 
-        Long memberId = memberService.join("JasonLee", "aass1", MemberRole.USER);
+        Long memberId = memberService.join("JasonLee", "aass1", MemberRole.ROLE_USER);
         Long wordListId = wordListService.createWordList(memberId, word1, word2, word3, word4, word5, word6, word7, word8, word9, word10, word11, word12, word13);
 
         //when
@@ -433,7 +433,7 @@ public class WordListServiceTest {
         wordService.saveWordToDb(word2);
         wordService.saveWordToDb(word3);
 
-        Long memberId = memberService.join("JasonLee", "aass1", MemberRole.USER);
+        Long memberId = memberService.join("JasonLee", "aass1", MemberRole.ROLE_USER);
         Long wordListId = wordListService.createWordList(memberId, word1, word2);
         Assertions.assertEquals(2, wordListService.findOneWordList(wordListId).getWordListToWords().size());
         //when
@@ -448,5 +448,21 @@ public class WordListServiceTest {
         Assertions.assertEquals("pool", wordListToWordRepository.findAllByWordList(wordListId).get(0).getWord().getName());
         Assertions.assertEquals("great", wordListToWordRepository.findAllByWordList(wordListId).get(1).getWord().getName());
         Assertions.assertEquals(2, wordListToWordRepository.findAll().size());
+    }
+
+    @Test
+    public void memberRoleTest() throws Exception{
+        //given
+        System.out.println(MemberRole.valueOf("ROLE_USER"));
+        System.out.println(MemberRole.valueOf("ROLE_USER").getClass());
+        System.out.println(MemberRole.ROLE_USER.getValue());
+        System.out.println(MemberRole.ROLE_USER.getValue().getClass());
+
+        //when
+
+
+        //then
+
+
     }
 }

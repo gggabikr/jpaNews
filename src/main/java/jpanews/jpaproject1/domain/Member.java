@@ -24,6 +24,7 @@ public class Member {
 
     private String password;
 
+    @Enumerated(EnumType.STRING)
     private Enum<MemberRole> role;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)

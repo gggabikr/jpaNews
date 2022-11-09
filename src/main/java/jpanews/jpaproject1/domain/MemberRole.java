@@ -5,12 +5,12 @@ import lombok.Getter;
 
 @Getter
 public enum MemberRole {
-    ADMIN("ROLE_ADMIN"),
-    USER("ROLE_USER");
+    ROLE_ADMIN("ROLE_ADMIN"),
+    ROLE_USER("ROLE_USER");
 
-    MemberRole(String value) {
+    MemberRole(final String value) {
         this.value = value;
     }
 
-    private String value;
+    private final String value;
 }

@@ -38,7 +38,7 @@ public class MemberServiceTest {
     public void JoinMember() throws Exception{
         //given
         //when
-        Long savedId = memberService.join("JasonLee","aaa", MemberRole.USER);
+        Long savedId = memberService.join("JasonLee","aaa", MemberRole.ROLE_USER);
 
         //then
         assertEquals(savedId, memberRepository.findByUsername("JasonLee").get(0).getId());
@@ -54,8 +54,8 @@ public class MemberServiceTest {
         //for the below code, error should not be arisen -> fail() method need to be worked
         //memberService.join("Breece2","bbb");
 
-        memberService.join("Breece","bbb", MemberRole.USER);
-        memberService.join("Breece","ccc", MemberRole.USER); //error should be arisen
+        memberService.join("Breece","bbb", MemberRole.ROLE_USER);
+        memberService.join("Breece","ccc", MemberRole.ROLE_USER); //error should be arisen
 
         //then
         fail("error must be arisen");
@@ -64,8 +64,8 @@ public class MemberServiceTest {
     @Test
     public void login() throws Exception{
         //given
-        Long memberId1 = memberService.join("JasonLee", "abcdef", MemberRole.USER);
-        Long memberId2 = memberService.join("Jasonlee", "abcdef", MemberRole.USER);
+        Long memberId1 = memberService.join("JasonLee", "abcdef", MemberRole.ROLE_USER);
+        Long memberId2 = memberService.join("Jasonlee", "abcdef", MemberRole.ROLE_USER);
 
 
         //when
@@ -123,7 +123,7 @@ public class MemberServiceTest {
     @Test
     public void changePassword() throws Exception{
         //given
-        Long memberId = memberService.join("JasonLee", "abcdef", MemberRole.USER);
+        Long memberId = memberService.join("JasonLee", "abcdef", MemberRole.ROLE_USER);
         Assertions.assertEquals(true, memberService.login("JasonLee", "abcdef"));
         Long wordListId = wordListService.createWordList(memberId);
 
@@ -165,9 +165,9 @@ public class MemberServiceTest {
     @Test
     public void findAllMembers() throws Exception{
         //given
-        Long member1 = memberService.join("JasonLee", "aabbccd", MemberRole.USER);
-        Long member2 = memberService.join("BreecePark", "ssddff", MemberRole.USER);
-        Long member3 = memberService.join("DanielLee", "ffgghh", MemberRole.USER);
+        Long member1 = memberService.join("JasonLee", "aabbccd", MemberRole.ROLE_USER);
+        Long member2 = memberService.join("BreecePark", "ssddff", MemberRole.ROLE_USER);
+        Long member3 = memberService.join("DanielLee", "ffgghh", MemberRole.ROLE_USER);
 
         //when
         List<Member> members = memberService.findAllMembers();

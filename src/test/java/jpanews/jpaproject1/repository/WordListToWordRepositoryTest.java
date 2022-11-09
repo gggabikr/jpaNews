@@ -66,7 +66,7 @@ public class WordListToWordRepositoryTest {
         word6.setEMeaning("big man");
         word6.setWordClass(WordClass.ADJECTIVE);
 
-        Long memberId = memberService.join("JasonLee", "aaaaaa", MemberRole.USER);
+        Long memberId = memberService.join("JasonLee", "aaaaaa", MemberRole.ROLE_USER);
 
         wordService.saveWordToDb(word1);
         wordService.saveWordToDb(word2);
