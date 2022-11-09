@@ -148,6 +148,19 @@ function finalCheck(){
     let password = document.getElementsByName("password")[0].value;
     let confirmPassword = document.getElementsByName("psw-repeat")[0].value;
     let passOfConfirmPassword = password === confirmPassword;
+    if(passOfUsername === false){
+        alert("Please check username again.")
+        return false;
+    }
+    if(passOfPassword === false){
+        alert("Please check password again.")
+        return false;
+    }
+    if(passOfConfirmPassword === false){
+        alert("Your password and the confirm password are not same.")
+        return false;
+    }
+    let result = passOfUsername === true && passOfPassword === true && passOfConfirmPassword === true;
 
-    return passOfUsername === true && passOfPassword === true && passOfConfirmPassword === true;
+    return result;
 }
