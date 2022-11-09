@@ -25,7 +25,7 @@ public class Member {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    private Enum<MemberRole> role;
+    private MemberRole role;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<WordList> WordLists = new ArrayList<>();

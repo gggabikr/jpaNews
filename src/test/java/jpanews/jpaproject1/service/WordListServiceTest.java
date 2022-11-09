@@ -1,5 +1,6 @@
 package jpanews.jpaproject1.service;
 
+import jpanews.jpaproject1.domain.Member;
 import jpanews.jpaproject1.domain.MemberRole;
 import jpanews.jpaproject1.domain.WordClass;
 import jpanews.jpaproject1.domain.WordListToWord;
@@ -457,6 +458,12 @@ public class WordListServiceTest {
         System.out.println(MemberRole.valueOf("ROLE_USER").getClass());
         System.out.println(MemberRole.ROLE_USER.getValue());
         System.out.println(MemberRole.ROLE_USER.getValue().getClass());
+
+        Member member = new Member();
+        member.setUsername("aasvssd");
+        member.setPassword("aAndrks1!");
+        member.setRole(MemberRole.ROLE_USER);
+        memberService.join(member.getUsername(), member.getPassword(), member.getRole());
 
         //when
 

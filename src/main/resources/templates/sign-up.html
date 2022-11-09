@@ -11,7 +11,7 @@
           <div class="container">
               <div th:replace="fragments/bodyHeader :: bodyHeader"/>
               <h1>Sign Up</h1> <hr>
-              <form role="form" th:action="@{/}" th:object="${MemberInfoDto}" method="POST">
+              <form role="form" th:action="@{/sign-up}" th:object="${MemberInfoDto}" method="POST" onsubmit = "return finalCheck()">
                     <div class="form-group">
                         <label for="username" class="form-label">Username</label>
                         <input type="text" th:field="*{username}" name="username" id="username" class="form-control" required>
@@ -53,7 +53,7 @@
 
                     <div class="form-group">
                         <label class="radio-inline">
-                          <input type="radio" th:field="*{role}" name="role" id="role" value="ROLE_ADMIN,ROLE_USER"> Admin
+                          <input type="radio" th:field="*{role}" name="role" id="role" value="ROLE_ADMIN"> Admin
                         </label>
 
                         <label class="radio-inline">
