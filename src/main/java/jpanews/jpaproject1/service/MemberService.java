@@ -5,6 +5,7 @@ import jpanews.jpaproject1.domain.MemberRole;
 import jpanews.jpaproject1.repository.MemberRepository;
 import jpanews.jpaproject1.security.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -82,10 +83,11 @@ public class MemberService implements UserDetailsService {
             throw new UsernameNotFoundException("Cannot find the username: " + username);
         }
 //        List<GrantedAuthority> authorities = new ArrayList<>();
+//        if (member.get(0).getRole() == MemberRole.ROLE_ADMIN){
 //        if ("admin".equals(username)) {
-//            authorities.add(new SimpleGrantedAuthority(MemberRole.ADMIN.getValue()));
+//            authorities.add(new SimpleGrantedAuthority(MemberRole.ROLE_ADMIN.getValue()));
 //        } else {
-//            authorities.add(new SimpleGrantedAuthority(MemberRole.USER.getValue()));
+//            authorities.add(new SimpleGrantedAuthority(MemberRole.ROLE_USER.getValue()));
 //        }
             return new PrincipalDetails(member.get(0));
     }
