@@ -28,6 +28,8 @@ dependencies {
     implementation 'org.projectlombok:lombok:1.18.20'
     implementation group: 'org.webjars', name: 'webjars-locator', version: '0.46'
     implementation group: 'org.webjars', name: 'font-awesome', version: '6.2.0'
+    implementation 'org.jsoup:jsoup:1.15.3'
+
 
 
 
