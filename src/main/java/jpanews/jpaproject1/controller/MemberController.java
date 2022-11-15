@@ -30,7 +30,7 @@ public class MemberController {
     }
 
     @PostMapping("/sign-up")
-    public String signUp(@Valid MemberInfoDto infoDto, BindingResult result, Model model) throws Exception { // 회원 추가
+    public String signUp(@Valid MemberInfoDto infoDto, BindingResult result) throws Exception { // 회원 추가
         if(result.hasErrors()){
             return "/sign-up";
         }
