@@ -89,6 +89,7 @@ public class MemberService implements UserDetailsService {
 //        } else {
 //            authorities.add(new SimpleGrantedAuthority(MemberRole.ROLE_USER.getValue()));
 //        }
+        System.out.println("Member found for: " + username + ". Will try login");
             return new PrincipalDetails(member.get(0));
     }
 }
