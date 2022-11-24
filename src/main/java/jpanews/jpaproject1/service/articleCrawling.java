@@ -109,8 +109,9 @@ public class articleCrawling {
         //#main>article>div>div>div>div>div>p
     }
     public boolean msnNews(String url){
-        
+        return false;
     }
+
 //    public boolean washingtonPost(String url){}
 //    public boolean cnnNews(String url){}
 //    public boolean googleNews(String url){}
