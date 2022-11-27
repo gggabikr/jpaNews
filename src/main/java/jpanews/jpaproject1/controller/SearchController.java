@@ -15,7 +15,11 @@ public class SearchController {
 
     @GetMapping("/searchURL")
     public String searchURL(Model model, String URL){
+        System.out.println(URL);
         crawlingDto dto = articleCrawling.crawl(URL);
+//        System.out.println(dto.getTitle());
+//        System.out.println(dto.getSubTitle());
+//        System.out.println(dto.getArticleBody());
         model.addAttribute("ArticleTitle", dto.getTitle());
         model.addAttribute("ArticleSubtitle", dto.getSubTitle());
         model.addAttribute("ArticleBodyList", dto.getArticleBody());
