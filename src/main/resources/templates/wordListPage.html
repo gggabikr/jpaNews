@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+  <html xmlns:th="http://www.thymeleaf.org">
+      <head th:replace="fragments/header :: header"/>
+          <title>NEWSIONARY/VOCABULARY LIST</title>
+          <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      </head>
+
+      <body>
+          <div class="container">
+              <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+              <h1>Vocabulary List</h1>
+              <div class="jumbotron">
+                  <select th:field="*{wordList}" name="wordLists" multiple size="20">
+                      <optgroup label="Your vocabulary lists">
+                          <option value="cat">Cat</option>
+                          <option value="hamster" disabled>Hamster</option>
+                      </optgroup>
+                  </select>
+              </div>
+
+              <div th:replace="fragments/footer :: footer">
+          </div> <!-- /container -->
+      </body>
+  </html>
