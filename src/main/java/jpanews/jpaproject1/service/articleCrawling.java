@@ -11,10 +11,13 @@ import java.io.IOException;
 public class articleCrawling {
 
 //    String URL = "Please enter article's URL";
+//    String title;
+//    String subTitle;
+//    ArrayList<String> ArticleBody = new ArrayList<>();
     Document doc;
 
-    public boolean crawl(String url) {
-        boolean result = false;
+    public crawlingDto crawl(String url) {
+        crawlingDto result;
 
         if (url.contains("abcnews")) {
             result = abcNews(url);
@@ -24,13 +27,16 @@ public class articleCrawling {
             return nyPost(url);
         } else if(url.contains("msn.com") && url.contains("news")){
             return msnNews(url);
+        } else {
+            System.out.println("Please check the URL again.");
+            return new crawlingDto();
         }
-
 
         return result;
     }
 
-    public boolean abcNews(String url){
+    public crawlingDto abcNews(String url){
+        crawlingDto dto = new crawlingDto();
         try {
             Connection conn = Jsoup.connect(url);
             doc = conn.get();
@@ -39,7 +45,7 @@ public class articleCrawling {
             System.out.println(e.getMessage());
             System.out.println("Something went wrong.");
             System.out.println("Please check the URL again.");
-            return false;
+            return dto;
         } finally {
             Elements title = doc.select("div > span > div > div > span > div > h1");
             Elements subTitle = doc.select("div>span>div>p");
@@ -47,22 +53,27 @@ public class articleCrawling {
 
             for (Element element : title) {
                 System.out.println(element.text());
+                dto.title = element.text();
             }
             System.out.println(subTitle.get(1).text());
+            dto.subTitle = subTitle.get(1).text();
+
 
             for (Element element : body) {
                 System.out.println(element.text());
+                dto.ArticleBody.add(element.text());
                 //ul, li 같은 리스트들을 어떻게 처리할지 고민해보자.
             }
         }
-        return true;
+        return dto;
     }
     public boolean nyTimes(String url){
         //because it requires paying to see the articles,
         //this method will not be built.
         return false;
     }
-    public boolean bbcNews(String url){
+    public crawlingDto bbcNews(String url){
+        crawlingDto dto = new crawlingDto();
         try {
             Connection conn = Jsoup.connect(url);
             doc = conn.get();
@@ -71,20 +82,23 @@ public class articleCrawling {
             System.out.println(e.getMessage());
             System.out.println("Something went wrong.");
             System.out.println("Please check the URL again.");
-            return false;
+            return dto;
         } finally {
             Element title = doc.getElementById("main-heading");
             Elements body = doc.select("#main-content>div>div>div>article>div>div>p");
 
+            dto.title = title.text();
             System.out.println(title != null ? title.text() : null);
             for (Element element : body) {
                 System.out.println(element.text());
+                dto.ArticleBody.add(element.text());
                 //ul, li 같은 리스트들을 어떻게 처리할지 고민해보자.
             }
         }
-        return true;
+        return dto;
     }
-    public boolean nyPost(String url){
+    public crawlingDto nyPost(String url){
+        crawlingDto dto = new crawlingDto();
         try {
             Connection conn = Jsoup.connect(url);
             doc = conn.get();
@@ -93,20 +107,23 @@ public class articleCrawling {
             System.out.println(e.getMessage());
             System.out.println("Something went wrong.");
             System.out.println("Please check the URL again.");
-            return false;
+            return dto;
         } finally {
             Elements title = doc.getElementsByClass("headline--single");
             Elements body = doc.select("#main>article>div>div>div>div>div>p");
 
             System.out.println(title.size() > 0 ? title.text() : null);
+            dto.title = title.text();
             for (Element element : body) {
                 System.out.println(element.text());
+                dto.getArticleBody().add(element.text());
                 //ul, li 같은 리스트들을 어떻게 처리할지 고민해보자.
             }
         }
-        return true;
+        return dto;
     }
-    public boolean msnNews(String url){
+    public crawlingDto msnNews(String url){
+        crawlingDto dto = new crawlingDto();
         try {
             Connection conn = Jsoup.connect(url);
             doc = conn.get();
@@ -115,22 +132,22 @@ public class articleCrawling {
             System.out.println(e.getMessage());
             System.out.println("Something went wrong.");
             System.out.println("Please check the URL again.");
-            return false;
+            return dto;
         } finally {
             Elements title = doc.getElementsByTag("h1");
             Element body = doc.getElementsByAttributeValue("role", "main").select("section").get(0);
             System.out.println(title.size() > 0 ? title.text() : "could not find title");
+            dto.title = title.text();
 
             String text = body.text();
-//            int i = text.indexOf("Continue Reading Show full articles");
-//            text = text.substring(0,i);
             int j = text.indexOf("Related Articles");
             text = text.substring(0,j);
 
             System.out.println(text);
+            dto.getArticleBody().add(text);
             //ul, li 같은 리스트들을 어떻게 처리할지 고민해보자.
         }
-        return true;
+        return dto;
     }
 //    will be updated later.
 //    public boolean washingtonPost(String url){}
@@ -157,8 +174,8 @@ public class articleCrawling {
 //        articleCrawling.crawl(bbcUrl);
 //        articleCrawling.crawl(nyPostUrl);
 //        articleCrawling.crawl(msnUrl);
-        articleCrawling.crawl(msnUrl2);
-//        articleCrawling.crawl(NotExistUrl);
+//        articleCrawling.crawl(msnUrl2);
+        articleCrawling.crawl(NotExistUrl);
 
 
     }
