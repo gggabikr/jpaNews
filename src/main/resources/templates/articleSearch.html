@@ -1,20 +1,20 @@
 <!DOCTYPE HTML>
   <html xmlns:th="http://www.thymeleaf.org">
       <head th:replace="fragments/header :: header"/>
-          <title>NEWSIONARY</title>
+          <title>NEWSIONARY/ARTICLE SEARCH</title>
           <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
       </head>
 
       <body>
           <div class="container">
               <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+              <h1>Article</h1>
               <div class="jumbotron">
-                  <h1>Article</h1>
-              </div>
-              <div>
-                <h2 th:text = "${ArticleTitle}">title</h2>
-                <h3 th:text = "${ArticleSubtitle}">subtitle</h3>
-                <p th:text="${strings.listJoin(ArticleBodyList, ' ')}">body</p>
+                  <div>
+                    <h2 th:text= "${{ArticleTitle} != null} ? ${ArticleTitle} : ' '">title</h2>
+                    <h3 th:text= "${{ArticleSubtitle} != null} ? ${ArticleSubtitle} : ' '">subtitle</h3>
+                    <p th:text= "${#strings.listJoin(ArticleBodyList, ' ')}">body</p>
+                  </div>
               </div>
 <!--               <form action="/" method="get"> -->
 <!--                   <input placeholder = "Enter article's URL..." type="search" title="search" class="form-control form-group"></input> -->
@@ -25,5 +25,5 @@
 
               <div th:replace="fragments/footer :: footer">
           </div> <!-- /container -->
-      <body>
+      </body>
   </html>
