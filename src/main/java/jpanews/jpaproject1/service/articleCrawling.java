@@ -5,9 +5,11 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
+@Service
 public class articleCrawling {
 
 //    String URL = "Please enter article's URL";
@@ -88,9 +90,9 @@ public class articleCrawling {
             Elements body = doc.select("#main-content>div>div>div>article>div>div>p");
 
             dto.title = title.text();
-            System.out.println(title != null ? title.text() : null);
+//            System.out.println(title != null ? title.text() : null);
             for (Element element : body) {
-                System.out.println(element.text());
+//                System.out.println(element.text());
                 dto.ArticleBody.add(element.text());
                 //ul, li 같은 리스트들을 어떻게 처리할지 고민해보자.
             }
@@ -160,24 +162,22 @@ public class articleCrawling {
 
 
 
-    public static void main(String[] args) {
-        String abcUrl = "https://abcnews.go.com/US/bus-carrying-18-students-driver-crashes-kentucky-multiple/story?id=93283274";
-        String bbcUrl = "https://www.bbc.com/news/world-middle-east-63636783";
-        String nyPostUrl = "https://nypost.com/2022/11/15/jennifer-siebel-newsom-wife-to-california-gov-asked-to-fake-an-orgasm-in-court-during-harvey-weinstein-trial/";
-        String msnUrl = "https://www.msn.com/en-us/news/technology/stranded-without-food-edible-drone-has-snackable-wings/ar-AA14991Z?ocid=EMMX&cvid=ec757b745bec4026aead2bea7d76f899";
-        String msnUrl2 = "https://www.msn.com/en-us/news/politics/mike-pence-said-7-words-that-disqualify-him-from-holding-office-kirschner/ar-AA14ww60?ocid=EMMX&cvid=75f7f1ddba254f59b60466e8849a3c9c";
-
-        String NotExistUrl = "https://www.asded.com";
-
-        articleCrawling articleCrawling = new articleCrawling();
-//        articleCrawling.crawl(abcUrl);
-//        articleCrawling.crawl(bbcUrl);
-//        articleCrawling.crawl(nyPostUrl);
-//        articleCrawling.crawl(msnUrl);
-//        articleCrawling.crawl(msnUrl2);
-        articleCrawling.crawl(NotExistUrl);
-
-
-    }
+//    public static void main(String[] args) {
+//        String abcUrl = "https://abcnews.go.com/US/bus-carrying-18-students-driver-crashes-kentucky-multiple/story?id=93283274";
+//        String bbcUrl = "https://www.bbc.com/news/world-middle-east-63636783";
+//        String nyPostUrl = "https://nypost.com/2022/11/15/jennifer-siebel-newsom-wife-to-california-gov-asked-to-fake-an-orgasm-in-court-during-harvey-weinstein-trial/";
+//        String msnUrl = "https://www.msn.com/en-us/news/technology/stranded-without-food-edible-drone-has-snackable-wings/ar-AA14991Z?ocid=EMMX&cvid=ec757b745bec4026aead2bea7d76f899";
+//        String msnUrl2 = "https://www.msn.com/en-us/news/politics/mike-pence-said-7-words-that-disqualify-him-from-holding-office-kirschner/ar-AA14ww60?ocid=EMMX&cvid=75f7f1ddba254f59b60466e8849a3c9c";
+//
+//        String NotExistUrl = "https://www.asded.com";
+//
+//        articleCrawling articleCrawling = new articleCrawling();
+////        articleCrawling.crawl(abcUrl);
+////        articleCrawling.crawl(bbcUrl);
+////        articleCrawling.crawl(nyPostUrl);
+////        articleCrawling.crawl(msnUrl);
+////        articleCrawling.crawl(msnUrl2);
+//        articleCrawling.crawl(NotExistUrl);
+//    }
 }
 
