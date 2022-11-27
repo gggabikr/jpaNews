@@ -14,11 +14,11 @@
                   <h3>Use NEWSIONARY to check vocabularies from articles and save unknowns into your own dictionary.</h3>
                   <h3>You can even test the words and see your test records instantly.</h3>
               </div>
-              <form action="/" method="get">
-                  <input placeholder = "Enter article's URL..." type="search" title="search" class="form-control form-group"></input>
-                  <a href="#" role="button" class="btn btn-primary btn-lg">
+              <form action="/searchURL" method="get">
+                  <input placeholder = "Enter article's URL..." type="search" title="URL" id="URL" name="URL" class="form-control form-group"></input>
+                  <button type="submit" class="btn btn-primary btn-lg">
                       <span>START</span>
-                  </a>
+                  </button>
               </form>
 
               <div th:replace="fragments/footer :: footer">
