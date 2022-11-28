@@ -3,6 +3,7 @@ package jpanews.jpaproject1.service;
 import jpanews.jpaproject1.domain.Member;
 import jpanews.jpaproject1.domain.MemberRole;
 import jpanews.jpaproject1.repository.MemberRepository;
+import jpanews.jpaproject1.repository.WordListRepository;
 import jpanews.jpaproject1.security.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +22,7 @@ import java.util.List;
 public class MemberService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
+    private final WordListService wordListService;
     private final PasswordEncoder passwordEncoder;
 
     //Sign Up
@@ -36,8 +38,12 @@ public class MemberService implements UserDetailsService {
         //encoding the password
         String enPw = passwordEncoder.encode(password);
         member.setPassword(enPw);
-        memberRepository.save(member);
-        return member.getId();
+        Long memberId = memberRepository.save(member);
+
+        //create default wordList when a member account is created
+        wordListService.createWordList(memberId);
+        return memberId;
+//        return member.getId();
     }
 
     private void validateDuplicateMember(Member member) {
@@ -92,4 +98,6 @@ public class MemberService implements UserDetailsService {
         System.out.println("Member found for: " + username + ". Will try login");
             return new PrincipalDetails(member.get(0));
     }
+
+
 }
