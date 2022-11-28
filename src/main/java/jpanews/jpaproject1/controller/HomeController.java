@@ -47,9 +47,8 @@ public class HomeController {
         System.out.println("member's id: " + member.getId());
 
         model.addAttribute("member", member);
-//        wordListService.findAllWordListByMember();
-//        model.addAttribute("wordList", );
-        return "wordListPage";
+        model.addAttribute("wordLists", wordListService.findAllWordListByMember(member.getId()));
+        return "/wordListPage";
     }
 
 }
