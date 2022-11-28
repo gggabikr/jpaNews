@@ -30,6 +30,13 @@ public class WordListRepository {
                 .getResultList();
     }
 
+    public List<WordList> findOneByWordListName(String wordListName){
+        return em.createQuery(
+                "SELECT wl FROM WordList wl WHERE wl.wordListName = :wordListName", WordList.class)
+                .setParameter("wordListName", wordListName)
+                .getResultList();
+    }
+
 //    //혹은 위 메서드에 Lang 변수 넣는식으로 하고 하나 없애기
 //    public List<WordList> findAllEngByMember(Long memberId){
 //    }
