@@ -18,6 +18,9 @@ public class WordList {
     @Column(name = "wordlist_id")
     private Long id;
 
+    @Column(name = "wordlist_name")
+    private String wordListName;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
@@ -62,6 +65,11 @@ public class WordList {
             this.getWordListToWords().add(wlw);
             wlw.setWordList(this);
         }
+    }
+
+    public String changeWordListName(String WL_name){
+        this.wordListName = WL_name;
+        return WL_name;
     }
 
     //constructor
