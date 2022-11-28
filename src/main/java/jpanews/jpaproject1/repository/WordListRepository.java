@@ -51,4 +51,10 @@ public class WordListRepository {
         member.getWordLists().remove(findOne(wordListId));
         em.remove(findOne(wordListId));
     }
+
+    public Long changeWordListName(Long wordListId, String wordListName){
+        WordList wordList = em.find(WordList.class, wordListId);
+        wordList.changeWordListName(wordListName);
+        return wordListId;
+    }
 }
