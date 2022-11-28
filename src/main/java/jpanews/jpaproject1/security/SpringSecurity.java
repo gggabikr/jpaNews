@@ -1,6 +1,7 @@
 package jpanews.jpaproject1.security;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -9,6 +10,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
@@ -16,9 +18,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SpringSecurity extends WebSecurityConfigurerAdapter{
 
+//    private final UserDetailsService userDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         http.csrf().disable();
         http
                 .authorizeRequests()
@@ -33,7 +37,12 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter{
                     .logout()
                         .logoutSuccessUrl("/sign-in")
                         .invalidateHttpSession(true);
-
+//        http
+//                .rememberMe()
+//                .rememberMeParameter("remember-me")
+//                .tokenValiditySeconds(1209600)
+//                .alwaysRemember(true)
+//                .userDetailsService(userDetailsService);
     }
 
 //    @Override
