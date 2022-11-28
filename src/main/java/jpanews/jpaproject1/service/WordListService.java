@@ -86,6 +86,10 @@ public class WordListService {
         return wordListId;
     }
 
+    public Long changeWordListName(Long wordListId, String wordListName){
+        wordListRepository.changeWordListName(wordListId, wordListName);
+        return wordListId;
+    }
 
 
     /*
