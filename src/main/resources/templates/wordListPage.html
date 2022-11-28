@@ -10,10 +10,10 @@
               <div th:replace="fragments/bodyHeader :: bodyHeader"/>
               <h1>Vocabulary List</h1>
               <div class="jumbotron">
-                  <select th:field="*{wordList}" name="wordLists" multiple size="20">
+                  <select th:each="wordList: ${wordLists}" name="wordLists" multiple size="20">
                       <optgroup label="Your vocabulary lists">
-                          <option value="cat">Cat</option>
-                          <option value="hamster" disabled>Hamster</option>
+                          <option th:value="${wordList.wordListName}">Cat</option>
+                          <option value="hamster">Hamster</option>
                       </optgroup>
                   </select>
               </div>
