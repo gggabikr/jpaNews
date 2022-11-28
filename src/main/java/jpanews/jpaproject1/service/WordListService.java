@@ -35,13 +35,38 @@ public class WordListService {
         if(words.length >0){
             List<WordListToWord> wlws = WordListToWord.createWordListToWord(words);
             WordList newWordList = WordList.createWordList(member, wlws.toArray(new WordListToWord[0]));
+            newWordList.changeWordListName(wordListNaming());
             wordListRepository.save(newWordList);
             return newWordList.getId();
         }else {
             WordList newWordList = WordList.createWordList(member);
+            newWordList.changeWordListName(wordListNaming());
             wordListRepository.save(newWordList);
             return newWordList.getId();
         }
+    }
+
+    //==WordList naming==//
+    public String wordListNaming(){
+
+        for(int i = 1; i<1000; i++) {
+            String j;
+            if (i < 10) {
+                j = "0" + i;
+            } else {
+                j = String.valueOf(i);
+            }
+            String wordListName = "Unnamed List" + j;
+            if(wordListRepository.findOneByWordListName(wordListName).size() == 0){
+                return wordListName;
+            }
+        }
+        return "NoMoreNameAvailable";
+    }
+
+    public Long changeWordListName(Long wordListId, String wordListName){
+        wordListRepository.changeWordListName(wordListId, wordListName);
+        return wordListId;
     }
 
 
@@ -83,11 +108,6 @@ public class WordListService {
             wordList.getWordListToWords().remove(wlw);
             wordListToWordRepository.deleteWlw(wlw.getId());
         }
-        return wordListId;
-    }
-
-    public Long changeWordListName(Long wordListId, String wordListName){
-        wordListRepository.changeWordListName(wordListId, wordListName);
         return wordListId;
     }
 
