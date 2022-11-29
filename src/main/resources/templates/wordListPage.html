@@ -10,13 +10,40 @@
               <div th:replace="fragments/bodyHeader :: bodyHeader"/>
               <h1>Vocabulary List</h1>
               <div class="jumbotron">
-                  <select th:each="wordList: ${wordLists}" name="wordLists" multiple size="20">
+                  <a href= "/"><i class="fa-regular fa-filter"></i>filter</a><br>
+                  <div class = "form-popup" id= "form-popup">
+                    <form action= "/" method= "GET" class= "form-container form-horizontal">
+                      <label class= "checkbox">
+                        <input type= "checkbox" id= "inlineCheckbox1" value= "1"> 1
+                      </label>
+                      <label class= "checkbox">
+                        <input type= "checkbox" id= "inlineCheckbox2" value= "2"> 2
+                      </label>
+                      <label class= "checkbox">
+                        <input type= "checkbox" id= "inlineCheckbox3" value= "3"> 3
+                      </label>
+                      <label class= "checkbox">
+                        <input type= "checkbox" id= "inlineCheckbox4" value= "4"> 4
+                      </label>
+                      <button type= "submit" class= "btn">apply</button>
+                    </form>
+                  </div>
+
+                  <form action= "/deleteWordList" th:object= "${wordLists}" method= "GET">
+                    <select name="wordListSelect" multiple size="20">
                       <optgroup label="Your vocabulary lists">
-                          <option th:value="${wordList.wordListName}">Cat</option>
-                          <option value="hamster">Hamster</option>
+                        <option th:each="wordList: ${wordLists}" th:value="${wordList.id}" th:text = "${wordList.wordListName}">Cat</option>
                       </optgroup>
-                  </select>
+                    </select><br><br>
+                    <a class="btn btn-primary btn-sm" href= "/addNewWordList"> Add... </a>
+                    <a href= "/" th:href= "@{|/deleteWordList/${wordListSelect}|}">
+                      <input class="btn btn-primary btn-sm" type="submit" value= "Delete...">
+                    </a>
+                  </form>
+
               </div>
+
+
 
               <div th:replace="fragments/footer :: footer">
           </div> <!-- /container -->
