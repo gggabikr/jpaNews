@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @Slf4j
@@ -48,7 +49,21 @@ public class HomeController {
 
         model.addAttribute("member", member);
         model.addAttribute("wordLists", wordListService.findAllWordListByMember(member.getId()));
-        return "/wordListPage";
+        return "wordListPage";
     }
 
+    @GetMapping("/addNewWordList")
+    public String AddNewWordList(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Member member = memberService.findByUsername(authentication.getName()).get(0);
+        wordListService.createWordList(member.getId());
+        return "redirect:/user/wordList";
+    }
+
+    @GetMapping("/deleteWordList")
+    public String DeleteWordList(@RequestParam("wordListSelect") Long wordListId){
+        System.out.println(wordListId);
+        wordListService.deleteWordList(wordListId);
+        return "redirect:/user/wordList";
+    }
 }
