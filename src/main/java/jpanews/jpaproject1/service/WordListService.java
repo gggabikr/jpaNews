@@ -35,19 +35,19 @@ public class WordListService {
         if(words.length >0){
             List<WordListToWord> wlws = WordListToWord.createWordListToWord(words);
             WordList newWordList = WordList.createWordList(member, wlws.toArray(new WordListToWord[0]));
-            newWordList.changeWordListName(wordListNaming());
+            newWordList.changeWordListName(wordListNaming(memberId));
             wordListRepository.save(newWordList);
             return newWordList.getId();
         }else {
             WordList newWordList = WordList.createWordList(member);
-            newWordList.changeWordListName(wordListNaming());
+            newWordList.changeWordListName(wordListNaming(memberId));
             wordListRepository.save(newWordList);
             return newWordList.getId();
         }
     }
 
     //==WordList naming==//
-    public String wordListNaming(){
+    public String wordListNaming(Long memberId){
 
         for(int i = 1; i<1000; i++) {
             String j;
@@ -57,7 +57,7 @@ public class WordListService {
                 j = String.valueOf(i);
             }
             String wordListName = "Unnamed List" + j;
-            if(wordListRepository.findOneByWordListName(wordListName).size() == 0){
+            if(wordListRepository.findOneByWordListNameAndMemberId(wordListName, memberId).size() == 0){
                 return wordListName;
             }
         }
