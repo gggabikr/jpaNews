@@ -30,10 +30,11 @@ public class WordListRepository {
                 .getResultList();
     }
 
-    public List<WordList> findOneByWordListName(String wordListName){
+    public List<WordList> findOneByWordListNameAndMemberId(String wordListName, Long memberId){
         return em.createQuery(
-                "SELECT wl FROM WordList wl WHERE wl.wordListName = :wordListName", WordList.class)
+                "SELECT wl FROM WordList wl WHERE wl.wordListName = :wordListName AND wl.member.Id = :memberId", WordList.class)
                 .setParameter("wordListName", wordListName)
+                .setParameter("memberId", memberId)
                 .getResultList();
     }
 
