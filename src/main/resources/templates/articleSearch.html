@@ -11,9 +11,9 @@
               <h1>Article</h1>
               <div class="jumbotron">
                   <div>
-                    <h2 th:text= "${{ArticleTitle} != null} ? ${ArticleTitle} : ' '">title</h2>
-                    <h3 th:text= "${{ArticleSubtitle} != null} ? ${ArticleSubtitle} : ' '">subtitle</h3>
-                    <p th:text= "${#strings.listJoin(ArticleBodyList, ' ')}">body</p>
+                    <h2 class= "wrapper" th:text= "${{ArticleTitle} != null} ? ${ArticleTitle} : ' '">title</h2>
+                    <h3 class= "wrapper" th:text= "${{ArticleSubtitle} != null} ? ${ArticleSubtitle} : ' '">subtitle</h3>
+                    <p class= "wrapper" th:text= "${#strings.listJoin(ArticleBodyList, ' ')}">body</p>
                   </div>
               </div>
 <!--               <form action="/" method="get"> -->
@@ -25,5 +25,39 @@
 
               <div th:replace="fragments/footer :: footer">
           </div> <!-- /container -->
+          <script>
+          var articleContent = "";
+          var totalWords = 0;
+          $(".wrapper").find('p').each(function(){
+              var text = $(this).text().split(' ');
+              for( var i = 0, len = text.length; i<len; i++ ) {
+                  text[i] = '<span class="wrapped">'+text[i]+'</span>';
+              }
+              totalWords = totalWords + i;
+              articleContent = articleContent + "<p>"+text.join(' ')+"</p>";
+          });//End of each ,
+          console.log(articleContent);
+
+//           //var textNode, text, replace;
+//           $('.wrapper')
+//               .find('*')
+//               .addBack('.wrapper')
+//               .each(function () {
+//
+//                   textNode = $(this).contents().filter(function () {
+//                      return this.nodeType === 3; //Node.TEXT_NODE
+//                   });
+//
+//                   text = textNode.text().split(' ');
+//                   replace = '';
+//
+//                   $.each(text, function (index, value) {
+//                       if ( value.replace(/\s+/, "") ) {   // Remove whitespaces
+//                          replace += '<span class="wrapped">' + value + '</span>';
+//                       }
+//                   });
+//                   textNode.replaceWith( $(replace) );
+//               });
+          </script>
       </body>
   </html>
