@@ -20,8 +20,8 @@ public class SearchController {
 //        System.out.println(dto.getTitle());
 //        System.out.println(dto.getSubTitle());
 //        System.out.println(dto.getArticleBody());
-        model.addAttribute("ArticleTitle", dto.getTitle());
-        model.addAttribute("ArticleSubtitle", dto.getSubTitle());
+        model.addAttribute("ArticleTitle", dto.getTitle_each());
+        model.addAttribute("ArticleSubtitle", dto.getSubTitle_each());
         model.addAttribute("ArticleBodyList", dto.getArticleBody());
         return "articleSearch";
     }
