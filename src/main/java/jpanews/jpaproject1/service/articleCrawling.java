@@ -8,6 +8,8 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class articleCrawling {
@@ -49,23 +51,40 @@ public class articleCrawling {
             System.out.println("Please check the URL again.");
             return dto;
         } finally {
-            Elements title = doc.select("div > span > div > div > span > div > h1");
-            Elements subTitle = doc.select("div>span>div>p");
+            Element title = doc.select("div > span > div > div > span > div > h1").get(0);
+            Elements subTitle = doc.select("div>span>div>div>span>div>p");
             Elements body = doc.select("div > span > div > div > span > article > p");
 
-            for (Element element : title) {
-                System.out.println(element.text());
-                dto.title = element.text();
+            //title
+            String[] titleEach = title.text().split(" ");
+
+            //title wrapping
+            for (String word : titleEach) {
+                word = "<span class= 'popup_word'>" + word + "</span>";
+//                System.out.println(word);
+                dto.title_each.add(word);
             }
-            System.out.println(subTitle.get(1).text());
-            dto.subTitle = subTitle.get(1).text();
+            System.out.println("title completed: "+dto.title_each);
 
 
-            for (Element element : body) {
-                System.out.println(element.text());
-                dto.ArticleBody.add(element.text());
+            String subTitle_each = subTitle.get(0).text();
+
+            for (String word: subTitle_each.split(" ")){
+                word = "<span class= 'popup_word'>" + word + "</span>";
+                dto.subTitle_each.add(word);
+            }
+            System.out.println("Subtitle completed: "+ dto.subTitle_each);
+
+
+//            System.out.println(body.text()); //전체 바디 텍스트
+            String[] body_each = body.text().split(" ");
+            for (String word : body_each) {
+                word = "<span class= 'popup_word'>" + word + "</span>";
+//                System.out.print(word);
+                dto.ArticleBody.add(word);
                 //ul, li 같은 리스트들을 어떻게 처리할지 고민해보자.
             }
+            System.out.println("body completed: "+ dto.ArticleBody);
         }
         return dto;
     }
@@ -89,13 +108,33 @@ public class articleCrawling {
             Element title = doc.getElementById("main-heading");
             Elements body = doc.select("#main-content>div>div>div>article>div>div>p");
 
-            dto.title = title.text();
+            //title
+            if (title != null) {
+                dto.title = title.text();
+                String[] title_each = title.text().split(" ");
+
+                for(String word: title_each){
+                    word = "<span class= 'popup_word'>"+word+"</span>";
+                    dto.title_each.add(word);
+                }
+            }
+            System.out.println("title completed: "+ dto.title_each);
 //            System.out.println(title != null ? title.text() : null);
+
+            //no subtitle
+
+            //body
             for (Element element : body) {
 //                System.out.println(element.text());
-                dto.ArticleBody.add(element.text());
+
+                for(String word : element.text().split(" ")){
+                    word = "<span class= 'popup_word'>"+word+"</span>";
+                    dto.ArticleBody.add(word);
+                }
                 //ul, li 같은 리스트들을 어떻게 처리할지 고민해보자.
             }
+            System.out.println("body completed: " + dto.ArticleBody);
+
         }
         return dto;
     }
@@ -162,22 +201,22 @@ public class articleCrawling {
 
 
 
-//    public static void main(String[] args) {
-//        String abcUrl = "https://abcnews.go.com/US/bus-carrying-18-students-driver-crashes-kentucky-multiple/story?id=93283274";
-//        String bbcUrl = "https://www.bbc.com/news/world-middle-east-63636783";
-//        String nyPostUrl = "https://nypost.com/2022/11/15/jennifer-siebel-newsom-wife-to-california-gov-asked-to-fake-an-orgasm-in-court-during-harvey-weinstein-trial/";
-//        String msnUrl = "https://www.msn.com/en-us/news/technology/stranded-without-food-edible-drone-has-snackable-wings/ar-AA14991Z?ocid=EMMX&cvid=ec757b745bec4026aead2bea7d76f899";
-//        String msnUrl2 = "https://www.msn.com/en-us/news/politics/mike-pence-said-7-words-that-disqualify-him-from-holding-office-kirschner/ar-AA14ww60?ocid=EMMX&cvid=75f7f1ddba254f59b60466e8849a3c9c";
-//
-//        String NotExistUrl = "https://www.asded.com";
-//
-//        articleCrawling articleCrawling = new articleCrawling();
-////        articleCrawling.crawl(abcUrl);
-////        articleCrawling.crawl(bbcUrl);
-////        articleCrawling.crawl(nyPostUrl);
-////        articleCrawling.crawl(msnUrl);
-////        articleCrawling.crawl(msnUrl2);
+    public static void main(String[] args) {
+        String abcUrl = "https://abcnews.go.com/US/bus-carrying-18-students-driver-crashes-kentucky-multiple/story?id=93283274";
+        String bbcUrl = "https://www.bbc.com/news/world-middle-east-63636783";
+        String nyPostUrl = "https://nypost.com/2022/11/15/jennifer-siebel-newsom-wife-to-california-gov-asked-to-fake-an-orgasm-in-court-during-harvey-weinstein-trial/";
+        String msnUrl = "https://www.msn.com/en-us/news/technology/stranded-without-food-edible-drone-has-snackable-wings/ar-AA14991Z?ocid=EMMX&cvid=ec757b745bec4026aead2bea7d76f899";
+        String msnUrl2 = "https://www.msn.com/en-us/news/politics/mike-pence-said-7-words-that-disqualify-him-from-holding-office-kirschner/ar-AA14ww60?ocid=EMMX&cvid=75f7f1ddba254f59b60466e8849a3c9c";
+
+        String NotExistUrl = "https://www.asded.com";
+
+        articleCrawling articleCrawling = new articleCrawling();
+//        articleCrawling.crawl(abcUrl);
+        articleCrawling.crawl(bbcUrl);
+//        articleCrawling.crawl(nyPostUrl);
+//        articleCrawling.crawl(msnUrl);
+//        articleCrawling.crawl(msnUrl2);
 //        articleCrawling.crawl(NotExistUrl);
-//    }
+    }
 }
 
