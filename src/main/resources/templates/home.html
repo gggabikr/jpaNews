@@ -8,18 +8,17 @@
       <body>
           <div class="container">
               <div th:replace="fragments/bodyHeader :: bodyHeader"/>
-              <div class="jumbotron">
-                  <h1>NEWSIONARY</h1>
-                  <h2>BUILD YOUR ONLINE DICTIONARY FROM ONLINE NEWS ARTICLES!</h2>
-                  <h3>Use NEWSIONARY to check vocabularies from articles and save unknowns into your own dictionary.</h3>
-                  <h3>You can even test the words and see your test records instantly.</h3>
+              <div id="BG_photo" class="jumbotron" style= "background: url(/img/homeBackground.jpg), linear-gradient(rgba(0,0,0,0.40),rgba(0,0,0,0.40)); background-size: cover;">
+                  <h2 style= "color: white; margin-right: 7em;">BUILD YOUR ONLINE DICTIONARY FROM ONLINE NEWS ARTICLES!</h2><br>
+                  <p style= "color: white; font-size:1em; margin-right: 7em;">Use NEWSIONARY to check vocabularies from articles and save unknowns into your own dictionary.</p>
+                  <p style= "color: white; font-size:1em; margin-right: 7em;">You can even test the words and see your test records instantly.</p>
+                  <form action="/searchURL" method="get">
+                      <input placeholder = "     Enter article's URL..." type="search" title="URL" id="URL" name="URL" class="form-inline form-group"></input>
+                      <button id="searchButton" type="submit" style= "display: inline; text-color: blue">
+                          <span><i class="far fa-search"></i></span>
+                      </button>
+                  </form>
               </div>
-              <form action="/searchURL" method="get">
-                  <input placeholder = "Enter article's URL..." type="search" title="URL" id="URL" name="URL" class="form-control form-group"></input>
-                  <button type="submit" class="btn btn-primary btn-lg">
-                      <span>START</span>
-                  </button>
-              </form>
 
               <div th:replace="fragments/footer :: footer">
           </div> <!-- /container -->
