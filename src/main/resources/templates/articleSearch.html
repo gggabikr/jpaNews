@@ -11,17 +11,17 @@
               <h1>Article</h1>
               <div class="jumbotron">
                   <div>
-                    <h2 class= "wrapper" >
+                    <h2 class= "wrapper" id= "title" >
                         <th:block th:each="eachWord: ${ArticleTitle}">
                             <span class="popup_word" th:text= "${{ArticleTitle} != null} ? ${eachWord} : ' '"> </span>
                         </th:block>
                     </h2>
-                    <h3 class= "wrapper">
+                    <h3 class= "wrapper" id= "subtitle">
                         <th:block th:each="eachWord: ${ArticleSubtitle}">
                             <span class="popup_word" th:text= "${{ArticleSubtitle} != null} ? ${eachWord} : ' '"> </span>
                         </th:block>
                     </h3>
-                    <p class= "wrapper">
+                    <p class= "wrapper" id= "articleBody">
                         <th:block th:each="eachWord: ${ArticleBodyList}">
                             <span class="popup_word" th:text= "${{ArticleBodyList} != null} ? ${eachWord} : ' '"> </span>
                         </th:block>
@@ -37,8 +37,6 @@
 
               <div th:replace="fragments/footer :: footer">
           </div> <!-- /container -->
-          <script>
-
-          </script>
+          <script th:src=@{/js/word_popup.js}></script>
       </body>
   </html>
