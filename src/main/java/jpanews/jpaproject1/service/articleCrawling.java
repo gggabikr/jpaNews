@@ -153,13 +153,31 @@ public class articleCrawling {
             Elements title = doc.getElementsByClass("headline--single");
             Elements body = doc.select("#main>article>div>div>div>div>div>p");
 
-            System.out.println(title.size() > 0 ? title.text() : null);
-            dto.title = title.text();
-            for (Element element : body) {
-                System.out.println(element.text());
-                dto.getArticleBody().add(element.text());
-                //ul, li 같은 리스트들을 어떻게 처리할지 고민해보자.
+//            System.out.println(title.size() > 0 ? title.text() : null);
+            if(title.size() > 0){
+                String[] split = title.text().split(" ");
+                System.out.println(Arrays.toString(split));
+
+                for(String word: split){
+                    word = "<span class= 'popup_word'>" + word + "</span>";
+                    dto.title_each.add(word);
+                }
+
+                System.out.println("title completed: " + dto.title_each);
             }
+
+//            dto.title = title.text();
+            for (Element element : body) {
+//                System.out.println(element.text());
+                String[] split = element.text().split(" ");
+                for(String word: split){
+                    word = "<span class= 'popup_word'>" + word + "</span>";
+                    dto.ArticleBody.add(word);
+                }
+            }
+            System.out.println("body completed: " + dto.ArticleBody);
+//                //ul, li 같은 리스트들을 어떻게 처리할지 고민해보자.
+//            }
         }
         return dto;
     }
@@ -180,11 +198,32 @@ public class articleCrawling {
             System.out.println(title.size() > 0 ? title.text() : "could not find title");
             dto.title = title.text();
 
+            String[] titleSplit = title.text().split(" ");
+
+            for(String word: titleSplit){
+                word = "<span class= 'popup_word'>" + word + "</span>";
+                dto.title_each.add(word);
+            }
+
+            System.out.println("title completed: "+dto.title_each);
+
             String text = body.text();
             int j = text.indexOf("Related Articles");
-            text = text.substring(0,j);
+            if(j != -1){
+                text = text.substring(0,j);
+            }
 
-            System.out.println(text);
+            int k = text.indexOf("Continue Reading Show");
+            if(k != -1){
+                text = text.substring(0,k);
+            }
+            String[] split = text.split(" ");
+            for(String word: split){
+                word = "<span class= 'popup_word'>" + word + "</span>";
+                dto.ArticleBody.add(word);
+            }
+
+            System.out.println("body completed: "+dto.ArticleBody);
             dto.getArticleBody().add(text);
             //ul, li 같은 리스트들을 어떻게 처리할지 고민해보자.
         }
@@ -201,22 +240,22 @@ public class articleCrawling {
 
 
 
-    public static void main(String[] args) {
-        String abcUrl = "https://abcnews.go.com/US/bus-carrying-18-students-driver-crashes-kentucky-multiple/story?id=93283274";
-        String bbcUrl = "https://www.bbc.com/news/world-middle-east-63636783";
-        String nyPostUrl = "https://nypost.com/2022/11/15/jennifer-siebel-newsom-wife-to-california-gov-asked-to-fake-an-orgasm-in-court-during-harvey-weinstein-trial/";
-        String msnUrl = "https://www.msn.com/en-us/news/technology/stranded-without-food-edible-drone-has-snackable-wings/ar-AA14991Z?ocid=EMMX&cvid=ec757b745bec4026aead2bea7d76f899";
-        String msnUrl2 = "https://www.msn.com/en-us/news/politics/mike-pence-said-7-words-that-disqualify-him-from-holding-office-kirschner/ar-AA14ww60?ocid=EMMX&cvid=75f7f1ddba254f59b60466e8849a3c9c";
-
-        String NotExistUrl = "https://www.asded.com";
-
-        articleCrawling articleCrawling = new articleCrawling();
-//        articleCrawling.crawl(abcUrl);
-        articleCrawling.crawl(bbcUrl);
-//        articleCrawling.crawl(nyPostUrl);
+//    public static void main(String[] args) {
+//        String abcUrl = "https://abcnews.go.com/US/bus-carrying-18-students-driver-crashes-kentucky-multiple/story?id=93283274";
+//        String bbcUrl = "https://www.bbc.com/news/world-middle-east-63636783";
+//        String nyPostUrl = "https://nypost.com/2022/11/15/jennifer-siebel-newsom-wife-to-california-gov-asked-to-fake-an-orgasm-in-court-during-harvey-weinstein-trial/";
+//        String msnUrl = "https://www.msn.com/en-us/news/technology/stranded-without-food-edible-drone-has-snackable-wings/ar-AA14991Z?ocid=EMMX&cvid=ec757b745bec4026aead2bea7d76f899";
+//        String msnUrl2 = "https://www.msn.com/en-us/news/politics/mike-pence-said-7-words-that-disqualify-him-from-holding-office-kirschner/ar-AA14ww60?ocid=EMMX&cvid=75f7f1ddba254f59b60466e8849a3c9c";
+//
+//        String NotExistUrl = "https://www.asded.com";
+//
+//        articleCrawling articleCrawling = new articleCrawling();
+////        articleCrawling.crawl(abcUrl);
+////        articleCrawling.crawl(bbcUrl);
+////        articleCrawling.crawl(nyPostUrl);
 //        articleCrawling.crawl(msnUrl);
-//        articleCrawling.crawl(msnUrl2);
-//        articleCrawling.crawl(NotExistUrl);
-    }
+////        articleCrawling.crawl(msnUrl2);
+////        articleCrawling.crawl(NotExistUrl);
+//    }
 }
 
