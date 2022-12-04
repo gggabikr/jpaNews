@@ -1,0 +1,24 @@
+p{font-family: 'Poppins' , arial, serif; }
+
+#BG_photo{
+    background-blend-mode: overlay;
+}
+
+#URL {
+    border-radius: 30px;
+    height: 3em;
+    width: 30em;
+    padding-right: 10em;
+    border: none;
+    /*padding: 2em 0;*/
+}
+
+#searchButton{
+    border-radius: 30px;
+    height: 2em;
+    width: 2em;
+    margin-left: -3em;
+    background-color: white;
+    border: none;
+/*    글씨 색 남색 + 마우스 호버시 검은색되도록*/
+}
