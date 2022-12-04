@@ -11,6 +11,7 @@ public class crawlingDto {
     @NotEmpty(message = "Article must have a title")
     String title;
 
+    @NotEmpty(message = "Article must have a title")
     ArrayList<String> title_each  = new ArrayList<>();
 
     String subTitle;
