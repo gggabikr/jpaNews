@@ -60,7 +60,7 @@ public class articleCrawling {
 
             //title wrapping
             for (String word : titleEach) {
-                word = "<span class= 'popup_word'>" + word + "</span>";
+//                word = "<span class= 'popup_word'>" + word + "</span>";
 //                System.out.println(word);
                 dto.title_each.add(word);
             }
@@ -70,7 +70,7 @@ public class articleCrawling {
             String subTitle_each = subTitle.get(0).text();
 
             for (String word: subTitle_each.split(" ")){
-                word = "<span class= 'popup_word'>" + word + "</span>";
+//                word = "<span class= 'popup_word'>" + word + "</span>";
                 dto.subTitle_each.add(word);
             }
             System.out.println("Subtitle completed: "+ dto.subTitle_each);
@@ -79,7 +79,7 @@ public class articleCrawling {
 //            System.out.println(body.text()); //전체 바디 텍스트
             String[] body_each = body.text().split(" ");
             for (String word : body_each) {
-                word = "<span class= 'popup_word'>" + word + "</span>";
+//                word = "<span class= 'popup_word'>" + word + "</span>";
 //                System.out.print(word);
                 dto.ArticleBody.add(word);
                 //ul, li 같은 리스트들을 어떻게 처리할지 고민해보자.
@@ -114,7 +114,7 @@ public class articleCrawling {
                 String[] title_each = title.text().split(" ");
 
                 for(String word: title_each){
-                    word = "<span class= 'popup_word'>"+word+"</span>";
+//                    word = "<span class= 'popup_word'>"+word+"</span>";
                     dto.title_each.add(word);
                 }
             }
@@ -128,7 +128,7 @@ public class articleCrawling {
 //                System.out.println(element.text());
 
                 for(String word : element.text().split(" ")){
-                    word = "<span class= 'popup_word'>"+word+"</span>";
+//                    word = "<span class= 'popup_word'>"+word+"</span>";
                     dto.ArticleBody.add(word);
                 }
                 //ul, li 같은 리스트들을 어떻게 처리할지 고민해보자.
@@ -156,10 +156,10 @@ public class articleCrawling {
 //            System.out.println(title.size() > 0 ? title.text() : null);
             if(title.size() > 0){
                 String[] split = title.text().split(" ");
-                System.out.println(Arrays.toString(split));
+//                System.out.println(Arrays.toString(split));
 
                 for(String word: split){
-                    word = "<span class= 'popup_word'>" + word + "</span>";
+//                    word = "<span class= 'popup_word'>" + word + "</span>";
                     dto.title_each.add(word);
                 }
 
@@ -171,7 +171,7 @@ public class articleCrawling {
 //                System.out.println(element.text());
                 String[] split = element.text().split(" ");
                 for(String word: split){
-                    word = "<span class= 'popup_word'>" + word + "</span>";
+//                    word = "<span class= 'popup_word'>" + word + "</span>";
                     dto.ArticleBody.add(word);
                 }
             }
@@ -195,13 +195,13 @@ public class articleCrawling {
         } finally {
             Elements title = doc.getElementsByTag("h1");
             Element body = doc.getElementsByAttributeValue("role", "main").select("section").get(0);
-            System.out.println(title.size() > 0 ? title.text() : "could not find title");
+//            System.out.println(title.size() > 0 ? title.text() : "could not find title");
             dto.title = title.text();
 
             String[] titleSplit = title.text().split(" ");
 
             for(String word: titleSplit){
-                word = "<span class= 'popup_word'>" + word + "</span>";
+//                word = "<span class= 'popup_word'>" + word + "</span>";
                 dto.title_each.add(word);
             }
 
@@ -218,10 +218,8 @@ public class articleCrawling {
                 text = text.substring(0,k);
             }
             String[] split = text.split(" ");
-            for(String word: split){
-                word = "<span class= 'popup_word'>" + word + "</span>";
-                dto.ArticleBody.add(word);
-            }
+            //                word = "<span class= 'popup_word'>" + word + "</span>";
+            dto.ArticleBody.addAll(Arrays.asList(split));
 
             System.out.println("body completed: "+dto.ArticleBody);
             dto.getArticleBody().add(text);
@@ -250,12 +248,12 @@ public class articleCrawling {
 //        String NotExistUrl = "https://www.asded.com";
 //
 //        articleCrawling articleCrawling = new articleCrawling();
-////        articleCrawling.crawl(abcUrl);
-////        articleCrawling.crawl(bbcUrl);
-////        articleCrawling.crawl(nyPostUrl);
+//        articleCrawling.crawl(abcUrl);
+//        articleCrawling.crawl(bbcUrl);
+//        articleCrawling.crawl(nyPostUrl);
 //        articleCrawling.crawl(msnUrl);
-////        articleCrawling.crawl(msnUrl2);
-////        articleCrawling.crawl(NotExistUrl);
+//        articleCrawling.crawl(msnUrl2);
+//        articleCrawling.crawl(NotExistUrl);
 //    }
 }
 
