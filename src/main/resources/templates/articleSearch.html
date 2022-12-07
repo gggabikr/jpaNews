@@ -13,17 +13,17 @@
                   <div>
                     <h2 class= "wrapper" id= "title" >
                         <th:block th:each="eachWord: ${ArticleTitle}">
-                            <span class="popup_word" th:text= "${{ArticleTitle} != null} ? ${eachWord} : ' '"> </span>
+                            <span th:class="${#strings.toLowerCase(eachWord.replaceAll('[^A-Za-z0-9\-]', ''))}+ ' popup_word'" th:text= "${{ArticleTitle} != null} ? ${eachWord} : ' '"> </span>
                         </th:block>
                     </h2>
                     <h3 class= "wrapper" id= "subtitle">
                         <th:block th:each="eachWord: ${ArticleSubtitle}">
-                            <span class="popup_word" th:text= "${{ArticleSubtitle} != null} ? ${eachWord} : ' '"> </span>
+                            <span th:class="${#strings.toLowerCase(eachWord.replaceAll('[^A-Za-z0-9\-]', ''))}+ ' popup_word'" th:text= "${{ArticleSubtitle} != null} ? ${eachWord} : ' '"> </span>
                         </th:block>
                     </h3>
                     <p class= "wrapper" id= "articleBody">
                         <th:block th:each="eachWord: ${ArticleBodyList}">
-                            <span class="popup_word" th:text= "${{ArticleBodyList} != null} ? ${eachWord} : ' '"> </span>
+                            <span th:class="${#strings.toLowerCase(eachWord.replaceAll('[^A-Za-z0-9\-]', ''))}+ ' popup_word'" th:text= "${{ArticleBodyList} != null} ? ${eachWord} : ' '"> </span>
                         </th:block>
                     </p>
                   </div>
