@@ -53,3 +53,4 @@ src/main/resources/static/js/bootstrap.min.js
 src/main/resources/static/js/npm.js
 src/main/resources/static/.DS_Store
 src/main/resources/static/.DS_Store
+*.csv
