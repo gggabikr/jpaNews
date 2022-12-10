@@ -35,6 +35,7 @@ public class WordServiceTest {
         word1.setName("pool");
         word1.setKMeaning("바보");
         word1.setWordClass(WordClass.NOUN);
+        word1.setWordClass(WordClass.valueOf("NOUN"));
 
         KorWord word2 = new KorWord();
         word2.setName("cat");
