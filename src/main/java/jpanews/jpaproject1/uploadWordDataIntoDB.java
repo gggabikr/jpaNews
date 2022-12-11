@@ -63,7 +63,14 @@ public class uploadWordDataIntoDB {
                     word.setWordClass(WordClass.ADVERB);
                 } else if (tempArr[1].equals("a")){
                     word.setWordClass(WordClass.ADJECTIVE);
-                } //pl.? superl? adv. & a? p. pr. & vb. n? imp? 등등
+                } else if (tempArr[1].equals("pl.") || tempArr[1].contains("pl")){
+                    word.setWordClass(WordClass.PLURAL);
+                } else if (tempArr[1].equals("prep")){
+                    word.setWordClass(WordClass.PREPOSITION);
+                } else if (tempArr[1].contains("superl")){
+                    word.setWordClass(WordClass.SUPERLATIVE);
+                }
+                //pl.? superl? adv. & a? p. pr. & vb. n? imp? 등등
 //                word.setWordClass(tempArr[1]);
                 System.out.println(word.getName() + ", " +word.getWordClass());
                 //null 값이 종종 있다. n.pl. 이라는 값을 가진것 포함.
