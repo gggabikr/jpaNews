@@ -54,3 +54,4 @@ src/main/resources/static/js/npm.js
 src/main/resources/static/.DS_Store
 src/main/resources/static/.DS_Store
 *.csv
+*.png
