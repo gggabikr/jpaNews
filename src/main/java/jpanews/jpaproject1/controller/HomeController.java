@@ -1,6 +1,7 @@
 package jpanews.jpaproject1.controller;
 
 import jpanews.jpaproject1.domain.Member;
+import jpanews.jpaproject1.service.FileService;
 import jpanews.jpaproject1.service.MemberService;
 import jpanews.jpaproject1.service.WordListService;
 import lombok.RequiredArgsConstructor;
@@ -10,8 +11,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import javax.annotation.Resource;
 
 @Controller
 @Slf4j
@@ -65,5 +70,29 @@ public class HomeController {
         System.out.println(wordListId);
         wordListService.deleteWordList(wordListId);
         return "redirect:/user/wordList";
+    }
+
+    @GetMapping("/admin")
+    public String AdminPage(){
+        return "admin";
+    }
+
+    @GetMapping("/admin/AddWordsToDB")
+    public String AddWordToDB(){
+        return "AddWordsToDB";
+    }
+
+    @Resource(name= "fileService")
+    FileService fileService;
+
+    @PostMapping("/admin/AddWordsToDB")
+    public String uploadFile(MultipartHttpServletRequest multiRequest){
+        try{
+            System.out.println("try upload");
+            fileService.uploadFile(multiRequest);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "admin";
     }
 }
