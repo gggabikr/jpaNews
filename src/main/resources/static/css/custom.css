@@ -23,3 +23,19 @@ p{font-family: 'Poppins' , arial, serif; }
     border: none;
 /*    글씨 색 남색 + 마우스 호버시 검은색되도록*/
 }
+
+.navColor{
+    color: #666666;
+    font-size: smaller;
+}
+
+.navIcon{
+    margin-right: 2px;
+}
+
+/*#BG_photo{*/
+    /*background-position: 50% 50%;*/
+    /*background-repeat: no-repeat;*/
+    /*object-position: center center;*/
+    /*object-fit: cover;*/
+/*}*/
