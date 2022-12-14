@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+  <head th:replace="fragments/header :: header"/>
+    <title>NEWSIONARY</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link th:rel="stylesheet" th:href="@{webjars/font-awesome/6.2.0/css/all.css} "/>
+    <title>Add Words To DB</title>
+  </head>
+  <body>
+    <div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <h2>Add Words To DB</h2>
+    <br>
+    <form action="/admin/AddWordsToDB" id="upload" name= "upload" method="POST" enctype= "multipart/form-data">
+        <input type="file" id="dataFile" name="dataFile">
+        <button type="submit">Upload</button>
+    </form>
+<!--     <form id="logout" action="/logout" method="POST"> -->
+<!--       <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /> -->
+<!--       <input type="submit" value="로그아웃"/> -->
+<!--     </form> -->
+    <div th:replace="fragments/footer :: footer">
+  </body>
+</html>
