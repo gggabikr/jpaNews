@@ -1,14 +1,14 @@
 <!DOCTYPE html>
   <html xmlns:th="http://www.thymeleaf.org">
       <div class="header" th:fragment="bodyHeader">
-          <a href="/"><img src="/img/NewsionaryLogo.png" alt= "NEWSIONARY" width= "175" style= "margin-top: 0.5vh;"></a>
+          <a href="/"><img src="/img/NewsionaryLogo.png" alt= "NEWSIONARY" width= "175" style= "margin: 2vh 0 1.5vh 0;"></a>
           <ul class="nav nav-pills pull-right" style= "margin-top: 2vh;">
-              <li class = "nav-item"><a class="nav-link" href="/">Search URL</a></li>
-              <li class = "nav-item"><a class="nav-link" href="/">Search Word</a></li>
-              <li class = "nav-item"><a class="nav-link" href="/user/wordList">My words Lists</a></li>
+<!--               <li class = "nav-item"><a class="nav-link" href="/"><i class="fa-regular fa-magnifying-glass" style= "color:black;"></i> Search URL</a></li> -->
+              <li class = "nav-item"><a class="nav-link navColor" href="/"><i class="fa-regular fa-magnifying-glass navColor navIcon"></i>Search Word</a></li>
+              <li class = "nav-item"><a class="nav-link navColor" href="/user/wordList"><i class="fa-regular fa-heart navColor navIcon" ></i>My words Lists</a></li>
               <li class = "nav-item">
-                  <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/sign-in}"><i class="fas fa-sign-in"></i> Sign In</a>
-                  <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/sign-out}"><i class="fas fa-sign-out"></i> Sign Out</a>
+                  <a class="nav-link navColor" sec:authorize="isAnonymous()" th:href="@{/sign-in}"><i class="fas fa-sign-in navColor navIcon"></i>Sign In</a>
+                  <a class="nav-link navColor" sec:authorize="isAuthenticated()" th:href="@{/sign-out}"><i class="fas fa-sign-out navColor navIcon"></i>Sign Out</a>
               </li>
           </ul>
       </div>
