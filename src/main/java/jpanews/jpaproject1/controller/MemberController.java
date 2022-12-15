@@ -29,7 +29,7 @@ public class MemberController {
     }
 
     @PostMapping("/sign-up")
-    public String signUp(@Valid MemberInfoDto infoDto, BindingResult result) throws Exception { // 회원 추가
+    public String signUp(@Valid MemberInfoDto infoDto, BindingResult result, Model model) throws Exception { // 회원 추가
         if(result.hasErrors()){
             return "/sign-up";
         }
@@ -39,7 +39,9 @@ public class MemberController {
                         infoDto.getPassword(),
                         MemberRole.valueOf(infoDto.getRole()));}
         catch (Exception e) {
-            return "redirect:/ErrorPage";
+            model.addAttribute("message", e.getMessage());
+            return "errorPage";
+//            return "redirect:/ErrorPage";
         }
         return "redirect:/sign-in";
     }
