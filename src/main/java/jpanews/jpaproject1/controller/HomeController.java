@@ -86,12 +86,15 @@ public class HomeController {
     FileService fileService;
 
     @PostMapping("/admin/AddWordsToDB")
-    public String uploadFile(MultipartHttpServletRequest multiRequest){
+    public String uploadFile(MultipartHttpServletRequest multiRequest, Model model){
         try{
-            System.out.println("try upload");
-            fileService.uploadFile(multiRequest);
+            String savedFilePathAndName = fileService.uploadFile(multiRequest);
+            fileService.uploadDataFromFile(savedFilePathAndName);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             e.printStackTrace();
+            model.addAttribute("message", e.getMessage());
+            return "errorPage";
         }
         return "admin";
     }
