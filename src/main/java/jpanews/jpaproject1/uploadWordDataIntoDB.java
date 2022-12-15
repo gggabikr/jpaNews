@@ -82,8 +82,8 @@ public class uploadWordDataIntoDB {
                 }
                 word.setEMeaning(line.substring(indexOfBracketClose+1));
 //                wordRepository.save(word);
-//                System.out.println(word.getName() + ", " +word.getWordClass()
-//                        + ", " + word.getMeaning());
+                System.out.println(word.getName() + ", " +word.getWordClass()
+                        + ", " + word.getMeaning());
             }
             br.close();
         } catch(IOException ioe) {
@@ -93,6 +93,7 @@ public class uploadWordDataIntoDB {
     public static void main(String[] args) {
         // csv file to read
         String csvFile = "src/main/java/jpanews/jpaproject1/VocabularyData/A.csv";
+//        csvFile = "/Users/jasonlee/Desktop/uploadedFile/A(1).xlsx";
         uploadWordDataIntoDB.read(csvFile);
     }
 }
