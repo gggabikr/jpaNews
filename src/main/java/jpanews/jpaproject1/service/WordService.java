@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,7 +93,7 @@ public class WordService {
         } else if(ifLastCharIsStar){    //e.g) 'pre*'
             return wordsNameStartingWith;
         } else if(str.matches("[a-zA-Z*]+")){    //e.g) 'pre*tion'
-            ArrayList<Word> finalWords = new ArrayList<Word>();
+            ArrayList<Word> finalWords = new ArrayList<>();
             String[] parts = str.split("\\*");
             wordsNameStartingWith = wordRepository.findByNameStartingWith(parts[0]);
             wordsNameEndingWith = wordRepository.findByNameEndingWith(parts[1]);
@@ -107,7 +106,7 @@ public class WordService {
             }
             return finalWords;
         } else{
-            return new ArrayList<Word>();
+            return new ArrayList<>();
         }
     }
 
@@ -180,12 +179,13 @@ public class WordService {
                     word.setWordClass(WordClass.NOTABAILABLE);
                 }
                 word.setEMeaning(line.substring(indexOfBracketClose+1));
-                wordRepository.save(word);
-//                System.out.println(word.getName() + ", " +word.getWordClass()
-//                        + ", " + word.getMeaning());
+//                wordRepository.save(word);
+                saveWordToDb(word);
+                System.out.println(word.getName() + ", " +word.getWordClass()
+                        + ", " + word.getMeaning());
             }
             br.close();
-        } catch(IOException ioe) {
+        } catch(Exception ioe) {
             ioe.printStackTrace();
         }
     }
