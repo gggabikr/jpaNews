@@ -4,6 +4,7 @@ import jpanews.jpaproject1.domain.Member;
 import jpanews.jpaproject1.service.FileService;
 import jpanews.jpaproject1.service.MemberService;
 import jpanews.jpaproject1.service.WordListService;
+import jpanews.jpaproject1.service.WordService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -24,6 +25,7 @@ import javax.annotation.Resource;
 public class HomeController {
     private final WordListService wordListService;
     private final MemberService memberService;
+    private final WordService wordService;
 
 
     //아래와 같이 로거를 뽑을 수 있지만 롬복을 쓰면 어노테이션으로 가능하다.
@@ -82,6 +84,11 @@ public class HomeController {
         return "AddWordsToDB";
     }
 
+    @GetMapping("/admin/AddSingleWordToDB")
+    public String AddSingleWordToDB(){
+        return "AddSingleWordToDB";
+    }
+
     @Resource(name= "fileService")
     FileService fileService;
 
@@ -89,7 +96,9 @@ public class HomeController {
     public String uploadFile(MultipartHttpServletRequest multiRequest, Model model){
         try{
             String savedFilePathAndName = fileService.uploadFile(multiRequest);
-            fileService.uploadDataFromFile(savedFilePathAndName);
+            wordService.read(savedFilePathAndName);
+//            fileService.uploadDataFromFile(savedFilePathAndName);
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
