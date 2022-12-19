@@ -16,4 +16,9 @@ public class EngWord extends Word{
     public String getMeaning(){
         return this.eMeaning;
     }
+
+    @Override
+    public void setMeaning(String meaning){
+        setEMeaning(meaning);
+    }
 }
