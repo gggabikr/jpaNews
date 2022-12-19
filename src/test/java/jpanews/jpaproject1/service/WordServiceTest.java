@@ -35,17 +35,23 @@ public class WordServiceTest {
         KorWord word1 = new KorWord();
         word1.setName("pool");
         word1.setKMeaning("바보");
-        word1.setWordClass(WordClass.NOUN);
+//        word1.setWordClass(WordClass.NOUN);
         word1.setWordClass(WordClass.valueOf("NOUN"));
 
         KorWord word2 = new KorWord();
         word2.setName("cat");
         word2.setKMeaning("고양이");
         word2.setWordClass(WordClass.NOUN);
+//
+//        KorWord word3 = new KorWord();
+//        word3.setName("chicken");
+//        word3.setKMeaning("닭");
+//        word3.setWordClass(WordClass.valueOf("NOUN"));
 
         //when
         wordService.saveWordToDb(word1);
         wordService.saveWordToDb(word2);
+//        wordService.saveWordToDb(word3);
 
         //then
         Assertions.assertEquals(word1, wordService.findById(word1.getId()));
