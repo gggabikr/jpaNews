@@ -33,6 +33,21 @@ p{font-family: 'Poppins' , arial, serif; }
     margin-right: 2px;
 }
 
+/*이유는 모르겠지만 아래 코드들이 적용되지 않는다.*/
+.radioSelect{
+    margin: 0 3px 0 5px;
+    padding: 0 2px 0 2px;
+}
+
+input[type="radio"]{
+    margin: 0 10px 0 10px;
+}
+
+#radioFieldset{
+    justify-content: space-around;
+
+}
+
 /*#BG_photo{*/
     /*background-position: 50% 50%;*/
     /*background-repeat: no-repeat;*/
