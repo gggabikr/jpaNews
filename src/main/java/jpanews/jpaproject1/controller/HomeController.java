@@ -1,23 +1,24 @@
 package jpanews.jpaproject1.controller;
 
 import jpanews.jpaproject1.domain.Member;
-import jpanews.jpaproject1.service.FileService;
-import jpanews.jpaproject1.service.MemberService;
-import jpanews.jpaproject1.service.WordListService;
-import jpanews.jpaproject1.service.WordService;
+import jpanews.jpaproject1.domain.WordClass;
+import jpanews.jpaproject1.domain.Words.EngWord;
+import jpanews.jpaproject1.domain.Words.KorWord;
+import jpanews.jpaproject1.domain.Words.Word;
+import jpanews.jpaproject1.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 @Controller
 @Slf4j
@@ -85,9 +86,39 @@ public class HomeController {
     }
 
     @GetMapping("/admin/AddSingleWordToDB")
-    public String AddSingleWordToDB(){
+    public String AddSingleWordPage(Model model){
+        model.addAttribute("word", new wordDto());
         return "AddSingleWordToDB";
     }
+
+    @PostMapping("/admin/AddSingleWordToDB")
+    public String AddSingleWordToDB(@Valid wordDto Dto, BindingResult result) throws Exception {
+        if(result.hasErrors()){
+            for(ObjectError error:result.getAllErrors()){
+                System.out.println(error.getDefaultMessage());
+            }
+            return "/errorPage";
+        }
+        Word word;
+        if (Dto.getWordLanguage().equals("Korean")){
+            word = new KorWord();
+        } else {
+            word = new EngWord();
+        }
+        word.setName(Dto.getWordName());
+        word.setWordClass(WordClass.valueOf(Dto.getWordClass()));
+        word.setMeaning(Dto.getWordMeaning());
+        wordService.saveWordToDb(word);
+
+
+        System.out.println("A word is added to DB: " + Dto.getWordName() + ", "
+                + Dto.getWordClass() + ", "
+                + Dto.getWordMeaning() + ", "
+                + Dto.getWordLanguage());
+
+        return "/admin";
+    }
+
 
     @Resource(name= "fileService")
     FileService fileService;
