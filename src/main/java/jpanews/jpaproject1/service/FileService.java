@@ -33,7 +33,8 @@ public class FileService {
         MultipartFile mFile;
 
         //upload location
-        String filePath = "/Users/jasonlee/Desktop/uploadedFile";
+//        String filePath = "/Users/jasonlee/Desktop/uploadedFile";
+        String filePath = "/Users/jasonlee/IdeaProjects/jpaProject1/src/main/java/jpanews/jpaproject1/VocabularyData";
 
         // 파일명이 중복되었을 경우, 사용할 스트링 객체
         String saveFileName = "", savaFilePath = "";
@@ -106,7 +107,7 @@ public class FileService {
                 mFile.transferTo(saveFile);
             }
         }
-        System.out.println(savaFilePath);
+        System.out.println("saved file name: "+savaFilePath);
         return savaFilePath;
     }
 
