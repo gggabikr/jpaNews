@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+  <head th:replace="fragments/header :: header"/>
+    <title>NEWSIONARY</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link th:rel="stylesheet" th:href="@{webjars/font-awesome/6.2.0/css/all.css} "/>
+    <title>Add Word To DB</title>
+  </head>
+  <body>
+    <div class="container">
+        <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+        <h2>Add Word To DB</h2>
+        <br>
+        <form action="/admin/AddSingleWordToDB" id="upload" name= "upload" method="POST">
+            <div class="form-group">
+<!--                 <label for="wordName" class="form-label">word name</label> -->
+                <fieldset>
+                    <legend>Word Name</legend>
+                    <input type="text" id="wordName" name="wordName">
+                </fieldset>
+            </div>
+
+            <div class="form-group">
+                <fieldset id= "radioFieldset">
+                    <legend>Word Class</legend>
+                    <label for="NOUN">NOUN</label>
+                    <input class= "radioSelect" type="radio" id="NOUN" name="wordClass" value="NOUN">
+                    <label for="VERB">VERB</label>
+                    <input class= "radioSelect" type="radio" id="VERB" name="wordClass" value="VERB">
+                    <label for="ADJECTIVE">ADJECTIVE</label>
+                    <input class= "radioSelect" type="radio" id="ADJECTIVE" name="wordClass" value="ADJECTIVE">
+                    <label for="ADVERB">ADVERB</label>
+                    <input class= "radioSelect" type="radio" id="ADVERB" name="wordClass" value="ADVERB">
+                    <br>
+                    <label for="PRONOUN">PRONOUN</label>
+                    <input class= "radioSelect" type="radio" id="PRONOUN" name="wordClass" value="PRONOUN">
+                    <label for="DETERMINER">DETERMINER</label>
+                    <input class= "radioSelect" type="radio" id="DETERMINER" name="wordClass" value="DETERMINER">
+                    <label for="PREPOSITION">PREPOSITION</label>
+                    <input class= "radioSelect" type="radio" id="PREPOSITION" name="wordClass" value="PREPOSITION">
+                    <br>
+                    <label for="CONJUNCTION">CONJUNCTION</label>
+                    <input class= "radioSelect" type="radio" id="CONJUNCTION" name="wordClass" value="CONJUNCTION">
+                    <label for="INTERJECTION">INTERJECTION</label>
+                    <input class= "radioSelect" type="radio" id="INTERJECTION" name="wordClass" value="INTERJECTION">
+                    <label for="PLURAL">PLURAL</label>
+                    <input class= "radioSelect" type="radio" id="PLURAL" name="wordClass" value="PLURAL">
+                    <br>
+                    <label for="SUPERLATIVE">SUPERLATIVE</label>
+                    <input class= "radioSelect" type="radio" id="SUPERLATIVE" name="wordClass" value="SUPERLATIVE">
+                    <label for="PREFIX">PREFIX</label>
+                    <input class= "radioSelect" type="radio" id="PREFIX" name="wordClass" value="PREFIX">
+                    <label for="NOTABAILABLE">NOTABAILABLE</label>
+                    <input class= "radioSelect" type="radio" id="NOTABAILABLE" name="wordClass" value="NOTABAILABLE">
+                </fieldset>
+            </div>
+
+            <div class="form-group">
+                <fieldset id= "radioFieldset">
+                    <legend>Word meaning</legend>
+                    <input type="text" id="Meaning" name="Meaning">
+                </fieldset>
+            </div>
+
+            <div class="form-group">
+                <fieldset id= "radioFieldset">
+                    <legend>Word Language</legend>
+                    <label for="Korean">Korean</label>
+                    <input class= "radioSelect" type="radio" id="Korean" name="Language" value="Korean">
+                    <label for="English">English</label>
+                    <input class= "radioSelect" type="radio" id="English" name="Language" value="English">
+                </fieldset>
+            </div>
+
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+    <div th:replace="fragments/footer :: footer">
+  </body>
+</html>
