@@ -16,4 +16,9 @@ public class KorWord extends Word{
     public String getMeaning(){
         return this.kMeaning;
     }
+
+    @Override
+    public void setMeaning(String meaning){
+        setKMeaning(meaning);
+    }
 }
