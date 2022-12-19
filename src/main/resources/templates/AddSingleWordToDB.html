@@ -11,7 +11,7 @@
         <div th:replace="fragments/bodyHeader :: bodyHeader"/>
         <h2>Add Word To DB</h2>
         <br>
-        <form action="/admin/AddSingleWordToDB" id="upload" name= "upload" method="POST">
+        <form th:action="@{/admin/AddSingleWordToDB}" th:object="${word}" id="upload" name= "upload" method="POST">
             <div class="form-group">
 <!--                 <label for="wordName" class="form-label">word name</label> -->
                 <fieldset>
@@ -57,8 +57,8 @@
 
             <div class="form-group">
                 <fieldset id= "radioFieldset">
-                    <legend>Word meaning</legend>
-                    <input type="text" id="Meaning" name="Meaning">
+                    <legend>Word Meaning</legend>
+                    <input type="text" th:field="*{wordMeaning}" id="Meaning" name="Meaning">
                 </fieldset>
             </div>
 
@@ -66,13 +66,13 @@
                 <fieldset id= "radioFieldset">
                     <legend>Word Language</legend>
                     <label for="Korean">Korean</label>
-                    <input class= "radioSelect" type="radio" id="Korean" name="Language" value="Korean">
+                    <input class= "radioSelect" type="radio" th:field="*{wordLanguage}" id="Korean" name="Language" value="Korean">
                     <label for="English">English</label>
-                    <input class= "radioSelect" type="radio" id="English" name="Language" value="English">
+                    <input class= "radioSelect" type="radio" th:field="*{wordLanguage}" id="English" name="Language" value="English">
                 </fieldset>
             </div>
 
-            <button type="submit">Upload</button>
+            <button type="submit">Add word</button>
         </form>
     </div>
     <div th:replace="fragments/footer :: footer">
