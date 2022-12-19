@@ -23,6 +23,8 @@ public abstract class Word {
 
     public abstract String getMeaning();
 
+    public abstract void setMeaning(String meaning);
+
     //added it to make JPQL queries work for 'w.language'
     @Column(insertable = false, updatable = false)
     private String language;
