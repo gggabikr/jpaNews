@@ -1,7 +1,8 @@
 package jpanews.jpaproject1.service;
 
 import jpanews.jpaproject1.domain.WordClass;
-import jpanews.jpaproject1.domain.Words.EngWord;
+//import jpanews.jpaproject1.domain.Words.EngWord;
+import jpanews.jpaproject1.domain.Words.Word;
 import jpanews.jpaproject1.repository.WordRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -144,7 +145,7 @@ public class FileService {
                 }
                 tempArr[2] = line.substring(indexOfBracketClose+1).trim();
 //                System.out.println(Arrays.toString(tempArr));
-                EngWord word = new EngWord();
+                Word word = new Word();
                 word.setName(tempArr[0]);
 
 
@@ -181,7 +182,7 @@ public class FileService {
                 } else{
                     word.setWordClass(WordClass.NOTABAILABLE);
                 }
-                word.setEMeaning(line.substring(indexOfBracketClose+1));
+                word.setMeaning(line.substring(indexOfBracketClose+1));
 //                wordRepository.save(word);
 //                System.out.println(word.getName() + ", " +word.getWordClass()
 //                        + ", " + word.getMeaning());

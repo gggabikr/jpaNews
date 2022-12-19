@@ -2,8 +2,8 @@ package jpanews.jpaproject1.controller;
 
 import jpanews.jpaproject1.domain.Member;
 import jpanews.jpaproject1.domain.WordClass;
-import jpanews.jpaproject1.domain.Words.EngWord;
-import jpanews.jpaproject1.domain.Words.KorWord;
+//import jpanews.jpaproject1.domain.Words.EngWord;
+//import jpanews.jpaproject1.domain.Words.KorWord;
 import jpanews.jpaproject1.domain.Words.Word;
 import jpanews.jpaproject1.service.*;
 import lombok.RequiredArgsConstructor;
@@ -99,15 +99,14 @@ public class HomeController {
             }
             return "/errorPage";
         }
-        Word word;
-        if (Dto.getWordLanguage().equals("Korean")){
-            word = new KorWord();
-        } else {
-            word = new EngWord();
-        }
+            Word word = new Word();
+//        } else {
+//            word = new EngWord();
+//        }
         word.setName(Dto.getWordName());
         word.setWordClass(WordClass.valueOf(Dto.getWordClass()));
         word.setMeaning(Dto.getWordMeaning());
+        word.setLanguage(Dto.getWordLanguage());
         wordService.saveWordToDb(word);
 
 
@@ -137,5 +136,10 @@ public class HomeController {
             return "errorPage";
         }
         return "admin";
+    }
+
+    @GetMapping("/searchWord")
+    public String searchWordPage(){
+        return "searchWord";
     }
 }
