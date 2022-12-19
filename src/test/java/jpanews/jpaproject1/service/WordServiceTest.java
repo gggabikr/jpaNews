@@ -27,6 +27,7 @@ public class WordServiceTest {
 
     @Autowired WordRepository wordRepository;
     @Autowired WordService wordService;
+    @Autowired FileService fileService;
 
     @Test
     public void saveWordToDb() throws Exception {
@@ -389,4 +390,20 @@ public class WordServiceTest {
         Assertions.assertEquals(list, wordService.findWithString("s   a"));
         Assertions.assertEquals(list, wordService.findWithString("s  * a"));
     }
+
+    @Test
+    public void readWithRelativePath() {
+//        wordService.read("src/main/java/jpanews/jpaproject1/VocabularyData/A.csv");
+        fileService.uploadDataFromFile("src/main/java/jpanews/jpaproject1/VocabularyData/A.csv");
+
+    }
+
+    @Test
+    public void readWithAbsolutePath() throws Exception{
+//        wordService.read("/Users/jasonlee/IdeaProjects/jpaProject1/src/main/java/jpanews/jpaproject1/VocabularyData/A.csv");
+        fileService.uploadDataFromFile("/Users/jasonlee/IdeaProjects/jpaProject1/src/main/java/jpanews/jpaproject1/VocabularyData/A.csv");
+
+    }
+
+
 }
