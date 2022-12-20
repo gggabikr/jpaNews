@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+  <html xmlns:th="http://www.thymeleaf.org">
+      <head th:replace="fragments/header :: header"/>
+      </head>
+
+      <body>
+          <div class="container">
+              <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+              <div id="BG_photo" class="jumbotron" style="background: url(/img/homeBackground.jpg), linear-gradient(rgba(0,0,0,0.40),rgba(0,0,0,0.40)); background-size: 100%;";>
+                  <h2 style= "color: white; margin-right: 7em;">Search word and add it to your list!</h2><br>
+                  <p id= "searchGuide">Search Guide ✓</p>
+                  <br>
+                  <div class= "noShow guideBody" id= "guideBody">
+                    <ul>
+                        <li>Searches are not case-sensitive. This means a search will include all occurrences of your word, whether capitalized or not.</li>
+                        <li>An asterisk(*) is an indication of the omission of letters or words.</li>
+                        <li>For example, if you search for 'ab*', it will give you all the words starting with 'ab-'.</li>
+                        <li>On the other hand, you can search for '*tion', then you will get all the words ending with '-tion'.</li>
+                        <li>For a more advanced search, you can try 'pre*tion' or '*form*', then the former one gives you words starting with 'pre-' AND ends with 'tion',
+                            and the latter one will return words containing 'form' in the middle.</li>
+                    <ul>
+                  </div>
+                  <form action="/searchURL" method="get">
+                      <input placeholder = "     Enter the word to find..." type="search" title="searchBar" id="wordSearchBar" name="searchBar" class="form-inline form-group searchBar"></input>
+                      <button id="searchButton" type="submit" class= "searchButton" style= "display: inline; text-color: blue">
+                          <span><i class="far fa-search"></i></span>
+                      </button>
+                  </form>
+              </div>
+
+              <div th:replace="fragments/footer :: footer">
+          </div> <!-- /container -->
+          <script>
+          const input = document.getElementById("URL");
+          input.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+              event.preventDefault();
+              document.getElementById("searchButton").click();
+            }
+          });
+
+          const showGuide = document.getElementById("searchGuide");
+          showGuide.addEventListener("click", function(event){
+            if (document.getElementById("guideBody").classList.contains('noShow')){
+              document.getElementById("guideBody").classList.remove('noShow');
+            } else{
+              document.getElementById("guideBody").classList.add('noShow');
+            }});
+          </script>
+      <body>
+  </html>
