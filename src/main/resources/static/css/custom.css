@@ -81,6 +81,16 @@ input[type="radio"]{
     border: #0f0f0f solid 1px;
 }
 
+#formLocation{
+    position: fixed;
+    background-color: black;
+    bottom: 0;
+    right: 0;
+    width: 25em;
+    height: 25em;
+    border: 3px solid #73AD21;
+}
+
 /*#BG_photo{*/
     /*background-position: 50% 50%;*/
     /*background-repeat: no-repeat;*/
