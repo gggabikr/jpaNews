@@ -1,7 +1,6 @@
 package jpanews.jpaproject1.service;
 
 import jpanews.jpaproject1.domain.WordClass;
-//import jpanews.jpaproject1.domain.Words.EngWord;
 import jpanews.jpaproject1.domain.Words.Word;
 import jpanews.jpaproject1.repository.WordRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +11,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Transactional(readOnly = true)
@@ -27,11 +28,39 @@ public class WordService {
         wordRepository.save(word);
     }
 
+    @Transactional
+    public HashMap<Long, String> saveWordsToDb(ArrayList<Word> words) throws Exception {
+        HashMap<Long, String> failedOnes = new HashMap<>();
+        for (Word word : words) {
+            try {
+                System.out.println(word.getName() + word.getMeaning());
+                saveWordToDb(word);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                failedOnes.put(word.getId(), e.getMessage());
+            }
+        }
+        System.out.println("failed ones: "+ failedOnes);
+        return failedOnes;
+    }
+
     private void validateTooManyWords(Word word) throws Exception {
         List<Word> findWords = wordRepository.findByName(word.getName());
         if (findWords.size() >= 10){
             throw new IllegalStateException("There are too many data saved for this word.");
         }
+    }
+
+    @Transactional
+    public void updateWord(Word word){
+        Word findWord = wordRepository.findOne(word.getId());
+        findWord.setName(word.getName());
+        findWord.setWordClass(word.getWordClass());
+        findWord.setMeaning(word.getMeaning());
+        findWord.setLanguage(word.getLanguage());
+        //일반적으로 실무에서는 이렇게 set set set으로 변경하지 않는다. 따로 메서드를 만들어서
+        //change(price, name, stockQuantity) 뭐 이런식으로 한번에 값을 변경하도록 설계한다.
+        //그렇지않으면 유지보수할때 어디서 값이 변경되었는지 찾기가 매우 어렵다.
     }
 
     public Word findById(Long id){
@@ -112,7 +141,7 @@ public class WordService {
 
     public void read(String csvFile) {
 //        final String delimiter = "[\\(\\)]";
-
+        ArrayList<Word> words = new ArrayList<>();
         try {
             File file = new File(csvFile);
             FileReader fr = new FileReader(file);
@@ -139,10 +168,13 @@ public class WordService {
                         tempArr[1] = tempArr[1].substring(0, i).trim();
                     }
                 }
-                tempArr[2] = line.substring(indexOfBracketClose+1).trim();
+                String substring = line.substring(indexOfBracketClose + 1);
+                if(Objects.equals(substring.substring(-1), "\""))
+                tempArr[2] = substring.trim();
 //                System.out.println(Arrays.toString(tempArr));
                 Word word = new Word();
-                word.setName(tempArr[0]);
+                word.setName(tempArr[0].replaceAll("\"", ""));
+                word.setLanguage("English");
 
 
                 if(tempArr[1].contains("imp") || tempArr[1].contains("p. p") || tempArr[1].contains("p pr")| tempArr[1].length() == 0 || tempArr[1].equals("n/a")){
@@ -178,12 +210,13 @@ public class WordService {
                 } else{
                     word.setWordClass(WordClass.NOTABAILABLE);
                 }
-                word.setMeaning(line.substring(indexOfBracketClose+1));
-//                wordRepository.save(word);
-                saveWordToDb(word);
-                System.out.println(word.getName() + ", " +word.getWordClass()
-                        + ", " + word.getMeaning());
+                word.setMeaning(substring);
+//                saveWordToDb(word);
+//                System.out.println(word.getName() + ", " +word.getWordClass()
+//                        + ", " + word.getMeaning());
+                words.add(word);
             }
+            saveWordsToDb(words);
             br.close();
         } catch(Exception ioe) {
             ioe.printStackTrace();
