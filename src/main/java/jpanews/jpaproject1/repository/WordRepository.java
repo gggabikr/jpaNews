@@ -16,7 +16,9 @@ public class WordRepository {
 
     public Long save(Word word){
         if(word.getId() == null){
+            System.out.println("em will persist the word to DB");
             em.persist(word);
+            em.flush();
         } else{
             //temporarily made it merged. will be changed later.
             em.merge(word);
