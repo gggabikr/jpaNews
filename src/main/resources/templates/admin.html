@@ -7,11 +7,12 @@
     <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
     <h2>Admin Page</h2>
+<!--     Member ID : <span th:text="${#authentication.prop}"></span> <br> -->
     ID : <span sec:authentication="name"></span> <br>
     Authorities : <span sec:authentication="authorities"></span> <br>
     <br>
     <a href= "/admin/AddSingleWordToDB">Add a word to DB</a><br>
-    <a href= "/admin/AddWordsToDB">Add CSV file for Word DB</a>
+    <a href= "/admin/AddWordsToDB">Add CSV file for Word DB</a><br>
 <!--     <form id="logout" action="/logout" method="POST"> -->
 <!--       <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /> -->
 <!--       <input type="submit" value="로그아웃"/> -->
