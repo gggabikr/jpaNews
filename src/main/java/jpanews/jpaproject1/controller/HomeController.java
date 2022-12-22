@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -141,5 +142,50 @@ public class HomeController {
     @GetMapping("/searchWord")
     public String searchWordPage(){
         return "searchWord";
+    }
+
+    @PostMapping("/searchWord")
+    public String searchWordResult(Model model, @RequestParam String searchBar) throws Exception {
+        try{
+            System.out.println("result is: " + searchBar);
+            List<Word> searchWithString = wordService.findWithString(searchBar);
+            for(Word word: searchWithString){
+                System.out.println(word.getName() + "//" + word.getWordClass() + "//" + word.getMeaning());
+            }
+            model.addAttribute("result", searchWithString);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            model.addAttribute("message", e.getMessage());
+            return "errorPage";
+        }
+        return "searchWordResult";
+    }
+
+    @GetMapping("/admin/modifyWord/{wordId}")
+    public String modifyWordPage(@PathVariable("wordId") Long wordId, Model model){
+        Word word = wordService.findById(wordId);
+        wordDto Dto = new wordDto();
+        Dto.setId(word.getId());
+        Dto.setWordName(word.getName());
+        Dto.setWordClass(String.valueOf(word.getWordClass()));
+        Dto.setWordMeaning(word.getMeaning());
+        Dto.setWordLanguage(word.getLanguage());
+        model.addAttribute("Dto", Dto);
+        return "modifyWord";
+    }
+
+    @PostMapping("/admin/modifyWord/{wordId}")
+    public String updateWord(@PathVariable Long wordId, @ModelAttribute("Dto") wordDto Dto){
+        System.out.println(Dto.getId() + ", " + Dto.getWordName());
+        Word word = new Word();
+        word.setId(wordId);
+        word.setName(Dto.getWordName());
+        word.setWordClass(WordClass.valueOf(Dto.getWordClass()));
+        word.setMeaning(Dto.getWordMeaning());
+        word.setLanguage(Dto.getWordLanguage());
+        wordService.updateWord(word);
+        return "redirect:/searchWord";
     }
 }
