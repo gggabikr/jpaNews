@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+  <html xmlns:th="http://www.thymeleaf.org">
+      <head th:replace="fragments/header :: header"/>
+      </head>
+
+      <body>
+          <div class="container">
+              <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+              <table id="wordSearchResult" class= "table">
+                <tr>
+                  <th sec:authorize ="hasRole('ROLE_ADMIN')">Word ID</th>
+                  <th>Word</th>
+                  <th>Word Class</th>
+                  <th>Meaning</th>
+                  <th>Add</th>
+                  <th sec:authorize ="hasRole('ROLE_ADMIN')">Modify Word</th>
+                </tr>
+                <tr th:each= "word: ${result}">
+                  <td th:text= "${word.id}" sec:authorize ="hasRole('ROLE_ADMIN')"/>
+                  <td th:text= "${word.name}"/>
+                  <td th:text= "${word.wordClass}"/>
+                  <td th:text= "${word.meaning}"/>
+                  <td><a th:href="@{/addWord/{id}(id = ${word.id})}">+</a></td>
+                  <th sec:authorize ="hasRole('ROLE_ADMIN')"><a th:href="@{/admin/modifyWord/{id}(id = ${word.id})}">Edit</a></th>
+                </tr>
+
+              </table>
+
+              <div th:replace="fragments/footer :: footer">
+          </div> <!-- /container -->
+          <script>
+          const input = document.getElementById("URL");
+          input.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+              event.preventDefault();
+              document.getElementById("searchButton").click();
+            }
+          });
+
+          const showGuide = document.getElementById("searchGuide");
+          showGuide.addEventListener("click", function(event){
+            if (document.getElementById("guideBody").classList.contains('noShow')){
+              document.getElementById("guideBody").classList.remove('noShow');
+            } else{
+              document.getElementById("guideBody").classList.add('noShow');
+            }});
+          </script>
+      <body>
+  </html>
