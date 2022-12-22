@@ -76,6 +76,11 @@ input[type="radio"]{
     color: azure;
     background-color: rgba(34, 34, 34, 0.77);
 }
+
+#wordSearchResult{
+    border: #0f0f0f solid 1px;
+}
+
 /*#BG_photo{*/
     /*background-position: 50% 50%;*/
     /*background-repeat: no-repeat;*/
