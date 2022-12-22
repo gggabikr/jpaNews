@@ -20,12 +20,21 @@
                   <td th:text= "${word.name}"/>
                   <td th:text= "${word.wordClass}"/>
                   <td th:text= "${word.meaning}"/>
-                  <td><a th:href="@{/addWord/{id}(id = ${word.id})}">+</a></td>
+                  <td onclick = "addToWordListForm();">+</td>
+<!--                   <td><a th:href="@{/addWordToList/{id}(id = ${word.id})}">+</a></td> -->
                   <th sec:authorize ="hasRole('ROLE_ADMIN')"><a th:href="@{/admin/modifyWord/{id}(id = ${word.id})}">Edit</a></th>
                 </tr>
-
               </table>
-
+              <div id= "formLocation" style= "display: block; ">
+                  <form th:action="@{/admin/AddSingleWordToDB}" th:object="${word}" id="AddWordToWordlist" name= "AddWordToWordlist" method="GET">
+                    <label for= "input22">input22: </label><input type= "text" name= "input22"></input>
+                    <select name="wordListSelect" size="20">
+                      <optgroup label="Your vocabulary lists">
+                        <option th:each="wordList: ${wordLists}" th:value="${wordList.id}" th:text = "${wordList.wordListName}">Cat</option>
+                      </optgroup>
+                    </select>
+                  </form>
+              </div>
               <div th:replace="fragments/footer :: footer">
           </div> <!-- /container -->
           <script>
@@ -44,6 +53,12 @@
             } else{
               document.getElementById("guideBody").classList.add('noShow');
             }});
+
+          function addToWordListForm(){
+//           워드아이디 받아서
+            document.getElementById("AddWordToWordlist").innerHTML
+            += '<span>Label: <input type="text"><small>(ft)</small></span>\r\n';
+          }
           </script>
       <body>
   </html>
