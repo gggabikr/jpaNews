@@ -29,6 +29,7 @@
                   </div>
 
                   <form action= "/deleteWordList" th:object= "${wordLists}" method= "GET">
+<!--                     <select class= "selectBox" name="wordListSelect" size="21" onchange="this.form.submit()"> -->
                     <select class= "selectBox" name="wordListSelect" size="21">
                       <optgroup label="Your vocabulary lists">
                         <option th:each="wordList: ${wordLists}" th:value="${wordList.id}" th:text = "${wordList.wordListName} + '.........' + ${wordList.numerator} + '/' + ${wordList.denominator}">Cat</option>
@@ -49,9 +50,8 @@
 
                     <br><br>
                     <a class="btn btn-primary btn-sm" href= "/addNewWordList"> Add... </a>
-                    <a href= "/" th:href= "@{|/deleteWordList/${wordListSelect}|}">
-                      <input class="btn btn-primary btn-sm" type="submit" value= "Delete...">
-                    </a>
+                    <a href= "/" th:href= "@{|/deleteWordList/${wordListSelect}|}">Delete...</a>
+                    <input class="btn btn-primary btn-sm" type="submit" value= "Delete...">
                   </form>
 
               </div>
