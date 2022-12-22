@@ -21,6 +21,8 @@ public class Word {
     @Enumerated(EnumType.STRING)
     private WordClass wordClass;
 
+    @Lob
+    @Column
     private String meaning;
 //    public abstract String getMeaning();
 //
