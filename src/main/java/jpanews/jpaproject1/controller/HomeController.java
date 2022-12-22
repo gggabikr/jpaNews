@@ -49,15 +49,7 @@ public class HomeController {
     @GetMapping("/user/wordList")
 //        public String ToWordList(Model model, @AuthenticationPrincipal Principal principal){
         public String ToWordList(Model model){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(authentication.getName()); // == username
-        Member member = memberService.findByUsername(authentication.getName()).get(0);
-        System.out.println("member's name: " + member.getUsername());
-        System.out.println("member's role: " + member.getRole());
-        System.out.println("member's id: " + member.getId());
-
-        model.addAttribute("member", member);
-        model.addAttribute("wordLists", wordListService.findAllWordListByMember(member.getId()));
+        getWordlists(model);
         return "wordListPage";
     }
 
@@ -149,10 +141,11 @@ public class HomeController {
         try{
             System.out.println("result is: " + searchBar);
             List<Word> searchWithString = wordService.findWithString(searchBar);
-            for(Word word: searchWithString){
-                System.out.println(word.getName() + "//" + word.getWordClass() + "//" + word.getMeaning());
-            }
+//            for(Word word: searchWithString){
+//                System.out.println(word.getName() + "//" + word.getWordClass() + "//" + word.getMeaning());
+//            }
             model.addAttribute("result", searchWithString);
+            getWordlists(model);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -161,6 +154,18 @@ public class HomeController {
             return "errorPage";
         }
         return "searchWordResult";
+    }
+
+    private void getWordlists(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println(authentication.getName()); // == username
+        Member member = memberService.findByUsername(authentication.getName()).get(0);
+        System.out.println("member's name: " + member.getUsername());
+        System.out.println("member's role: " + member.getRole());
+        System.out.println("member's id: " + member.getId());
+
+        model.addAttribute("member", member);
+        model.addAttribute("wordLists", wordListService.findAllWordListByMember(member.getId()));
     }
 
     @GetMapping("/admin/modifyWord/{wordId}")
@@ -188,4 +193,8 @@ public class HomeController {
         wordService.updateWord(word);
         return "redirect:/searchWord";
     }
+
+//    @GetMapping("/addWordToList/{id}")
+//    public String addWordToList(@PathVariable Long wordId, )
+
 }
