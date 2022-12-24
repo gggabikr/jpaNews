@@ -64,6 +64,9 @@ public class WordList {
         for (WordListToWord wlw : wordListToWords) {
             this.getWordListToWords().add(wlw);
             wlw.setWordList(this);
+            System.out.println(this.wordListToWords);
+            System.out.println(wlw.getWordList().getMember()+ ", "+wlw.getWordList().wordListName);
+            System.out.println(wlw.getWord().getName());
         }
     }
 
