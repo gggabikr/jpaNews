@@ -4,10 +4,7 @@ import jpanews.jpaproject1.domain.Member;
 import jpanews.jpaproject1.domain.WordList;
 import jpanews.jpaproject1.domain.WordListToWord;
 import jpanews.jpaproject1.domain.Words.Word;
-import jpanews.jpaproject1.repository.MemberRepository;
-import jpanews.jpaproject1.repository.WordListRepository;
-import jpanews.jpaproject1.repository.CustomWordListToWordRepository;
-import jpanews.jpaproject1.repository.WordRepository;
+import jpanews.jpaproject1.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +19,7 @@ import java.util.Collections;
 public class WordListService {
     private final WordRepository wordRepository;
     private final WordListRepository wordListRepository;
-    private final CustomWordListToWordRepository wordListToWordRepository;
+    private final CustomWordListToWordRepositoryImpl wordListToWordRepository;
     private final MemberRepository memberRepository;
 
     //==create WordList==//
@@ -96,8 +93,10 @@ public class WordListService {
     public Long addWordsToWordList(Long wordListId, Word... words){
         WordList wordList = wordListRepository.findOne(wordListId);
         List<WordListToWord> wordListToWords = WordListToWord.createWordListToWord(words);
+        System.out.println(wordListToWords);
         for(WordListToWord wlw: wordListToWords){
             wordList.saveWordListToWord(wlw);
+            wordListToWordRepository.createWlw(wlw);
         }
         return wordListId;
     }
