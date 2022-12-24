@@ -59,4 +59,10 @@ public class CustomWordListToWordRepositoryImpl implements CustomWordListToWordR
     public void deleteWlw(Long wlwId){
         em.remove(em.find(WordListToWord.class, wlwId));
     }
+
+    @Override
+    public void createWlw(WordListToWord wlw) {
+        em.persist(wlw);
+        em.flush();
+    }
 }
