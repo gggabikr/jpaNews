@@ -4,7 +4,9 @@ import jpanews.jpaproject1.domain.Member;
 import jpanews.jpaproject1.domain.WordClass;
 //import jpanews.jpaproject1.domain.Words.EngWord;
 //import jpanews.jpaproject1.domain.Words.KorWord;
+import jpanews.jpaproject1.domain.WordListToWord;
 import jpanews.jpaproject1.domain.Words.Word;
+import jpanews.jpaproject1.repository.CustomWordListToWordRepositoryImpl;
 import jpanews.jpaproject1.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +21,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -28,6 +31,8 @@ public class HomeController {
     private final WordListService wordListService;
     private final MemberService memberService;
     private final WordService wordService;
+    private final CustomWordListToWordRepositoryImpl wlwRepository;
+
 
 
     //아래와 같이 로거를 뽑을 수 있지만 롬복을 쓰면 어노테이션으로 가능하다.
@@ -51,6 +56,18 @@ public class HomeController {
         public String ToWordList(Model model){
         getWordlists(model);
         return "wordListPage";
+    }
+
+    @GetMapping("inWordList")
+    public String inWordList(@RequestParam("wordListSelect") Long wordListId, Model model){
+        System.out.println(wordListId);
+        ArrayList<Word> words = new ArrayList<>();
+        List<WordListToWord> allByWordList = wlwRepository.findAllByWordList(wordListId);
+        for(WordListToWord wlw: allByWordList){
+            words.add(wlw.getWord());
+        }
+        model.addAttribute("words", words);
+        return "insideOfWordlist";
     }
 
     @GetMapping("/addNewWordList")
@@ -158,14 +175,17 @@ public class HomeController {
 
     private void getWordlists(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(authentication.getName()); // == username
-        Member member = memberService.findByUsername(authentication.getName()).get(0);
-        System.out.println("member's name: " + member.getUsername());
-        System.out.println("member's role: " + member.getRole());
-        System.out.println("member's id: " + member.getId());
+        System.out.println("username: "+ authentication.getName()); // == username
+        if(!authentication.getName().equals("anonymousUser")){
+            Member member = memberService.findByUsername(authentication.getName()).get(0);
+//            System.out.println("member's name: " + member.getUsername());
+//            System.out.println("member's role: " + member.getRole());
+//            System.out.println("member's id: " + member.getId());
 
-        model.addAttribute("member", member);
-        model.addAttribute("wordLists", wordListService.findAllWordListByMember(member.getId()));
+            model.addAttribute("member", member);
+            model.addAttribute("wordLists", wordListService.findAllWordListByMember(member.getId()));
+
+        }
     }
 
     @GetMapping("/admin/modifyWord/{wordId}")
@@ -194,7 +214,13 @@ public class HomeController {
         return "redirect:/searchWord";
     }
 
-//    @GetMapping("/addWordToList/{id}")
-//    public String addWordToList(@PathVariable Long wordId, )
+    @GetMapping("/addWordToList/{wordId}")
+    public String addWordToList(@PathVariable Long wordId, @RequestParam Long listSelect){
+        System.out.println("word Id: " + wordId);
+        System.out.println("list Id: " + listSelect);
+        Word word = wordService.findById(wordId);
+        wordListService.addWordsToWordList(listSelect, word);
+        return "redirect:/user/wordList";
+    }
 
 }
