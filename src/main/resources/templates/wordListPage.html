@@ -28,30 +28,31 @@
                     </form>
                   </div>
 
-                  <form action= "/deleteWordList" th:object= "${wordLists}" method= "GET">
+                  <form action= "/inWordList" th:object= "${wordLists}" method= "GET" id= "selectForm">
 <!--                     <select class= "selectBox" name="wordListSelect" size="21" onchange="this.form.submit()"> -->
-                    <select class= "selectBox" name="wordListSelect" size="21">
+                    <select class= "selectBox" id="wordListSelect" name="wordListSelect" size="21">
                       <optgroup label="Your vocabulary lists">
-                        <option th:each="wordList: ${wordLists}" th:value="${wordList.id}" th:text = "${wordList.wordListName} + '.........' + ${wordList.numerator} + '/' + ${wordList.denominator}">Cat</option>
+                        <option th:each="wordList: ${wordLists}" th:value="${wordList.id}" th:text = "${wordList.wordListName} + '.........' + ${wordList.numerator} + '/' + ${wordList.denominator}"></option>
                       </optgroup>
                     </select>
 
-                    <select name="wordListSelect" size="20">
-                      <optgroup label="Your vocabulary lists">
-                        <option th:each="wordList: ${wordLists}" th:value="${wordList.id}" th:text = "${wordList.wordListName}">Cat</option>
-                      </optgroup>
-                    </select>
+<!--                     <select name="wordListSelect" size="20"> -->
+<!--                       <optgroup label="Your vocabulary lists"> -->
+<!--                         <option th:each="wordList: ${wordLists}" th:value="${wordList.id}" th:text = "${wordList.wordListName}">Cat</option> -->
+<!--                       </optgroup> -->
+<!--                     </select> -->
 
-                    <select name="wordListSelect" size="20">
-                      <optgroup label="Your vocabulary lists">
-                        <option th:each="wordList: ${wordLists}" th:value="${wordList.id}" th:text = "${wordList.wordListName}">Cat</option>
-                      </optgroup>
-                    </select>
+<!--                     <select name="wordListSelect" size="20"> -->
+<!--                       <optgroup label="Your vocabulary lists"> -->
+<!--                         <option th:each="wordList: ${wordLists}" th:value="${wordList.id}" th:text = "${wordList.wordListName}">Cat</option> -->
+<!--                       </optgroup> -->
+<!--                     </select> -->
 
                     <br><br>
                     <a class="btn btn-primary btn-sm" href= "/addNewWordList"> Add... </a>
-                    <a href= "/" th:href= "@{|/deleteWordList/${wordListSelect}|}">Delete...</a>
-                    <input class="btn btn-primary btn-sm" type="submit" value= "Delete...">
+<!--                     <a href= "/" th:href= "@{|/deleteWordList/${wordListSelect}|}">Delete...</a> -->
+                    <input class="btn btn-primary btn-sm" type="submit" value= "gotInto">
+                    <input class="btn btn-primary btn-sm" value= "Delete..." id= "deleteButton" onclick="deleteWordlist();">
                   </form>
 
               </div>
@@ -68,6 +69,14 @@
                     document.getElementById("form-popup").style.display = "block"
                 }
             }
+
+            function deleteWordlist(){
+                    const form = document.getElementById("selectForm");
+                    const val = document.getElementById("wordListSelect").value;
+                    form.action = '/deleteWordList';
+                    form.submit();
+                    form.action = '/inWordList';
+                }
         </script>
       </body>
   </html>
