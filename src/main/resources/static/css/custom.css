@@ -83,17 +83,16 @@ input[type="radio"]{
 
 #formLocation{
     position: fixed;
-    background-color: black;
-    bottom: 0;
-    right: 0;
+    background-color: #c2c2c2;
+    bottom: 3em;
+    right: 3em;
     width: 25em;
-    height: 25em;
+    height: 15em;
     border: 3px solid #73AD21;
+    padding: 1em;
+    border-radius: 20px;
 }
 
-/*#BG_photo{*/
-    /*background-position: 50% 50%;*/
-    /*background-repeat: no-repeat;*/
-    /*object-position: center center;*/
-    /*object-fit: cover;*/
-/*}*/
+#wordListSelect{
+    width: 30em;
+}
