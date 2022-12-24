@@ -9,8 +9,9 @@ public interface CustomWordListToWordRepository {
 
     public List<WordListToWord> findAllByWordList(Long wordListId);
 
-
     public List<WordListToWord> RandomSelect(Long wordListId, int number);
 
     public void deleteWlw(Long wlwId);
+
+    public void createWlw(WordListToWord wlw);
 }
