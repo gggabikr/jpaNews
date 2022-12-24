@@ -1,8 +1,7 @@
 package jpanews.jpaproject1.service;
 
 import jpanews.jpaproject1.domain.WordClass;
-import jpanews.jpaproject1.domain.Words.EngWord;
-import jpanews.jpaproject1.domain.Words.KorWord;
+
 import jpanews.jpaproject1.domain.Words.Word;
 import jpanews.jpaproject1.repository.WordRepository;
 import org.junit.Test;
@@ -32,15 +31,14 @@ public class WordServiceTest {
     @Test
     public void saveWordToDb() throws Exception {
         //given
-        KorWord word1 = new KorWord();
+        Word word1 = new Word();
         word1.setName("pool");
-        word1.setKMeaning("바보");
-//        word1.setWordClass(WordClass.NOUN);
-        word1.setWordClass(WordClass.valueOf("NOUN"));
+        word1.setMeaning("바보");
+        word1.setWordClass(WordClass.NOUN);
 
-        KorWord word2 = new KorWord();
+        Word word2 = new Word();
         word2.setName("cat");
-        word2.setKMeaning("고양이");
+        word2.setMeaning("고양이");
         word2.setWordClass(WordClass.NOUN);
 //
 //        KorWord word3 = new KorWord();
@@ -74,14 +72,14 @@ public class WordServiceTest {
     @Test
     public void findById() throws Exception {
         //given
-        KorWord word1 = new KorWord();
+        Word word1 = new Word();
         word1.setName("pool");
-        word1.setKMeaning("바보");
+        word1.setMeaning("바보");
         word1.setWordClass(WordClass.NOUN);
 
-        KorWord word2 = new KorWord();
+        Word word2 = new Word();
         word2.setName("cat");
-        word2.setKMeaning("고양이");
+        word2.setMeaning("고양이");
         word2.setWordClass(WordClass.NOUN);
 
         //when
@@ -96,19 +94,19 @@ public class WordServiceTest {
     @Test
     public void findAllWords() throws Exception {
         //given
-        KorWord word1 = new KorWord();
+        Word word1 = new Word();
         word1.setName("pool");
-        word1.setKMeaning("바보");
+        word1.setMeaning("바보");
         word1.setWordClass(WordClass.NOUN);
 
-        KorWord word2 = new KorWord();
+        Word word2 = new Word();
         word2.setName("cat");
-        word2.setKMeaning("고양이");
+        word2.setMeaning("고양이");
         word2.setWordClass(WordClass.NOUN);
 
-        EngWord word3 = new EngWord();
+        Word word3 = new Word();
         word3.setName("great");
-        word3.setEMeaning("aaaaaaaaaa");
+        word3.setMeaning("very good");
         word3.setWordClass(WordClass.ADJECTIVE);
 
         //when
@@ -138,7 +136,7 @@ public class WordServiceTest {
         Assertions.assertEquals(1, wordService.findAllEngWords().size());
         Assertions.assertEquals(word3.getWordClass(), wordService.findAllEngWords().get(0).getWordClass());
         Assertions.assertEquals(word3.getMeaning(), wordService.findAllEngWords().get(0).getMeaning());
-        Assertions.assertEquals(word3.getEMeaning(), wordService.findAllEngWords().get(0).getMeaning());
+        Assertions.assertEquals(word3.getMeaning(), wordService.findAllEngWords().get(0).getMeaning());
 
         //test for findWithWordClass
         Assertions.assertEquals(2, wordService.findWithWordClass("Noun").size());
@@ -155,59 +153,59 @@ public class WordServiceTest {
     public void findWithWordClass() throws Exception{
 
         //given
-        KorWord word1 = new KorWord();
+        Word word1 = new Word();
         word1.setName("pool");
-        word1.setKMeaning("바보");
+        word1.setMeaning("바보");
         word1.setWordClass(WordClass.NOUN);
 
-        KorWord word2 = new KorWord();
+        Word word2 = new Word();
         word2.setName("cat");
-        word2.setKMeaning("고양이");
+        word2.setMeaning("고양이");
         word2.setWordClass(WordClass.NOUN);
 
-        EngWord word3 = new EngWord();
+        Word word3 = new Word();
         word3.setName("great");
-        word3.setEMeaning("aaaaaaaaaa");
+        word3.setMeaning("very good");
         word3.setWordClass(WordClass.ADJECTIVE);
 
-        KorWord word4 = new KorWord();
+        Word word4 = new Word();
         word4.setName("catacomb");
-        word4.setKMeaning("지하묘지");
+        word4.setMeaning("지하묘지");
         word4.setWordClass(WordClass.NOUN);
 
-        KorWord word5 = new KorWord();
+        Word word5 = new Word();
         word5.setName("meat");
-        word5.setKMeaning("고기");
+        word5.setMeaning("고기");
         word5.setWordClass(WordClass.NOUN);
 
-        EngWord word6 = new EngWord();
-        word6.setName("great");
-        word6.setEMeaning("Something great");
+        Word word6 = new Word();
+        word6.setName("giant");
+        word6.setMeaning("big man");
         word6.setWordClass(WordClass.ADJECTIVE);
 
-        EngWord word7 = new EngWord();
+        Word word7 = new Word();
         word7.setName("wheat");
-        word7.setEMeaning("plant of rice");
+        word7.setMeaning("plant of rice");
         word7.setWordClass(WordClass.NOUN);
 
-        EngWord word8 = new EngWord();
-        word8.setName("whaaaaaaeat");
-        word8.setEMeaning("plant oaaaaaaaaf rice");
+        Word word8 = new Word();
+        word8.setName("sky");
+        word8.setMeaning("the region of the atmosphere and outer space seen from the earth");
         word8.setWordClass(WordClass.NOUN);
 
-        EngWord word9 = new EngWord();
-        word9.setName("aaaaawheataaaaa");
-        word9.setEMeaning("plant of rice");
+        Word word9 = new Word();
+        word9.setName("phone");
+        word9.setMeaning("phone");
         word9.setWordClass(WordClass.NOUN);
 
-        EngWord word10 = new EngWord();
-        word10.setName("wheeeedddat");
-        word10.setEMeaning("sssss");
+        Word word10 = new Word();
+        word10.setName("java");
+        word10.setMeaning("A programming language I am writing now");
         word10.setWordClass(WordClass.NOUN);
 
-        KorWord word11 = new KorWord();
+        Word word11 = new Word();
         word11.setName("hey");
-        word11.setKMeaning("어이");
+        word11.setMeaning("어이");
         word11.setWordClass(WordClass.NOUN);
 
         //when
@@ -255,59 +253,59 @@ public class WordServiceTest {
     @Test
     public void findWithString() throws Exception {
         //given
-        KorWord word1 = new KorWord();
+        Word word1 = new Word();
         word1.setName("pool");
-        word1.setKMeaning("바보");
+        word1.setMeaning("바보");
         word1.setWordClass(WordClass.NOUN);
 
-        KorWord word2 = new KorWord();
+        Word word2 = new Word();
         word2.setName("cat");
-        word2.setKMeaning("고양이");
+        word2.setMeaning("고양이");
         word2.setWordClass(WordClass.NOUN);
 
-        EngWord word3 = new EngWord();
+        Word word3 = new Word();
         word3.setName("great");
-        word3.setEMeaning("aaaaaaaaaa");
+        word3.setMeaning("very good");
         word3.setWordClass(WordClass.ADJECTIVE);
 
-        KorWord word4 = new KorWord();
+        Word word4 = new Word();
         word4.setName("catacomb");
-        word4.setKMeaning("지하묘지");
+        word4.setMeaning("지하묘지");
         word4.setWordClass(WordClass.NOUN);
 
-        KorWord word5 = new KorWord();
+        Word word5 = new Word();
         word5.setName("meat");
-        word5.setKMeaning("고기");
+        word5.setMeaning("고기");
         word5.setWordClass(WordClass.NOUN);
 
-        EngWord word6 = new EngWord();
-        word6.setName("great");
-        word6.setEMeaning("Something great");
+        Word word6 = new Word();
+        word6.setName("giant");
+        word6.setMeaning("big man");
         word6.setWordClass(WordClass.ADJECTIVE);
 
-        EngWord word7 = new EngWord();
+        Word word7 = new Word();
         word7.setName("wheat");
-        word7.setEMeaning("plant of rice");
+        word7.setMeaning("plant of rice");
         word7.setWordClass(WordClass.NOUN);
 
-        EngWord word8 = new EngWord();
-        word8.setName("whaaaaaaeat");
-        word8.setEMeaning("plant oaaaaaaaaf rice");
+        Word word8 = new Word();
+        word8.setName("sky");
+        word8.setMeaning("the region of the atmosphere and outer space seen from the earth");
         word8.setWordClass(WordClass.NOUN);
 
-        EngWord word9 = new EngWord();
-        word9.setName("aaaaawheataaaaa");
-        word9.setEMeaning("plant of rice");
+        Word word9 = new Word();
+        word9.setName("phone");
+        word9.setMeaning("phone");
         word9.setWordClass(WordClass.NOUN);
 
-        EngWord word10 = new EngWord();
-        word10.setName("wheeeedddat");
-        word10.setEMeaning("sssss");
+        Word word10 = new Word();
+        word10.setName("java");
+        word10.setMeaning("A programming language I am writing now");
         word10.setWordClass(WordClass.NOUN);
 
-        KorWord word11 = new KorWord();
+        Word word11 = new Word();
         word11.setName("hey");
-        word11.setKMeaning("어이");
+        word11.setMeaning("어이");
         word11.setWordClass(WordClass.NOUN);
 
         //when

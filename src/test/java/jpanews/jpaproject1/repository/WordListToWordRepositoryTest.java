@@ -3,8 +3,7 @@ package jpanews.jpaproject1.repository;
 import jpanews.jpaproject1.domain.MemberRole;
 import jpanews.jpaproject1.domain.WordClass;
 import jpanews.jpaproject1.domain.WordListToWord;
-import jpanews.jpaproject1.domain.Words.EngWord;
-import jpanews.jpaproject1.domain.Words.KorWord;
+import jpanews.jpaproject1.domain.Words.Word;
 import jpanews.jpaproject1.service.MemberService;
 import jpanews.jpaproject1.service.WordListService;
 import jpanews.jpaproject1.service.WordService;
@@ -36,34 +35,34 @@ public class WordListToWordRepositoryTest {
     @Test
     public void customMethods() throws Exception{
         //given
-        KorWord word1 = new KorWord();
+        Word word1 = new Word();
         word1.setName("pool");
-        word1.setKMeaning("바보");
+        word1.setMeaning("바보");
         word1.setWordClass(WordClass.NOUN);
 
-        KorWord word2 = new KorWord();
+        Word word2 = new Word();
         word2.setName("cat");
-        word2.setKMeaning("고양이");
+        word2.setMeaning("고양이");
         word2.setWordClass(WordClass.NOUN);
 
-        EngWord word3 = new EngWord();
+        Word word3 = new Word();
         word3.setName("great");
-        word3.setEMeaning("very good");
+        word3.setMeaning("very good");
         word3.setWordClass(WordClass.ADJECTIVE);
 
-        KorWord word4 = new KorWord();
+        Word word4 = new Word();
         word4.setName("catacomb");
-        word4.setKMeaning("지하묘지");
+        word4.setMeaning("지하묘지");
         word4.setWordClass(WordClass.NOUN);
 
-        KorWord word5 = new KorWord();
+        Word word5 = new Word();
         word5.setName("meat");
-        word5.setKMeaning("고기");
+        word5.setMeaning("고기");
         word5.setWordClass(WordClass.NOUN);
 
-        EngWord word6 = new EngWord();
+        Word word6 = new Word();
         word6.setName("giant");
-        word6.setEMeaning("big man");
+        word6.setMeaning("big man");
         word6.setWordClass(WordClass.ADJECTIVE);
 
         Long memberId = memberService.join("JasonLee", "aaaaaa", MemberRole.ROLE_USER);

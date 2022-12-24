@@ -4,8 +4,8 @@ package jpanews.jpaproject1.service;
 import jpanews.jpaproject1.domain.Member;
 import jpanews.jpaproject1.domain.MemberRole;
 import jpanews.jpaproject1.domain.WordClass;
-import jpanews.jpaproject1.domain.Words.EngWord;
-import jpanews.jpaproject1.domain.Words.KorWord;
+
+import jpanews.jpaproject1.domain.Words.Word;
 import jpanews.jpaproject1.repository.MemberRepository;
 import jpanews.jpaproject1.repository.CustomWordListToWordRepository;
 import org.junit.Test;
@@ -127,20 +127,21 @@ public class MemberServiceTest {
         Assertions.assertEquals(true, memberService.login("JasonLee", "abcdef"));
         Long wordListId = wordListService.createWordList(memberId);
 
-        KorWord word1 = new KorWord();
+        Word word1 = new Word();
         word1.setName("pool");
-        word1.setKMeaning("바보");
+        word1.setMeaning("바보");
         word1.setWordClass(WordClass.NOUN);
 
-        KorWord word2 = new KorWord();
+        Word word2 = new Word();
         word2.setName("cat");
-        word2.setKMeaning("고양이");
+        word2.setMeaning("고양이");
         word2.setWordClass(WordClass.NOUN);
 
-        EngWord word3 = new EngWord();
+        Word word3 = new Word();
         word3.setName("great");
-        word3.setEMeaning("aaaaaaaaaa");
+        word3.setMeaning("very good");
         word3.setWordClass(WordClass.ADJECTIVE);
+
 
         wordService.saveWordToDb(word1);
         wordService.saveWordToDb(word2);

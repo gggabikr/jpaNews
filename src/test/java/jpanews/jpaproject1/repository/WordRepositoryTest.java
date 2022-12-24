@@ -1,7 +1,6 @@
 package jpanews.jpaproject1.repository;
 
-import jpanews.jpaproject1.domain.Words.EngWord;
-import jpanews.jpaproject1.domain.Words.KorWord;
+
 import jpanews.jpaproject1.domain.Words.Word;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -24,7 +23,7 @@ public class WordRepositoryTest {
     @Test
     public void save()throws Exception{
         //given
-        KorWord word = new KorWord();
+        Word word = new Word();
         word.setName("Cat");
 
         //when
@@ -42,19 +41,19 @@ public class WordRepositoryTest {
     @Test
     public void findAll()throws Exception{
         //given
-        KorWord word1 = new KorWord();
+        Word word1 = new Word();
         word1.setName("Cat");
-        word1.setKMeaning("고양이");
+        word1.setMeaning("고양이");
 
-        EngWord word2 = new EngWord();
+        Word word2 = new Word();
         word2.setName("Dog");
-        word2.setEMeaning("a domesticated carnivorous mammal that typically has a long snout, an acute sense of smell, nonretractable claws, and a barking, howling, or whining voice.");
+        word2.setMeaning("a domesticated carnivorous mammal that typically has a long snout, an acute sense of smell, nonretractable claws, and a barking, howling, or whining voice.");
 
-        KorWord word3 = new KorWord();
+        Word word3 = new Word();
         word3.setName("Horse");
-        word3.setKMeaning("말");
+        word3.setMeaning("말");
 
-        System.out.println(word2.getEMeaning());
+        System.out.println(word2.getMeaning());
 
         //when
         wordRepository.save(word1);
@@ -76,13 +75,13 @@ public class WordRepositoryTest {
     public void findByName()throws Exception{
 
         //given
-        EngWord word1 = new EngWord();
+        Word word1 = new Word();
         word1.setName("Cat");
-        EngWord word2 = new EngWord();
+        Word word2 = new Word();
         word2.setName("Catholic");
-        EngWord word3 = new EngWord();
+        Word word3 = new Word();
         word3.setName("Catalina");
-        EngWord word4 = new EngWord();
+        Word word4 = new Word();
         word4.setName("vacation");
 
         //when
@@ -104,13 +103,13 @@ public class WordRepositoryTest {
     public void findByNameStartingWith()throws Exception{
 
         //given
-        EngWord word1 = new EngWord();
+        Word word1 = new Word();
         word1.setName("Cat");
-        EngWord word2 = new EngWord();
+        Word word2 = new Word();
         word2.setName("Catholic");
-        EngWord word3 = new EngWord();
+        Word word3 = new Word();
         word3.setName("Catalina");
-        EngWord word4 = new EngWord();
+        Word word4 = new Word();
         word4.setName("vacation");
 
         //when
@@ -134,13 +133,13 @@ public class WordRepositoryTest {
     public void findByNameEndingWith()throws Exception{
 
         //given
-        EngWord word1 = new EngWord();
-        word1.setName("tion");
-        EngWord word2 = new EngWord();
-        word2.setName("onion");
-        EngWord word3 = new EngWord();
-        word3.setName("tione");
-        EngWord word4 = new EngWord();
+        Word word1 = new Word();
+        word1.setName("Cat");
+        Word word2 = new Word();
+        word2.setName("Catholic");
+        Word word3 = new Word();
+        word3.setName("Catalina");
+        Word word4 = new Word();
         word4.setName("vacation");
 
         //when
@@ -163,13 +162,13 @@ public class WordRepositoryTest {
     public void findByNameContaining()throws Exception{
 
         //given
-        EngWord word1 = new EngWord();
-        word1.setName("qwweeeqqtionwqe");
-        EngWord word2 = new EngWord();
-        word2.setName("onion");
-        EngWord word3 = new EngWord();
-        word3.setName("ewewewqtinoesaasdda");
-        EngWord word4 = new EngWord();
+        Word word1 = new Word();
+        word1.setName("Cat");
+        Word word2 = new Word();
+        word2.setName("Catholic");
+        Word word3 = new Word();
+        word3.setName("Catalina");
+        Word word4 = new Word();
         word4.setName("vacation");
 
         //when
@@ -192,13 +191,13 @@ public class WordRepositoryTest {
     public void TooShortCase() throws Exception{
 
         //given
-        EngWord word1 = new EngWord();
+        Word word1 = new Word();
         word1.setName("Cat");
-        EngWord word2 = new EngWord();
+        Word word2 = new Word();
         word2.setName("Catholic");
-        EngWord word3 = new EngWord();
+        Word word3 = new Word();
         word3.setName("Catalina");
-        EngWord word4 = new EngWord();
+        Word word4 = new Word();
         word4.setName("vacation");
 
         //when
@@ -217,36 +216,36 @@ public class WordRepositoryTest {
     @Test
     public void findAllKorWordByLanguage() throws Exception{
         //given
-        KorWord word1 = new KorWord();
+        Word word1 = new Word();
         word1.setName("Cat");
-        word1.setKMeaning("고양이");
+        word1.setMeaning("고양이");
 
-        EngWord word2 = new EngWord();
+        Word word2 = new Word();
         word2.setName("Dog");
-        word2.setEMeaning("a domesticated carnivorous mammal that typically has a long snout, " +
+        word2.setMeaning("a domesticated carnivorous mammal that typically has a long snout, " +
                 "an acute sense of smell, nonretractable claws, and a barking, howling, or whining voice.");
 
-        KorWord word3 = new KorWord();
+        Word word3 = new Word();
         word3.setName("Horse");
-        word3.setKMeaning("말");
+        word3.setMeaning("말");
 
-        KorWord word4 = new KorWord();
+        Word word4 = new Word();
         word4.setName("Catholic");
-        word4.setKMeaning("천주교의");
+        word4.setMeaning("천주교의");
 
 
-        EngWord word5 = new EngWord();
+        Word word5 = new Word();
         word5.setName("Catalina");
-        word5.setEMeaning("Name, female");
+        word5.setMeaning("Name, female");
 
-        EngWord word6 = new EngWord();
+        Word word6 = new Word();
         word6.setName("vacation");
-        word6.setEMeaning("an extended period of leisure and recreation, " +
+        word6.setMeaning("an extended period of leisure and recreation, " +
                 "especially one spent away from home or in traveling.");
 
-        KorWord word7 = new KorWord();
+        Word word7 = new Word();
         word7.setName("vacation");
-        word7.setKMeaning("방학");
+        word7.setMeaning("방학");
 
         //when
         wordRepository.save(word1);
