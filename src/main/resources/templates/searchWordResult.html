@@ -9,10 +9,10 @@
               <table id="wordSearchResult" class= "table">
                 <tr>
                   <th sec:authorize ="hasRole('ROLE_ADMIN')">Word ID</th>
-                  <th>Word</th>
+                  <th style= "width:11%;">Word</th>
                   <th>Word Class</th>
                   <th>Meaning</th>
-                  <th>Add</th>
+                  <th sec:authorize="isAuthenticated()">Add</th>
                   <th sec:authorize ="hasRole('ROLE_ADMIN')">Modify Word</th>
                 </tr>
                 <tr th:each= "word: ${result}">
@@ -20,45 +20,52 @@
                   <td th:text= "${word.name}"/>
                   <td th:text= "${word.wordClass}"/>
                   <td th:text= "${word.meaning}"/>
-                  <td onclick = "addToWordListForm();">+</td>
-<!--                   <td><a th:href="@{/addWordToList/{id}(id = ${word.id})}">+</a></td> -->
+                  <td sec:authorize="isAuthenticated()"><button class= "addBtn" onclick = "addToWordListForm(event);" th:value= "${word.id}">+</button></td>
                   <th sec:authorize ="hasRole('ROLE_ADMIN')"><a th:href="@{/admin/modifyWord/{id}(id = ${word.id})}">Edit</a></th>
+<!--                   <td><a th:href="@{/addWordToList/{id}(id = ${word.id})}">+</a></td> -->
                 </tr>
               </table>
-              <div id= "formLocation" style= "display: block; ">
-                  <form th:action="@{/admin/AddSingleWordToDB}" th:object="${word}" id="AddWordToWordlist" name= "AddWordToWordlist" method="GET">
-                    <label for= "input22">input22: </label><input type= "text" name= "input22"></input>
-                    <select name="wordListSelect" size="20">
+              <div if id= "formLocation" sec:authorize="isAuthenticated()" class= "noShow">
+                  <form action="#" th:object="${word}" id="AddWordToWordlistForm" name= "AddWordToWordlistForm" method="GET">
+                    <p>Select a wordList to add.</p>
+                    <select name="listSelect" id= "listSelect" size="6" style= "margin-bottom: 0.5em;">
                       <optgroup label="Your vocabulary lists">
-                        <option th:each="wordList: ${wordLists}" th:value="${wordList.id}" th:text = "${wordList.wordListName}">Cat</option>
+                        <option th:each="wordList: ${wordLists}" th:value="${wordList.id}" th:text = "${wordList.wordListName}"></option>
                       </optgroup>
                     </select>
+                    <br>
+                    <input class="btn btn-primary btn-sm selectBtn" id= "selectBtn" value= "Select">
                   </form>
               </div>
               <div th:replace="fragments/footer :: footer">
           </div> <!-- /container -->
           <script>
-          const input = document.getElementById("URL");
-          input.addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-              event.preventDefault();
-              document.getElementById("searchButton").click();
-            }
-          });
+              const form = document.getElementById("AddWordToWordlistForm");
 
-          const showGuide = document.getElementById("searchGuide");
-          showGuide.addEventListener("click", function(event){
-            if (document.getElementById("guideBody").classList.contains('noShow')){
-              document.getElementById("guideBody").classList.remove('noShow');
-            } else{
-              document.getElementById("guideBody").classList.add('noShow');
-            }});
+              function addToWordListForm(event){
+                  let wordId = event.target.value;
+                  console.log("wordId: "+ wordId);
+                  if (document.getElementById("formLocation").classList.contains('noShow')){
+                    document.getElementById("formLocation").classList.remove('noShow');
+                  } else{
+                    document.getElementById("formLocation").classList.add('noShow');
+                  }
 
-          function addToWordListForm(){
-//           워드아이디 받아서
-            document.getElementById("AddWordToWordlist").innerHTML
-            += '<span>Label: <input type="text"><small>(ft)</small></span>\r\n';
-          }
+                  const btn = document.getElementsByClassName("selectBtn");
+                  for (let i = 0; i < btn.length; i++) {
+                      btn[i].addEventListener("click", function(){
+                         const selectedList = document.getElementById("listSelect").value;
+                         console.log(selectedList);
+                         console.log("wordId received: "+ wordId);
+
+                         form.action = '/addWordToList/' + wordId;
+                         console.log(form.action);
+                         form.submit();
+                      });
+                  };
+              };
+//             document.getElementById("AddWordToWordlistForm").innerHTML
+//             += '<span>Label: <input type="text"><small>(ft)</small></span>\r\n';
           </script>
       <body>
   </html>
