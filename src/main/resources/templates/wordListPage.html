@@ -42,21 +42,14 @@
 <!--                       </optgroup> -->
 <!--                     </select> -->
 
-<!--                     <select name="wordListSelect" size="20"> -->
-<!--                       <optgroup label="Your vocabulary lists"> -->
-<!--                         <option th:each="wordList: ${wordLists}" th:value="${wordList.id}" th:text = "${wordList.wordListName}">Cat</option> -->
-<!--                       </optgroup> -->
-<!--                     </select> -->
-
                     <br><br>
-                    <a class="btn btn-primary btn-sm" href= "/addNewWordList"> Add... </a>
+                    <a class="btn btn-primary btn-sm" href= "/addNewWordList" style= "width: 7em;"> Add... </a>
 <!--                     <a href= "/" th:href= "@{|/deleteWordList/${wordListSelect}|}">Delete...</a> -->
-                    <input class="btn btn-primary btn-sm" type="submit" value= "gotInto">
-                    <input class="btn btn-primary btn-sm" value= "Delete..." id= "deleteButton" onclick="deleteWordlist();">
+<!--                     <input class="btn btn-primary btn-sm" type="submit" value= "gotInto"> -->
+                    <input class="btn btn-primary btn-sm" value= "Delete..." id= "deleteButton" onclick="deleteWordlist();" style= "width: 7em;">
                   </form>
 
               </div>
-
 
 
               <div th:replace="fragments/footer :: footer">
@@ -77,6 +70,8 @@
                     form.submit();
                     form.action = '/inWordList';
                 }
+            const form = document.getElementById("selectForm");
+            form.addEventListener("dblclick", function(){form.submit()});
         </script>
       </body>
   </html>
