@@ -98,6 +98,7 @@ public class WordListService {
             wordList.saveWordListToWord(wlw);
             wordListToWordRepository.createWlw(wlw);
         }
+        wordList.updateMemorizedStatus();
         return wordListId;
     }
 
@@ -107,6 +108,7 @@ public class WordListService {
             wordList.getWordListToWords().remove(wlw);
             wordListToWordRepository.deleteWlw(wlw.getId());
         }
+        wordList.updateMemorizedStatus();
         return wordListId;
     }
 
