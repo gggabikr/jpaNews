@@ -68,6 +68,7 @@ public class WordList {
             System.out.println(wlw.getWordList().getMember()+ ", "+wlw.getWordList().wordListName);
             System.out.println(wlw.getWord().getName());
         }
+        this.updateMemorizedStatus();
     }
 
     public String changeWordListName(String WL_name){
