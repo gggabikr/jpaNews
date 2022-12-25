@@ -8,60 +8,64 @@
           <div class="container">
               <div th:replace="fragments/bodyHeader :: bodyHeader"/>
               <h1>Vocabulary List</h1>
-              <div class="jumbotron">
-                  <a href= "#" onclick= "openForm()"><i class="fa-regular fa-filter"></i>filter</a><br>
-                  <div class = "form-popup" id= "form-popup">
-                    <form action= "/" method= "GET" class= "form-container form-horizontal">
-                      <label class= "checkbox ">
-                        <input type= "checkbox" id= "inlineCheckbox1" value= "1"> 1
-                      </label>
-                      <label class= "checkbox">
-                        <input type= "checkbox" id= "inlineCheckbox2" value= "2"> 2
-                      </label>
-                      <label class= "checkbox">
-                        <input type= "checkbox" id= "inlineCheckbox3" value= "3"> 3
-                      </label>
-                      <label class= "checkbox">
-                        <input type= "checkbox" id= "inlineCheckbox4" value= "4"> 4
-                      </label>
-                      <button type= "submit" class= "btn btn-sm btn-primary">apply</button>
-                    </form>
+
+
+              <div id= "bigContainerForWordList">
+                  <div>
+                      <a href= "#" onclick= "openForm()" class="filterLink"><i class="fa-regular fa-filter"></i>filter</a><br>
+                      <div class = "form-popup" id= "form-popup">
+                        <form action= "/" method= "GET" class= "form-container form-horizontal">
+                          <label class= "checkbox ">
+                            <input type= "checkbox" id= "inlineCheckbox1" value= "1"> 1
+                          </label>
+                          <label class= "checkbox">
+                            <input type= "checkbox" id= "inlineCheckbox2" value= "2"> 2
+                          </label>
+                          <label class= "checkbox">
+                            <input type= "checkbox" id= "inlineCheckbox3" value= "3"> 3
+                          </label>
+                          <label class= "checkbox">
+                            <input type= "checkbox" id= "inlineCheckbox4" value= "4"> 4
+                          </label>
+                          <button type= "submit" class= "btn btn-sm btn-primary">apply</button>
+                        </form>
+                      </div>
                   </div>
 
-              <table id="wordSearchResult" class= "table" style= "width:30%">
-                <tr>
-                  <th>Word</th>
-                </tr>
-                <tr th:each= "word: ${words}">
-                  <td th:text= "${word.name}"/>
-                </tr>
-<!--                 <div> -->
-<!--                     <p th:text= "${word.meaning}">/</p> -->
-<!--                 </div> -->
-              </table>
-
-<!--                   <form action= "/inWordList" th:object= "${WLWs}" method= "GET" id= "selectForm"> -->
-<!--                    -->
-<!--                     <select class= "selectBox" name="wordListSelect" size="21" onchange="this.form.submit()"> -->
-
-<!--                     <select class= "selectBox" id="wordListSelect" name="wordListSelect" size="21"> -->
-<!--                       <optgroup label="Your vocabulary lists"> -->
-<!--                         <option th:each="wordList: ${wordLists}" th:value="${wordList.id}" th:text = "${wordList.wordListName} + '.........' + ${wordList.numerator} + '/' + ${wordList.denominator}">Cat</option> -->
-<!--                       </optgroup> -->
-<!--                     </select> -->
-<!--                   </form> -->
-
-                    <br><br>
-                    <a class="btn btn-primary btn-sm" href= "/addNewWordList"> Add... </a>
-<!--                     <a href= "/" th:href= "@{|/deleteWordList/${wordListSelect}|}">Delete...</a> -->
-                    <input class="btn btn-primary btn-sm" type="submit" value= "gotInto">
-                    <input class="btn btn-primary btn-sm" value= "Delete..." id= "deleteButton" onclick="deleteWordlist();">
-
-
+                  <div class= "row">
+                      <div class="jumbotron column" id= "grayBG">
+                          <div class= "tableSideBySide" style= "width:45%;">
+                              <table class= "table" style= "background-color: white;">
+                                <tr>
+                                  <th style="width:13%;">Select</th>
+                                  <th>Word</th>
+                                </tr>
+                                <tr th:each= "word: ${words}">
+                                  <td class= "center"><input type="checkbox" th:id="${word.id}" name="checkedWords" th:value="${word.id}"></td>
+                                  <td th:text= "${word.name}" class= "wordsInList" th:value= "${word.meaning}" th:wordClass= "${word.wordClass}" onclick= "openWordDetail(event)"/>
+                                </tr>
+                              </table>
+                              <div id="btnDiv">
+                                <div>
+                                    <a class="btn btn-primary btn-sm" href= "#">&nbsp;&nbsp;&nbsp;&nbsp;Test words&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                    <a class="btn btn-primary btn-sm" href= "#">Reset test result</a>
+                                </div>
+                                <br>
+                                <div>
+                                    <a class="btn btn-primary btn-sm" href= "#">Change status</a>
+                                    <a class="btn btn-primary btn-sm" href= "#">&nbsp;Delete words&nbsp;</a>
+                                </div>
+                              </div>
+                          </div>
+                          <div id= "resultDiv">
+                          </div>
+                      </div>
+                  </div> <!-- /row -->
+                  <div class= "row">
+                    <div>
+                    </div>
+                  </div>
               </div>
-
-
-
               <div th:replace="fragments/footer :: footer">
           </div> <!-- /container -->
         <script>
@@ -74,12 +78,24 @@
             }
 
             function deleteWordlist(){
-                    const form = document.getElementById("selectForm");
-                    const val = document.getElementById("wordListSelect").value;
-                    form.action = '/deleteWordList';
-                    form.submit();
-                    form.action = '/inWordList';
+                const form = document.getElementById("selectForm");
+                const val = document.getElementById("wordListSelect").value;
+                form.action = '/deleteWordList';
+                form.submit();
+                form.action = '/inWordList';
+            }
+
+            function openWordDetail(event){
+                let wordName= event.target.textContent;
+                let meaning= event.target.getAttribute("value");
+                let wordClass= event.target.getAttribute("wordClass");
+                if(document.getElementById("resultDiv").innerHTML.length>3){
+                document.getElementById("resultDiv").innerHTML = `<table class= "tableSideBySide" id="wordMeaningTable"><tr><th style= "font-size: 23px; padding-bottom:0.5em;">${wordName}</th></tr><tr></tr><tr><td><span class= "wordClassSpan">${wordClass}</span><br><span>${meaning}</span></td></tr></table>\r\n`;
+                } else{
+                document.getElementById("resultDiv").innerHTML
+                += `<table class= "tableSideBySide" id="wordMeaningTable"><tr><th style= "font-size: 23px; padding-bottom:1em;">${wordName}</th><tr></tr><tr><td><span>${wordClass}</span><br><span>${meaning}</span></td></tr></table>\r\n`;
                 }
+            }
         </script>
       </body>
   </html>
