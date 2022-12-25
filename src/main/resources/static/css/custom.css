@@ -93,6 +93,95 @@ input[type="radio"]{
     border-radius: 20px;
 }
 
+#resultDiv{
+    width: 60%;
+    height: 90%;
+}
+
+#grayBG{
+    width: 90%;
+    padding-top: 1%;
+    bottom: 1%;
+    margin-bottom: 0;
+
+}
+
 #wordListSelect{
     width: 30em;
+}
+
+.center{
+    text-align: center;
+}
+
+.wordsInList:hover {
+    background-color: rgba(213, 213, 213, 0.76);
+}
+
+#wordMeaningTable>tr:nth-child(even) {
+    background-color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.row {
+    width: 90%;
+    display: flex;
+    vertical-align: center;
+    justify-content: space-evenly;
+}
+
+.column {
+    display: flex;
+    vertical-align: center;
+    justify-content: space-evenly;
+    /*float: left;*/
+    padding: 5px;
+}
+
+.tableSideBySide{
+    float: left;
+    margin-left: 2.5em;
+}
+
+#wordMeaningTable{
+    background-color: white;
+    padding: 3.5em;
+    width: auto;
+    min-width: 280px;
+    max-width: 100%;
+    border-collapse: initial;
+}
+
+.wordClassSpan{
+    font-size:17px;
+    background-color: #3c3c3c;
+    color: rgba(255, 255, 255, 0.89);
+    border-radius: 5px;
+    padding: 1px 4px;
+}
+
+#bigContainerForWordList{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-content: center;
+    background-color: #eee;
+}
+
+.filterLink{
+    display: block;
+    margin: 3% 0 -2% 8%;
+    z-index: 500;
+}
+
+.btn{
+    margin: 2px;
+}
+
+#btnDiv{
+    display: flex;
+    justify-content: space-evenly;
 }
