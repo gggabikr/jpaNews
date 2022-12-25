@@ -4,6 +4,7 @@ import jpanews.jpaproject1.domain.Member;
 import jpanews.jpaproject1.domain.WordClass;
 //import jpanews.jpaproject1.domain.Words.EngWord;
 //import jpanews.jpaproject1.domain.Words.KorWord;
+import jpanews.jpaproject1.domain.WordList;
 import jpanews.jpaproject1.domain.WordListToWord;
 import jpanews.jpaproject1.domain.Words.Word;
 import jpanews.jpaproject1.repository.CustomWordListToWordRepositoryImpl;
@@ -181,9 +182,12 @@ public class HomeController {
 //            System.out.println("member's name: " + member.getUsername());
 //            System.out.println("member's role: " + member.getRole());
 //            System.out.println("member's id: " + member.getId());
-
+            List<WordList> wordListByMember = wordListService.findAllWordListByMember(member.getId());
+            for (WordList wordList:wordListByMember) {
+                wordList.updateMemorizedStatus();
+            }
             model.addAttribute("member", member);
-            model.addAttribute("wordLists", wordListService.findAllWordListByMember(member.getId()));
+            model.addAttribute("wordLists", wordListByMember);
 
         }
     }
