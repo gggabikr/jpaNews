@@ -90,6 +90,7 @@ public class WordListService {
     }
 
     //add & delete wlw from the wordlist
+    @Transactional
     public Long addWordsToWordList(Long wordListId, Word... words){
         WordList wordList = wordListRepository.findOne(wordListId);
         List<WordListToWord> wordListToWords = WordListToWord.createWordListToWord(words);
@@ -101,7 +102,7 @@ public class WordListService {
         wordList.updateMemorizedStatus();
         return wordListId;
     }
-
+    @Transactional
     public Long deleteWordsFromWordList(Long wordListId, WordListToWord... wordListToWords){
         WordList wordList = wordListRepository.findOne(wordListId);
         for(WordListToWord wlw: wordListToWords){
@@ -112,6 +113,16 @@ public class WordListService {
         return wordListId;
     }
 
+    @Transactional
+    public Long deleteWordsFromWordListWithIds(Long wordListId, Long... wordIds){
+        WordList wordList = wordListRepository.findOne(wordListId);
+        for(Long wordId: wordIds){
+            wordList.getWordListToWords().remove(wordListToWordRepository.findByWordIdAndWordListId(wordListId, wordId).get(0));
+            wordListToWordRepository.deleteWlw(wordListId, wordId);
+        }
+        wordList.updateMemorizedStatus();
+        return wordListId;
+    }
 
     /*
          //==test==//
