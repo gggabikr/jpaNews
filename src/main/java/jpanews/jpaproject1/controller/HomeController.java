@@ -63,10 +63,12 @@ public class HomeController {
     public String inWordList(@RequestParam("wordListSelect") Long wordListId, Model model){
         System.out.println(wordListId);
         ArrayList<Word> words = new ArrayList<>();
-        List<WordListToWord> allByWordList = wlwRepository.findAllByWordList(wordListId);
+//        List<WordListToWord> allByWordList = wlwRepository.findAllByWordList(wordListId);
+        List<WordListToWord> allByWordList = wlwRepository.findAllByWordListWithWordData(wordListId);
         for(WordListToWord wlw: allByWordList){
             words.add(wlw.getWord());
         }
+        model.addAttribute("WLWs", allByWordList);
         model.addAttribute("words", words);
         model.addAttribute("wordListId", wordListId);
         return "insideOfWordlist";
