@@ -31,17 +31,20 @@
                         </form>
                       </div>
                   </div>
+                  <div style= "display:none" th:value="${wordListId}" id= "wordListId"></div>
 
                   <div class= "row">
                       <div class="jumbotron column" id= "grayBG">
                           <div class= "tableSideBySide" style= "width:45%;">
+                              <form method="GET" id= "formForInsideList">
+                              </form>
                               <table class= "table" style= "background-color: white;">
                                 <tr>
                                   <th style="width:13%;">Select</th>
                                   <th>Word</th>
                                 </tr>
                                 <tr th:each= "word: ${words}">
-                                  <td class= "center"><input type="checkbox" th:id="${word.id}" name="checkedWords" th:value="${word.id}"></td>
+                                  <td class= "center"><input type="checkbox" th:id="${word.name}+${word.id}" name="checkedWords" th:value="${word.id}" form= "formForInsideList"></td>
                                   <td th:text= "${word.name}" class= "wordsInList" th:value= "${word.meaning}" th:wordClass= "${word.wordClass}" onclick= "openWordDetail(event)"/>
                                 </tr>
                               </table>
@@ -53,7 +56,7 @@
                                 <br>
                                 <div>
                                     <a class="btn btn-primary btn-sm" href= "#">Change status</a>
-                                    <a class="btn btn-primary btn-sm" href= "#">&nbsp;Delete words&nbsp;</a>
+                                    <a class="btn btn-primary btn-sm" id= "deleteWLW" onclick="deleteWLW();" href= "#">&nbsp;Delete words&nbsp;</a>
                                 </div>
                               </div>
                           </div>
@@ -95,6 +98,14 @@
                 document.getElementById("resultDiv").innerHTML
                 += `<table class= "tableSideBySide" id="wordMeaningTable"><tr><th style= "font-size: 23px; padding-bottom:1em;">${wordName}</th><tr></tr><tr><td><span>${wordClass}</span><br><span>${meaning}</span></td></tr></table>\r\n`;
                 }
+            }
+
+            function deleteWLW(){
+            const form = document.getElementById("formForInsideList");
+            const wordListId = document.getElementById("wordListId").getAttribute("value");
+            form.action = '/user/deleteWLWsFromList/'+ wordListId;
+            form.submit();
+            form.action = '/testWords';
             }
         </script>
       </body>
