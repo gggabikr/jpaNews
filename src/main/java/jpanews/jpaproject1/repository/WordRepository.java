@@ -30,6 +30,14 @@ public class WordRepository {
         return em.find(Word.class, id);
     }
 
+    public ArrayList<Word> findWords(Long... Ids){
+        ArrayList<Word> words = new ArrayList<>();
+        for(Long wordId: Ids){
+            words.add(findOne(wordId));;
+        }
+        return words;
+    }
+
     public List<Word> findAll(){
         return em.createQuery("select w from Word w",Word.class).getResultList();
     }
