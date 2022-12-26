@@ -27,6 +27,13 @@ public class CustomWordListToWordRepositoryImpl implements CustomWordListToWordR
     }
 
     @Override
+    public List<WordListToWord> findAllByWordListWithWordData(Long wordListId) {
+        return em.createQuery("SELECT wlw FROM WordListToWord wlw JOIN FETCH wlw.word WHERE wlw.wordList.id = :wordListId", WordListToWord.class)
+                .setParameter("wordListId", wordListId)
+                .getResultList();
+    }
+
+    @Override
     public List<WordListToWord> findAll(){
         return em.createQuery(
                         "SELECT wlw FROM WordListToWord wlw", WordListToWord.class)
