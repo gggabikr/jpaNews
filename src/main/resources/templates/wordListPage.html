@@ -28,7 +28,7 @@
                     </form>
                   </div>
 
-                  <form action= "/inWordList" th:object= "${wordLists}" method= "GET" id= "selectForm">
+                  <form action= "/user/inWordList" th:object= "${wordLists}" method= "GET" id= "selectForm">
 <!--                     <select class= "selectBox" name="wordListSelect" size="21" onchange="this.form.submit()"> -->
                     <select class= "selectBox" id="wordListSelect" name="wordListSelect" size="21">
                       <optgroup label="Your vocabulary lists">
@@ -68,7 +68,7 @@
                     const val = document.getElementById("wordListSelect").value;
                     form.action = '/deleteWordList';
                     form.submit();
-                    form.action = '/inWordList';
+                    form.action = '/user/inWordList';
                 }
             const form = document.getElementById("selectForm");
             form.addEventListener("dblclick", function(){form.submit()});
