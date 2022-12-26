@@ -35,27 +35,37 @@
 
                   <div class= "row">
                       <div class="jumbotron column" id= "grayBG">
-                          <div class= "tableSideBySide" style= "width:45%;">
+                          <div class= "tableSideBySide">
                               <form method="GET" id= "formForInsideList">
                               </form>
                               <table class= "table" style= "background-color: white;">
                                 <tr>
                                   <th style="width:13%;">Select</th>
-                                  <th>Word</th>
+                                  <th style= "width:50%;">Word</th>
+                                  <th>Status</th>
+                                  <th>Test Results</th>
+                                  <th>Correct Answer Rate</th>
                                 </tr>
-                                <tr th:each= "word: ${words}">
-                                  <td class= "center"><input type="checkbox" th:id="${word.name}+${word.id}" name="checkedWords" th:value="${word.id}" form= "formForInsideList"></td>
-                                  <td th:text= "${word.name}" class= "wordsInList" th:value= "${word.meaning}" th:wordClass= "${word.wordClass}" onclick= "openWordDetail(event)"/>
+
+                                <tr th:each= "wlw: ${WLWs}">
+                                  <td class= "center"><input type="checkbox" th:id="${wlw.word.name}+${wlw.word.id}" name="checkedWords" th:value="${wlw.word.id}" form= "formForInsideList"></td>
+                                  <td th:text= "${wlw.word.name}" class= "wordsInList" th:value= "${wlw.word.meaning}" th:wordClass= "${wlw.word.wordClass}" onclick= "openWordDetail(event)"/>
+                                  <td th:text= "${wlw.status}"/>
+                                  <td th:value= "${wlw.recentTest}"><a href= "#">Details..</a></td>
+                                  <td th:if= "${wlw.testedCount} == '0'" th:text='--'/>
+                                  <th:block th:unless= "${wlw.testedCount} == '0'" th:with="fail = ${wlw.failedCount}, test = ${wlw.testedCount}, correctRate = ${(test-fail)/test}">
+                                    <td th:unless= "${wlw.testedCount} == '0'" th:text= "${correctRate}"/>
+                                  </th:block>
                                 </tr>
                               </table>
                               <div id="btnDiv">
                                 <div>
                                     <a class="btn btn-primary btn-sm" href= "#">&nbsp;&nbsp;&nbsp;&nbsp;Test words&nbsp;&nbsp;&nbsp;&nbsp;</a>
-                                    <a class="btn btn-primary btn-sm" href= "#">Reset test result</a>
+<!--                                     <a class="btn btn-primary btn-sm" href= "#">Reset test result</a> -->
                                 </div>
                                 <br>
                                 <div>
-                                    <a class="btn btn-primary btn-sm" href= "#">Change status</a>
+<!--                                     <a class="btn btn-primary btn-sm" href= "#">Change status</a> -->
                                     <a class="btn btn-primary btn-sm" id= "deleteWLW" onclick="deleteWLW();" href= "#">&nbsp;Delete words&nbsp;</a>
                                 </div>
                               </div>
