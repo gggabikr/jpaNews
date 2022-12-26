@@ -13,6 +13,20 @@ public class CustomWordListToWordRepositoryImpl implements CustomWordListToWordR
     private final EntityManager em;
 
     @Override
+    public WordListToWord findOne(Long wlwId) {
+        return em.find(WordListToWord.class, wlwId);
+    }
+
+
+    @Override
+    public List<WordListToWord> findByWordIdAndWordListId(Long wordListId, Long wordId) {
+        return em.createQuery("SELECT wlw FROM WordListToWord wlw WHERE wlw.wordList.id = :wordListId AND wlw.word.id = :wordId", WordListToWord.class)
+                .setParameter("wordListId", wordListId)
+                .setParameter("wordId", wordId)
+                .getResultList();
+    }
+
+    @Override
     public List<WordListToWord> findAll(){
         return em.createQuery(
                         "SELECT wlw FROM WordListToWord wlw", WordListToWord.class)
@@ -61,8 +75,29 @@ public class CustomWordListToWordRepositoryImpl implements CustomWordListToWordR
     }
 
     @Override
+    public void deleteWlw(Long wordListId, Long wordId) {
+        List<WordListToWord> WLWsByWordIdAndWordListId = findByWordIdAndWordListId(wordListId, wordId);
+        System.out.println("WLWs list: " + WLWsByWordIdAndWordListId);
+        if (WLWsByWordIdAndWordListId.size() == 1) {
+            em.remove(WLWsByWordIdAndWordListId.get(0));
+        } else{
+            throw new IllegalArgumentException("More than one WLW is found for given WordId and WordListId.");
+        }
+    }
+
+    @Override
     public void createWlw(WordListToWord wlw) {
-        em.persist(wlw);
-        em.flush();
+        Long wordId = wlw.getWord().getId();
+        Long wordListId = wlw.getWordList().getId();
+        if(findByWordIdAndWordListId(wordId, wordListId).size() ==0){
+            em.persist(wlw);
+            em.flush();
+        } else{
+            System.out.println(
+                    "The WLW with wordID: "+ wordId +
+                            " & wordListId: " + wordListId + " is already exist. " +
+                            "It will not added to your list.");
+        }
+
     }
 }
