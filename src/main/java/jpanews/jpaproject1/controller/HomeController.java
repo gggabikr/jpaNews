@@ -59,7 +59,7 @@ public class HomeController {
         return "wordListPage";
     }
 
-    @GetMapping("inWordList")
+    @GetMapping("/user/inWordList")
     public String inWordList(@RequestParam("wordListSelect") Long wordListId, Model model){
         System.out.println(wordListId);
         ArrayList<Word> words = new ArrayList<>();
@@ -68,6 +68,7 @@ public class HomeController {
             words.add(wlw.getWord());
         }
         model.addAttribute("words", words);
+        model.addAttribute("wordListId", wordListId);
         return "insideOfWordlist";
     }
 
@@ -227,4 +228,21 @@ public class HomeController {
         return "redirect:/user/wordList";
     }
 
+    @GetMapping("user/deleteWLWsFromList/{wordListId}")
+    public String deleteWLWsFromList(@PathVariable Long wordListId, @RequestParam Long[] checkedWords, Model model){
+
+        try{
+        System.out.println("wordListId: " + wordListId);
+//        for(Long id:checkedWords){
+//            System.out.println(id);
+//            wlwRepository.deleteWlw(wordListId, id);}
+            wordListService.deleteWordsFromWordListWithIds(wordListId, checkedWords);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            model.addAttribute("message", e.getMessage());
+            return "errorPage";
+        }
+        return "redirect:/user/inWordList?wordListSelect=" + wordListId;
+    }
 }
