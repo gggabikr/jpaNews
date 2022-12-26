@@ -67,6 +67,10 @@ public class WordService {
         return wordRepository.findOne(id);
     }
 
+    public ArrayList<Word> findByIds(Long... ids){
+        return wordRepository.findWords(ids);
+    }
+
     public List<Word> findAllWords(){
         return wordRepository.findAll();
     }
