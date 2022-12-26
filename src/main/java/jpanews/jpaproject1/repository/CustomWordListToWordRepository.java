@@ -5,6 +5,10 @@ import java.util.List;
 
 public interface CustomWordListToWordRepository {
 
+    public WordListToWord findOne(Long wlwId);
+
+    public List<WordListToWord> findByWordIdAndWordListId(Long wordId, Long wordListId);
+
     public List<WordListToWord> findAll();
 
     public List<WordListToWord> findAllByWordList(Long wordListId);
@@ -12,6 +16,8 @@ public interface CustomWordListToWordRepository {
     public List<WordListToWord> RandomSelect(Long wordListId, int number);
 
     public void deleteWlw(Long wlwId);
+
+    public void deleteWlw(Long wordListId, Long wordId);
 
     public void createWlw(WordListToWord wlw);
 }
