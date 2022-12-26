@@ -9,6 +9,8 @@ public interface CustomWordListToWordRepository {
 
     public List<WordListToWord> findByWordIdAndWordListId(Long wordId, Long wordListId);
 
+    public List<WordListToWord> findAllByWordListWithWordData(Long wordListId);
+
     public List<WordListToWord> findAll();
 
     public List<WordListToWord> findAllByWordList(Long wordListId);
