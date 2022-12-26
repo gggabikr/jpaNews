@@ -173,7 +173,7 @@ tr:nth-child(even) {
 
 .filterLink{
     display: block;
-    margin: 3% 0 -2% 8%;
+    margin: 3% 0 -2% 15%;
     z-index: 500;
 }
 
