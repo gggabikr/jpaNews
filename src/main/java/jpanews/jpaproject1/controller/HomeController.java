@@ -247,4 +247,27 @@ public class HomeController {
         }
         return "redirect:/user/inWordList?wordListSelect=" + wordListId;
     }
+
+    @GetMapping("/user/resetTestResult/{wlwId}")
+    public String resetTestResults(@PathVariable Long wlwId, Model model) {
+        Long wordListId;
+        try {
+            WordListToWord wordListToWord = wlwRepository.findOne(wlwId);
+            wordListId = wordListService.resetTestResult(wlwId);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            model.addAttribute("message", e.getMessage());
+            return "errorPage";
+        }
+        return "redirect:/user/inWordList?wordListSelect=" + wordListId;
+    }
+
+    @GetMapping("/user/toggleStatus/{wlwId}")
+    public String toggleStatus(@PathVariable Long wlwId, Model model){
+        WordListToWord wlw = wlwRepository.findOne(wlwId);
+//        wlw자체에 있는 updateStatus를 부르는 메서드를 서비스나 리포지토리에서 만들어서 콜하기
+//        + 워드아이디도 땡겨와서 리턴시 원래 그 단어장 페이지로 다시 이동하도록.
+    }
 }
