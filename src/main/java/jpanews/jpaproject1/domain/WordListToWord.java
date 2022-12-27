@@ -37,7 +37,7 @@ public class WordListToWord {
 
     private int testedCount; //테스트 횟수
 
-    private String recentTest; //recent 10 test result
+    private String recentTest; //recent 10 test result (correct= 1, wrong= 0)
 
     //==Constructor==//
     public static List<WordListToWord> createWordListToWord(Word... words){
@@ -72,10 +72,13 @@ public class WordListToWord {
         this.wordList.updateMemorizedStatus();
     }
 
-    public void resetTestResults(){
+    public Long resetTestResults(){
+        System.out.println("reset method runs");
         this.setTestedCount(0);
         this.setFailedCount(0);
         this.setRecentTest("");
+        this.wordList.updateMemorizedStatus();
+        return this.getWordList().getId();
     }
 
     public float getCorrectAnswerRate(){
