@@ -50,18 +50,18 @@
                                 <tr th:each= "wlw: ${WLWs}">
                                   <td class= "center"><input type="checkbox" th:id="${wlw.word.name}+${wlw.word.id}" name="checkedWords" th:value="${wlw.word.id}" form= "formForInsideList"></td>
                                   <td th:text= "${wlw.word.name}" class= "wordsInList" th:value= "${wlw.word.meaning}" th:wordClass= "${wlw.word.wordClass}" onclick= "openWordDetail(event)"/>
-                                  <td th:text= "${wlw.status}"/>
-                                  <td th:value= "${wlw.recentTest}"><a href= "#">Details..</a></td>
+                                  <td th:text= "${wlw.status}" class= "wordsInList" th:value = "${wlw.id}" onclick= "toggleStatus(event)"/>
+                                  <td><a class= "testDetail" th:value= "${wlw.recentTest}" th:wlw= "${wlw.id}" href= "#" onclick= "testDetail(event)">Details..</a></td>
                                   <td th:if= "${wlw.testedCount} == '0'" th:text='--'/>
-                                  <th:block th:unless= "${wlw.testedCount} == '0'" th:with="fail = ${wlw.failedCount}, test = ${wlw.testedCount}, correctRate = ${(test-fail)/test}">
-                                    <td th:unless= "${wlw.testedCount} == '0'" th:text= "${correctRate}"/>
+                                  <th:block th:unless= "${wlw.testedCount} == '0'" th:with="fail = ${wlw.failedCount}, test = ${wlw.testedCount}, correctRate = ${(test*1.0-fail)/test*100}">
+                                    <td th:unless= "${wlw.testedCount} == '0'" th:text= "${correctRate} + '%'"/>
                                   </th:block>
                                 </tr>
                               </table>
+                              <div id= "resultContainer" class= "noShow"></div>
                               <div id="btnDiv">
                                 <div>
                                     <a class="btn btn-primary btn-sm" href= "#">&nbsp;&nbsp;&nbsp;&nbsp;Test words&nbsp;&nbsp;&nbsp;&nbsp;</a>
-<!--                                     <a class="btn btn-primary btn-sm" href= "#">Reset test result</a> -->
                                 </div>
                                 <br>
                                 <div>
@@ -110,12 +110,33 @@
                 }
             }
 
+            function toggleStatus(event){
+                let wlwId = event.target.getAttribute("value");
+                location.replace(`/user/toggleStatus/${wlwId}`);
+            }
+
+
             function deleteWLW(){
-            const form = document.getElementById("formForInsideList");
-            const wordListId = document.getElementById("wordListId").getAttribute("value");
-            form.action = '/user/deleteWLWsFromList/'+ wordListId;
-            form.submit();
-            form.action = '/testWords';
+                const form = document.getElementById("formForInsideList");
+                const wordListId = document.getElementById("wordListId").getAttribute("value");
+                form.action = '/user/deleteWLWsFromList/'+ wordListId;
+                form.submit();
+                form.action = '/testWords';
+            }
+
+            function testDetail(event){
+                const wlwId = event.target.getAttribute("wlw");
+                const recentResult = event.target.getAttribute("value").replaceAll("1", "O").replaceAll("0", "X");
+                const resultPopUp = document.getElementById("resultContainer");
+                console.log(wlwId);
+                console.log(recentResult);
+                if(resultPopUp.textContent.length ==0){
+                    resultPopUp.classList.remove("noShow");
+                    resultPopUp.innerHTML = `Test result: ${recentResult} <br><a class= "btn btn-sm btn-primary" href=/user/resetTestResult/${wlwId}>Reset</a>`;
+                } else{
+                    resultPopUp.classList.add("noShow");
+                    resultPopUp.innerHTML = "";
+                }
             }
         </script>
       </body>
