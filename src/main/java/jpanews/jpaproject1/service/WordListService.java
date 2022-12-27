@@ -181,6 +181,11 @@ public class WordListService {
         testWords_code_fragment(randomSelectedWlws);
     }
 
+    @Transactional
+    public Long resetTestResult(Long wlwId){
+        return wordListToWordRepository.findOne(wlwId).resetTestResults();
+    }
+
     private void testWords_code_fragment(List<WordListToWord> randomSelectedWlws) throws Exception {
         StringBuilder OxList = new StringBuilder();
 
