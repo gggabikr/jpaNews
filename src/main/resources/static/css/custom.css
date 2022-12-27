@@ -185,3 +185,15 @@ tr:nth-child(even) {
     display: flex;
     justify-content: space-evenly;
 }
+
+#resultContainer{
+    text-align: center;
+    width: 23%;
+    padding: 4% 5%;
+    background-color: rgba(182, 182, 182, 0.7);
+    border-radius: 10px;
+    border: #5e5e5e solid 2px;
+    position: fixed;
+    left:50%;
+    bottom: 30%;
+}
