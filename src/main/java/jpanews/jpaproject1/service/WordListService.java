@@ -186,6 +186,13 @@ public class WordListService {
         return wordListToWordRepository.findOne(wlwId).resetTestResults();
     }
 
+    @Transactional
+    public Long toggleStatus(Long wlwId){
+        WordListToWord wlw = wordListToWordRepository.findOne(wlwId);
+        wlw.updateStatus();
+        return wlw.getWordList().getId();
+    }
+
     private void testWords_code_fragment(List<WordListToWord> randomSelectedWlws) throws Exception {
         StringBuilder OxList = new StringBuilder();
 
