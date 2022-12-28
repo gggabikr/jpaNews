@@ -266,8 +266,8 @@ public class HomeController {
 
     @GetMapping("/user/toggleStatus/{wlwId}")
     public String toggleStatus(@PathVariable Long wlwId, Model model){
-        WordListToWord wlw = wlwRepository.findOne(wlwId);
-//        wlw자체에 있는 updateStatus를 부르는 메서드를 서비스나 리포지토리에서 만들어서 콜하기
+        Long wordListId = wordListService.toggleStatus(wlwId);
 //        + 워드아이디도 땡겨와서 리턴시 원래 그 단어장 페이지로 다시 이동하도록.
+        return "redirect:/user/inWordList?wordListSelect="+wordListId;
     }
 }
