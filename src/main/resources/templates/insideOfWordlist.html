@@ -36,13 +36,13 @@
                   <div class= "row">
                       <div class="jumbotron column" id= "grayBG">
                           <div class= "tableSideBySide">
-                              <form method="GET" id= "formForInsideList">
+                              <form method="GET" id= "formForInsideList" action= "/user/testWords">
                               </form>
                               <table class= "table" style= "background-color: white;">
                                 <tr>
                                   <th style="width:13%;">Select</th>
                                   <th style= "width:50%;">Word</th>
-                                  <th>Status</th>
+                                  <th>Memorized?</th>
                                   <th>Test Results</th>
                                   <th>Correct Answer Rate</th>
                                 </tr>
@@ -54,19 +54,19 @@
                                   <td><a class= "testDetail" th:value= "${wlw.recentTest}" th:wlw= "${wlw.id}" href= "#" onclick= "testDetail(event)">Details..</a></td>
                                   <td th:if= "${wlw.testedCount} == '0'" th:text='--'/>
                                   <th:block th:unless= "${wlw.testedCount} == '0'" th:with="fail = ${wlw.failedCount}, test = ${wlw.testedCount}, correctRate = ${(test*1.0-fail)/test*100}">
-                                    <td th:unless= "${wlw.testedCount} == '0'" th:text= "${correctRate} + '%'"/>
+                                    <td th:unless= "${wlw.testedCount} == '0'" th:text= "${#numbers.formatDecimal(correctRate,2,2)} + '%'"/>
                                   </th:block>
                                 </tr>
                               </table>
                               <div id= "resultContainer" class= "noShow"></div>
                               <div id="btnDiv">
                                 <div>
-                                    <a class="btn btn-primary btn-sm" href= "#">&nbsp;&nbsp;&nbsp;&nbsp;Test words&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                    <a class="btn btn-primary btn-sm" href= "#" onclick= "testWords()">Test words</a>
                                 </div>
                                 <br>
                                 <div>
 <!--                                     <a class="btn btn-primary btn-sm" href= "#">Change status</a> -->
-                                    <a class="btn btn-primary btn-sm" id= "deleteWLW" onclick="deleteWLW();" href= "#">&nbsp;Delete words&nbsp;</a>
+                                    <a class="btn btn-primary btn-sm" id= "deleteWLW" onclick="deleteWLW();" href= "#">Delete words</a>
                                 </div>
                               </div>
                           </div>
@@ -115,13 +115,19 @@
                 location.replace(`/user/toggleStatus/${wlwId}`);
             }
 
+            function testWords(){
+                const form = document.getElementById("formForInsideList");
+                const wordListId = document.getElementById("wordListId").getAttribute("value");
+                form.action = '/user/testWords/'+ wordListId;
+                form.submit();
+            }
 
             function deleteWLW(){
                 const form = document.getElementById("formForInsideList");
                 const wordListId = document.getElementById("wordListId").getAttribute("value");
                 form.action = '/user/deleteWLWsFromList/'+ wordListId;
                 form.submit();
-                form.action = '/testWords';
+                form.action = '/user/testWords';
             }
 
             function testDetail(event){
