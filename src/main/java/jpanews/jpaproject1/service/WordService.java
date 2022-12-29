@@ -24,9 +24,10 @@ public class WordService {
 
     @Transactional
     public void saveWordToDb(Word word) throws Exception {
-        validateTooManyWords(word);
+        checkingErrors(word);
         wordRepository.save(word);
     }
+
 
     @Transactional
     public HashMap<Long, String> saveWordsToDb(ArrayList<Word> words) throws Exception {
@@ -44,11 +45,20 @@ public class WordService {
         return failedOnes;
     }
 
-    private void validateTooManyWords(Word word) throws Exception {
+    private void checkingErrors(Word word) throws Exception {
         List<Word> findWords = wordRepository.findByName(word.getName());
+        //prevent adding more than 10 different meanings for one word
         if (findWords.size() >= 10){
             throw new IllegalStateException("There are too many data saved for this word.");
         }
+        //prevent adding two exact same word data
+        for (Word word2: findWords) {
+            if(word.getName().equals(word2.getName()) && word.getMeaning().equals(word2.getMeaning())){
+                throw new IllegalStateException("There are exact same word in DB already: "
+                        + word.getName() + "//" + word.getMeaning());
+            }
+        }
+
     }
 
     @Transactional
