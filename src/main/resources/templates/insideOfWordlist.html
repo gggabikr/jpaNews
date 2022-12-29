@@ -138,11 +138,17 @@
                 console.log(recentResult);
                 if(resultPopUp.textContent.length ==0){
                     resultPopUp.classList.remove("noShow");
-                    resultPopUp.innerHTML = `Test result: ${recentResult} <br><a class= "btn btn-sm btn-primary" href=/user/resetTestResult/${wlwId}>Reset</a>`;
+                    resultPopUp.innerHTML = `Test result: ${recentResult} <br><a class= "btn btn-sm btn-primary" href=/user/resetTestResult/${wlwId}>Reset</a><a class= "btn btn-sm btn-primary" href="#" onclick= "popUpClose()">Close</a>`;
                 } else{
                     resultPopUp.classList.add("noShow");
                     resultPopUp.innerHTML = "";
                 }
+            }
+
+            function popUpClose(){
+                const resultPopUp = document.getElementById("resultContainer");
+                resultPopUp.classList.add("noShow");
+                resultPopUp.innerHTML = "";
             }
         </script>
       </body>
