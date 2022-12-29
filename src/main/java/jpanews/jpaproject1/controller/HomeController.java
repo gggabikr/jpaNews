@@ -11,6 +11,7 @@ import jpanews.jpaproject1.repository.CustomWordListToWordRepositoryImpl;
 import jpanews.jpaproject1.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -158,8 +159,9 @@ public class HomeController {
     }
 
     @PostMapping("/searchWord")
-    public String searchWordResult(Model model, @RequestParam String searchBar) throws Exception {
-        try{
+    public String searchWordResult(Model model, @RequestParam String searchBar) {
+        String result = null;
+        try {
             System.out.println("result is: " + searchBar);
             List<Word> searchWithString = wordService.findWithString(searchBar);
 //            for(Word word: searchWithString){
@@ -172,9 +174,12 @@ public class HomeController {
             System.out.println(e.getMessage());
             e.printStackTrace();
             model.addAttribute("message", e.getMessage());
-            return "errorPage";
+            result = "errorPage";
         }
-        return "searchWordResult";
+        if (result == null) {
+            result = "searchWordResult";
+        }
+        return result;
     }
 
     private void getWordlists(Model model) {
@@ -252,7 +257,7 @@ public class HomeController {
     public String resetTestResults(@PathVariable Long wlwId, Model model) {
         Long wordListId;
         try {
-            WordListToWord wordListToWord = wlwRepository.findOne(wlwId);
+//            WordListToWord wordListToWord = wlwRepository.findOne(wlwId);
             wordListId = wordListService.resetTestResult(wlwId);
 
         } catch (Exception e) {
@@ -265,9 +270,29 @@ public class HomeController {
     }
 
     @GetMapping("/user/toggleStatus/{wlwId}")
-    public String toggleStatus(@PathVariable Long wlwId, Model model){
+    public String toggleStatus(@PathVariable Long wlwId){
         Long wordListId = wordListService.toggleStatus(wlwId);
-//        + 워드아이디도 땡겨와서 리턴시 원래 그 단어장 페이지로 다시 이동하도록.
         return "redirect:/user/inWordList?wordListSelect="+wordListId;
     }
+
+    @GetMapping("/user/testWords/{wordListId}")
+    public String testWords(@PathVariable Long wordListId, @RequestParam @Nullable Long[] checkedWords, Model model) throws Exception {
+        if(checkedWords != null && checkedWords.length>0){
+            //test selected words
+            ArrayList<WordListToWord> wlws = new ArrayList<>();
+            for(Long wlwId: checkedWords){
+                wlws.add(wlwRepository.findByWordIdAndWordListId(wordListId, wlwId).get(0));
+            }
+            WordListToWord[] wlwList = wlws.toArray(new WordListToWord[0]);
+
+            //테스트를 해봅시당 !
+            wordListService.testWords(wordListId, wlwList);
+        } else{
+            //test random words
+            System.out.println("checkedWords is null");
+
+        }
+        return "";
+    }
+
 }
