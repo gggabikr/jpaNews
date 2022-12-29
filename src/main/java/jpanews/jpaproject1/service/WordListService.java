@@ -167,8 +167,8 @@ public class WordListService {
     @Transactional
     public void testWords(Long wordListId, WordListToWord... wlws) throws Exception {
 
-        List<WordListToWord> randomSelectedWlws = List.of(wlws);
-        testWords_code_fragment(randomSelectedWlws);
+        List<WordListToWord> SelectedWlws = List.of(wlws);
+        testWords_code_fragment(SelectedWlws);
     }
 
     //Test random selected words
@@ -193,10 +193,10 @@ public class WordListService {
         return wlw.getWordList().getId();
     }
 
-    private void testWords_code_fragment(List<WordListToWord> randomSelectedWlws) throws Exception {
+    private void testWords_code_fragment(List<WordListToWord> selectedWlws) throws Exception {
         StringBuilder OxList = new StringBuilder();
 
-        for (WordListToWord wlw : randomSelectedWlws) {
+        for (WordListToWord wlw : selectedWlws) {
 
 //            //==for test the method==//
 //            Scanner myObj = new Scanner(System.in);  // Create a Scanner object
@@ -210,8 +210,8 @@ public class WordListService {
             OxList.append(OX);
         }
         System.out.println(OxList);
-        for(int i = 0; i< randomSelectedWlws.size(); i++){
-            randomSelectedWlws.get(i).updateTestResult(Integer.parseInt(String.valueOf(OxList.charAt(i))));
+        for(int i = 0; i< selectedWlws.size(); i++){
+            selectedWlws.get(i).updateTestResult(Integer.parseInt(String.valueOf(OxList.charAt(i))));
         }
     }
 }
