@@ -292,7 +292,7 @@ public class HomeController {
             System.out.println("checkedWords is null");
 
         }
-        return "";
+        return "/user/testWords/";
     }
 
 }
