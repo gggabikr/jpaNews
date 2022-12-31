@@ -138,6 +138,7 @@ public class WordListService {
             if(!answers.contains(wrongAnswer))
             answers.add(wrongAnswer);
         }
+        //in the case if there's not enough word data in DB
         if(answers.size()<4){
             List<Word> allWords = wordRepository.findAll();
             while(answers.size()<4){
@@ -146,11 +147,25 @@ public class WordListService {
                     answers.add(wrongAnswer);
             }
         }
+
         Collections.shuffle(answers);
         System.out.println("단어: "+ wlw.getWord().getName());
         System.out.println("선택지: "+ answers);
         return answers;
     }
+
+    public int checkRightOrWrong(List<String> answerList, String userInput) throws Exception {
+//        if(answerList.get(userInput).equals())
+        String[] split = userInput.split("S");
+        Long wlwId = Long.valueOf(split[0]);
+        int userAnswer = Integer.parseInt(split[1]);
+        if(answerList.get(userAnswer).equals(wordListToWordRepository.findOne(wlwId).getWord().getMeaning())){
+            return 1;
+        } else{
+            return 0;
+        }
+    }
+
 
     public int checkRightOrWrong(WordListToWord rightAnswer, int userInput) throws Exception {
         List<String> answerList = makeAnswerList(rightAnswer);
@@ -165,7 +180,7 @@ public class WordListService {
 
     //Test words for selected words
     @Transactional
-    public void testWords(Long wordListId, WordListToWord... wlws) throws Exception {
+    public void testWords(WordListToWord... wlws) throws Exception {
 
         List<WordListToWord> SelectedWlws = List.of(wlws);
         testWords_code_fragment(SelectedWlws);
