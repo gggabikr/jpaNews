@@ -20,11 +20,16 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @Slf4j
@@ -276,23 +281,77 @@ public class HomeController {
     }
 
     @GetMapping("/user/testWords/{wordListId}")
-    public String testWords(@PathVariable Long wordListId, @RequestParam @Nullable Long[] checkedWords, Model model) throws Exception {
+    public String testWords(
+            @PathVariable Long wordListId,
+            @RequestParam @Nullable Long[] checkedWords,
+            Model model,
+            RedirectAttributes redirectAttributes) throws Exception {
         if(checkedWords != null && checkedWords.length>0){
             //test selected words
             ArrayList<WordListToWord> wlws = new ArrayList<>();
             for(Long wlwId: checkedWords){
-                wlws.add(wlwRepository.findByWordIdAndWordListId(wordListId, wlwId).get(0));
+                wlws.add(wlwRepository.findByWordIdAndWordListIdWithWordData(wordListId, wlwId).get(0));
             }
+            //words to be tested
             WordListToWord[] wlwList = wlws.toArray(new WordListToWord[0]);
 
-            //테스트를 해봅시당 !
-            wordListService.testWords(wordListId, wlwList);
+            //answer List for each words in above list
+            ArrayList<List<String>> answerLists = new ArrayList<>();
+            for(WordListToWord wlw: wlwList){
+                List<String> answerList = wordListService.makeAnswerList(wlw);
+                answerLists.add(answerList);
+            }
+
+//            System.out.println("WLWS: "+ wlws);
+//            for (List<String> answerList:answerLists) {
+//                for (String answer:answerList) {
+//                    System.out.println("answers: " + answer);
+//                }
+//            }
+
+            Map<WordListToWord, List<String>> questions = IntStream.range(0, wlws.size()).boxed()
+//                    .collect(Collectors.toMap(i -> wlws.get(i), i -> answerLists.get(i)));
+                    .collect(Collectors.toMap(wlws::get, answerLists::get));
+
+            redirectAttributes.addFlashAttribute("questionMap", questions);
+            //==테스트를 해봅시당 ! ==//
+            model.addAttribute("questions", questions);
+
+//            wordListService.testWords(wlwList);
+            return "testWordPage";
         } else{
             //test random words
+            model.addAttribute("wordListId", wordListId);
             System.out.println("checkedWords is null");
-
         }
-        return "/user/testWords/";
+        return "testWordPage";
     }
 
+    @GetMapping("/user/markTest")
+    public String testResultPage(
+            @RequestParam Map<String, String> requestParams,
+            @RequestBody @ModelAttribute("questionMap") Map<WordListToWord, List<String>> questions){
+        //이 외에도 테스트 페이지에서 만들어진 answerlist or 단어+선택지 맵 데이터 그대로 넘겨 받기...
+        //아니면 그외에 랜덤으로 만들어진 문제지들을 그대로 가져올 다른 방법이 있을까?
+        //혹은 아예 가져오는 값을 문제와 답이 아니라, 정답과 사용자의 답으로 가져와버리는건 어떨까.
+        //그런 경우에는 결과 반영은 쉬울지 몰라도 테스트 결과 페이지를 보이기가 쉽지않을것이다.
+        //그렇다면 테스트 결과 페이지는 따로 만들지않고 그냥 서밋을 누르면 자바스크립트로 정답과 오답을 표시하게 한뒤에
+        //확인버튼을 누르면 그때 결과가 반영되게...? 으음. 어렵다. 
+        for(String key: requestParams.keySet()){
+            System.out.println(key);
+            System.out.println(requestParams.get(key));
+        }
+
+        for(WordListToWord key: questions.keySet()){
+            System.out.println(key.getWord().getName());
+        }
+
+        for(List<String> answerList: questions.values()){
+            System.out.println(Arrays.toString(answerList.toArray()));
+        }
+//        for(int i=0; i<requestParams.size(); i++){
+//            requestParams.keySet().
+//        }
+        return "testResultPage";
+    }
 }
