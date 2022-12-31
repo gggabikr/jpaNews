@@ -388,7 +388,7 @@ public class WordListServiceTest {
 
         //then
         for(int i=0;i<5;i++){
-            wordListService.testWords(wordListId,
+            wordListService.testWords(
                     allByWordList.get(0),
                     allByWordList.get(2),
                     allByWordList.get(4),
