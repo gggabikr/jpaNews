@@ -2,8 +2,6 @@ package jpanews.jpaproject1.controller;
 
 import jpanews.jpaproject1.domain.Member;
 import jpanews.jpaproject1.domain.WordClass;
-//import jpanews.jpaproject1.domain.Words.EngWord;
-//import jpanews.jpaproject1.domain.Words.KorWord;
 import jpanews.jpaproject1.domain.WordList;
 import jpanews.jpaproject1.domain.WordListToWord;
 import jpanews.jpaproject1.domain.Words.Word;
@@ -21,19 +19,17 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.*;
 
 @Controller
 @Slf4j
 @RequiredArgsConstructor
+@SessionAttributes("TestOBJS")
 public class HomeController {
     private final WordListService wordListService;
     private final MemberService memberService;
@@ -280,14 +276,19 @@ public class HomeController {
         return "redirect:/user/inWordList?wordListSelect="+wordListId;
     }
 
+    @ModelAttribute("TestOBJS")
+    public ArrayList<testQuestionObj> TestOBJS(){
+        return new ArrayList<>();
+    }
+
     @GetMapping("/user/testWords/{wordListId}")
     public String testWords(
             @PathVariable Long wordListId,
             @RequestParam @Nullable Long[] checkedWords,
             Model model,
-            RedirectAttributes redirectAttributes) throws Exception {
-        if(checkedWords != null && checkedWords.length>0){
-            //test selected words
+            @ModelAttribute("TestOBJS") ArrayList<testQuestionObj> TestOBJS) throws Exception {
+            if(checkedWords != null && checkedWords.length>0){
+            //find wlws with ID values
             ArrayList<WordListToWord> wlws = new ArrayList<>();
             for(Long wlwId: checkedWords){
                 wlws.add(wlwRepository.findByWordIdAndWordListIdWithWordData(wordListId, wlwId).get(0));
@@ -295,27 +296,21 @@ public class HomeController {
             //words to be tested
             WordListToWord[] wlwList = wlws.toArray(new WordListToWord[0]);
 
-            //answer List for each words in above list
-            ArrayList<List<String>> answerLists = new ArrayList<>();
+            //list of testObj for each words in above list
+
             for(WordListToWord wlw: wlwList){
-                List<String> answerList = wordListService.makeAnswerList(wlw);
-                answerLists.add(answerList);
+                testQuestionObj testObj = wordListService.makeAnswerList(wlw);
+                TestOBJS.add(testObj);
             }
 
-//            System.out.println("WLWS: "+ wlws);
-//            for (List<String> answerList:answerLists) {
-//                for (String answer:answerList) {
-//                    System.out.println("answers: " + answer);
-//                }
-//            }
+            for(testQuestionObj obj: TestOBJS){
+                System.out.println(obj.getWlw().getWord().getName() + ", " +obj.getIndexOfCorrectAns());
+                System.out.println(obj.getAnswerList());
+                System.out.println("----------------------------");
+            }
 
-            Map<WordListToWord, List<String>> questions = IntStream.range(0, wlws.size()).boxed()
-//                    .collect(Collectors.toMap(i -> wlws.get(i), i -> answerLists.get(i)));
-                    .collect(Collectors.toMap(wlws::get, answerLists::get));
-
-            redirectAttributes.addFlashAttribute("questionMap", questions);
             //==테스트를 해봅시당 ! ==//
-            model.addAttribute("questions", questions);
+            model.addAttribute("testObjs", TestOBJS);
 
 //            wordListService.testWords(wlwList);
             return "testWordPage";
@@ -327,31 +322,39 @@ public class HomeController {
         return "testWordPage";
     }
 
-    @GetMapping("/user/markTest")
+    @PostMapping("/user/markTest")
     public String testResultPage(
             @RequestParam Map<String, String> requestParams,
-            @RequestBody @ModelAttribute("questionMap") Map<WordListToWord, List<String>> questions){
-        //이 외에도 테스트 페이지에서 만들어진 answerlist or 단어+선택지 맵 데이터 그대로 넘겨 받기...
-        //아니면 그외에 랜덤으로 만들어진 문제지들을 그대로 가져올 다른 방법이 있을까?
-        //혹은 아예 가져오는 값을 문제와 답이 아니라, 정답과 사용자의 답으로 가져와버리는건 어떨까.
-        //그런 경우에는 결과 반영은 쉬울지 몰라도 테스트 결과 페이지를 보이기가 쉽지않을것이다.
-        //그렇다면 테스트 결과 페이지는 따로 만들지않고 그냥 서밋을 누르면 자바스크립트로 정답과 오답을 표시하게 한뒤에
-        //확인버튼을 누르면 그때 결과가 반영되게...? 으음. 어렵다. 
-        for(String key: requestParams.keySet()){
-            System.out.println(key);
-            System.out.println(requestParams.get(key));
-        }
+            @ModelAttribute("TestOBJS") ArrayList<testQuestionObj> TestOBJS,
+            Model model){
 
-        for(WordListToWord key: questions.keySet()){
-            System.out.println(key.getWord().getName());
-        }
-
-        for(List<String> answerList: questions.values()){
-            System.out.println(Arrays.toString(answerList.toArray()));
-        }
-//        for(int i=0; i<requestParams.size(); i++){
-//            requestParams.keySet().
+//        for(testQuestionObj Obj: TestOBJS){
+//            System.out.println(Obj.getWlw().getWord().getName() + "/" + Obj.getAnswerList() + "/" + Obj.getIndexOfCorrectAns());
 //        }
+//
+//        for(String key: requestParams.keySet()){
+//            System.out.println(key);
+//            System.out.println(requestParams.get(key));
+//        }
+
+        for(testQuestionObj Obj: TestOBJS){
+            for(String key: requestParams.keySet()){
+                if(Objects.equals(Obj.getWlw().getWord().getName(), key)){
+                    Obj.setIndexOfUserInput(Integer.parseInt(requestParams.get(key).split("S")[1]));
+                }
+            }
+        }
+
+//        for(testQuestionObj Obj: TestOBJS){
+//            System.out.println(Obj.getWlw().getWord().getName()
+//                    + "/" + Obj.getAnswerList()
+//                    + "/" + Obj.getIndexOfCorrectAns()
+//                    + "/" + Obj.getIndexOfUserInput());
+//        }
+
+        //여기서 테스트 결과 반영하기. (아직안함)
+        model.addAttribute("testObjs", TestOBJS);
+
         return "testResultPage";
     }
 }
