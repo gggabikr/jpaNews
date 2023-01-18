@@ -56,7 +56,8 @@ public class HomeController {
 
     @GetMapping("/user/wordList")
 //        public String ToWordList(Model model, @AuthenticationPrincipal Principal principal){
-        public String ToWordList(Model model){
+        public String ToWordList(Model model, @ModelAttribute("TestOBJS") ArrayList<testQuestionObj> TestOBJS){
+        TestOBJS.clear();
         getWordlists(model);
         return "wordListPage";
     }
@@ -303,16 +304,16 @@ public class HomeController {
                 TestOBJS.add(testObj);
             }
 
-            for(testQuestionObj obj: TestOBJS){
-                System.out.println(obj.getWlw().getWord().getName() + ", " +obj.getIndexOfCorrectAns());
-                System.out.println(obj.getAnswerList());
-                System.out.println("----------------------------");
-            }
+//            for(testQuestionObj obj: TestOBJS){
+//                System.out.println(obj.getWlw().getWord().getName() + ", " +obj.getIndexOfCorrectAns());
+//                System.out.println(obj.getAnswerList());
+//                System.out.println("----------------------------");
+//            }
 
             //==테스트를 해봅시당 ! ==//
             model.addAttribute("testObjs", TestOBJS);
 
-//            wordListService.testWords(wlwList);
+            wordListService.testWords(wlwList);
             return "testWordPage";
         } else{
             //test random words
@@ -328,15 +329,6 @@ public class HomeController {
             @ModelAttribute("TestOBJS") ArrayList<testQuestionObj> TestOBJS,
             Model model){
 
-//        for(testQuestionObj Obj: TestOBJS){
-//            System.out.println(Obj.getWlw().getWord().getName() + "/" + Obj.getAnswerList() + "/" + Obj.getIndexOfCorrectAns());
-//        }
-//
-//        for(String key: requestParams.keySet()){
-//            System.out.println(key);
-//            System.out.println(requestParams.get(key));
-//        }
-
         for(testQuestionObj Obj: TestOBJS){
             for(String key: requestParams.keySet()){
                 if(Objects.equals(Obj.getWlw().getWord().getName(), key)){
@@ -345,14 +337,13 @@ public class HomeController {
             }
         }
 
-//        for(testQuestionObj Obj: TestOBJS){
-//            System.out.println(Obj.getWlw().getWord().getName()
-//                    + "/" + Obj.getAnswerList()
-//                    + "/" + Obj.getIndexOfCorrectAns()
-//                    + "/" + Obj.getIndexOfUserInput());
-//        }
+        //여기서 테스트 결과 반영하기.
+        for(testQuestionObj Obj: TestOBJS){
+            if(Obj.getIndexOfUserInput() == Obj.getIndexOfCorrectAns()){
 
-        //여기서 테스트 결과 반영하기. (아직안함)
+            }
+        }
+
         model.addAttribute("testObjs", TestOBJS);
 
         return "testResultPage";
