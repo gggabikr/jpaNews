@@ -50,7 +50,8 @@ public class WordList {
                 temp++;
             }
         }
-        this.numerator = getWordListToWords().size() - temp;
+//        this.numerator = getWordListToWords().size() - temp;
+        this.numerator = temp;
         this.denominator = getWordListToWords().size();
     }
 
