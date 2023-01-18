@@ -207,11 +207,11 @@ public class WordListService {
 //        } else {return 0;}
 //    }
 
-    public int checkRightOrWrong(testQuestionObj obj, int userInput) throws Exception {
-//        List<String> answerList = obj.getAnswerList();
+    public int checkRightOrWrong(testQuestionObj obj) throws Exception {
         int indexOfRightAnswer = obj.getIndexOfCorrectAns();
-        System.out.println("정답: "+ indexOfRightAnswer);
-        System.out.println("유저의 답: "+ userInput);
+        int userInput = obj.getIndexOfUserInput();
+//        System.out.println("정답: "+ indexOfRightAnswer);
+//        System.out.println("유저의 답: "+ userInput);
         if (userInput==indexOfRightAnswer){
             return 1;
         } else {return 0;}
@@ -254,8 +254,7 @@ public class WordListService {
 
         for (WordListToWord wlw : selectedWlws) {
             testQuestionObj testObj = makeAnswerList(wlw);
-            int userInput = 0;
-            int OX = checkRightOrWrong(testObj, userInput);
+            int OX = checkRightOrWrong(testObj);
             OxList.append(OX);
         }
         System.out.println(OxList);
