@@ -38,7 +38,7 @@
                           <div class= "tableSideBySide">
                               <form method="GET" id= "formForInsideList" action= "/user/testWords">
                               </form>
-                              <table class= "table" style= "background-color: white;">
+                              <table class= "table" style= "background-color: white; text-aline: center;">
                                 <tr>
                                   <th style="width:13%;">Select</th>
                                   <th style= "width:50%;">Word</th>
@@ -50,7 +50,8 @@
                                 <tr th:each= "wlw: ${WLWs}">
                                   <td class= "center"><input type="checkbox" th:id="${wlw.word.name}+${wlw.word.id}" name="checkedWords" th:value="${wlw.word.id}" form= "formForInsideList"></td>
                                   <td th:text= "${wlw.word.name}" class= "wordsInList" th:value= "${wlw.word.meaning}" th:wordClass= "${wlw.word.wordClass}" onclick= "openWordDetail(event)"/>
-                                  <td th:text= "${wlw.status}" class= "wordsInList" th:value = "${wlw.id}" onclick= "toggleStatus(event)"/>
+                                  <td th:if= "${wlw.status == TRUE}" th:text= "O" class= "wordsInList" th:value = "${wlw.id}" onclick= "toggleStatus(event)"/>
+                                  <td th:if= "${wlw.status == FALSE}" th:text= "X" class= "wordsInList" th:value = "${wlw.id}" onclick= "toggleStatus(event)"/>
                                   <td><a class= "testDetail" th:value= "${wlw.recentTest}" th:wlw= "${wlw.id}" href= "#" onclick= "testDetail(event)">Details..</a></td>
                                   <td th:if= "${wlw.testedCount} == '0'" th:text='--'/>
                                   <th:block th:unless= "${wlw.testedCount} == '0'" th:with="fail = ${wlw.failedCount}, test = ${wlw.testedCount}, correctRate = ${(test*1.0-fail)/test*100}">
@@ -88,14 +89,6 @@
                 } else{
                     document.getElementById("form-popup").style.display = "block"
                 }
-            }
-
-            function deleteWordlist(){
-                const form = document.getElementById("selectForm");
-                const val = document.getElementById("wordListSelect").value;
-                form.action = '/deleteWordList';
-                form.submit();
-                form.action = '/inWordList';
             }
 
             function openWordDetail(event){
