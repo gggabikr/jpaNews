@@ -197,3 +197,7 @@ tr:nth-child(even) {
     left:50%;
     bottom: 30%;
 }
+
+td{
+    text-align: center;
+}
