@@ -129,34 +129,6 @@ public class WordListService {
      * //==test==//
      */
 
-    // public List<String> makeAnswerList(WordListToWord wlw) throws Exception {
-    // List<String> answers = new ArrayList<>();
-    // String rightAnswer = wlw.getWord().getMeaning();
-    // answers.add(rightAnswer);
-    // List<Word> byWordClass =
-    // wordRepository.findByWordClass(String.valueOf(wlw.getWord().getWordClass()));
-    // for (int i = 0; i<3; i++){
-    // String wrongAnswer = byWordClass.get((int) (Math.random() *
-    // byWordClass.size())).getMeaning();
-    // if(!answers.contains(wrongAnswer))
-    // answers.add(wrongAnswer);
-    // }
-    // //in the case if there's not enough word data in DB
-    // if(answers.size()<4){
-    // List<Word> allWords = wordRepository.findAll();
-    // while(answers.size()<4){
-    // String wrongAnswer = allWords.get((int) (Math.random() *
-    // allWords.size())).getMeaning();
-    // if(!answers.contains(wrongAnswer))
-    // answers.add(wrongAnswer);
-    // }
-    // }
-    //
-    // Collections.shuffle(answers);
-    // System.out.println("단어: "+ wlw.getWord().getName());
-    // System.out.println("선택지: "+ answers);
-    // return answers;
-    // }
 
     public testQuestionObj makeAnswerList(WordListToWord wlw) throws Exception {
         List<String> answers = new ArrayList<>();
@@ -188,38 +160,6 @@ public class WordListService {
         return testObj;
     }
 
-    // public int checkRightOrWrong(List<String> answerList, String userInput)
-    // throws Exception {
-    //// if(answerList.get(userInput).equals())
-    // String[] split = userInput.split("S");
-    // Long wlwId = Long.valueOf(split[0]);
-    // int userAnswer = Integer.parseInt(split[1]);
-    // if(answerList.get(userAnswer).equals(wordListToWordRepository.findOne(wlwId).getWord().getMeaning())){
-    // return 1;
-    // } else{
-    // return 0;
-    // }
-    // }
-
-    // public int checkRightOrWrong(WordListToWord rightAnswer, int userInput)
-    // throws Exception {
-    // List<String> answerList = makeAnswerList(rightAnswer);
-    // int indexOfRightAnswer =
-    // answerList.indexOf(rightAnswer.getWord().getMeaning());
-    // System.out.println("정답: "+ indexOfRightAnswer);
-    // System.out.println("유저의 답: "+ userInput);
-    // if (userInput==indexOfRightAnswer){
-    // return 1;
-    // } else {return 0;}
-    // }
-
-    public int checkRightOrWrong(testQuestionObj obj) throws Exception {
-        int indexOfRightAnswer = obj.getIndexOfCorrectAns();
-        int userInput = obj.getIndexOfUserInput();
-//        System.out.println("정답: "+ indexOfRightAnswer);
-//        System.out.println("유저의 답: "+ userInput);
-        if (userInput==indexOfRightAnswer){
-=======
 //    public int checkRightOrWrong(List<String> answerList, String userInput) throws Exception {
 ////        if(answerList.get(userInput).equals())
 //        String[] split = userInput.split("S");
@@ -233,32 +173,13 @@ public class WordListService {
 //    }
 
 
-//    public int checkRightOrWrong(WordListToWord rightAnswer, int userInput) throws Exception {
-//        List<String> answerList = makeAnswerList(rightAnswer);
-//        int indexOfRightAnswer = answerList.indexOf(rightAnswer.getWord().getMeaning());
-//        System.out.println("정답: "+ indexOfRightAnswer);
-//        System.out.println("유저의 답: "+ userInput);
-//        if (userInput==indexOfRightAnswer){
-//            return 1;
-//        } else {return 0;}
-//    }
-
     public int checkRightOrWrong(testQuestionObj obj) {
         if (obj.getIndexOfCorrectAns()==obj.getIndexOfUserInput()){
->>>>>>> Stashed changes
             return 1;
         } else {return 0;}
     }
 
-    // Test words for selected words
-    <<<<<<<Updated upstream
 
-    @Transactional
-    public void testWords(WordListToWord... wlws) throws Exception {
-
-        List<WordListToWord> randomSelectedWlws = List.of(wlws);
-        testWords_code_fragment(randomSelectedWlws);
-=======
 //    @Transactional
 //    public void testWords(WordListToWord... wlws) throws Exception {
 //
@@ -269,7 +190,6 @@ public class WordListService {
     @Transactional
     public void testWords(ArrayList<testQuestionObj> Objs) throws Exception {
         testWords_code_fragment(Objs);
->>>>>>> Stashed changes
     }
 
     // Test random selected words
@@ -297,26 +217,46 @@ public class WordListService {
         return wlw.getWordList().getId();
     }
 
-    private void testWords_code_fragment(List<WordListToWord> selectedWlws) throws Exception {
+//    private void testWords_code_fragment(List<WordListToWord> selectedWlws) throws Exception {
+//        StringBuilder OxList = new StringBuilder();
+//
+//        for (WordListToWord wlw : selectedWlws) {
+//
+////            //==for test the method==//
+////            Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+////            System.out.println("Enter the answer");
+////            int userInput = myObj.nextInt();  // Read user input
+//
+//            //need to be replaced with actual user input//
+//            int userInput = 0;
+//            System.out.println();
+//            int OX = checkRightOrWrong(wlw, userInput);
+//            OxList.append(OX);
+//        }
+//        System.out.println(OxList);
+//        for(int i = 0; i< selectedWlws.size(); i++){
+//            selectedWlws.get(i).updateTestResult(Integer.parseInt(String.valueOf(OxList.charAt(i))));
+//        }
+//    }
+
+    @Transactional
+    public void testWords_code_fragment(ArrayList<testQuestionObj> ObjList) {
         StringBuilder OxList = new StringBuilder();
 
-        for (WordListToWord wlw : randomSelectedWlws) {
+        ArrayList<WordListToWord> wlws = new ArrayList<>();
+        for(testQuestionObj obj: ObjList){
+            wlws.add(obj.getWlw());
+        }
 
-<<<<<<< Updated upstream
-//            //==for test the method==//
-//            Scanner myObj = new Scanner(System.in);  // Create a Scanner object
-//            System.out.println("Enter the answer");
-//            int userInput = myObj.nextInt();  // Read user input
-
-            //need to be replaced with actual user input//
-            int userInput = 0;
-            System.out.println();
-            int OX = checkRightOrWrong(wlw, userInput);
+        for (jpanews.jpaproject1.service.testQuestionObj testQuestionObj : ObjList) {
+            int OX = checkRightOrWrong(testQuestionObj);
             OxList.append(OX);
         }
-        System.out.println(OxList);
-        for(int i = 0; i< randomSelectedWlws.size(); i++){
-            randomSelectedWlws.get(i).updateTestResult(Integer.parseInt(String.valueOf(OxList.charAt(i))));
-        }
+
+        System.out.println("OX list: " + OxList);
+//        for (int i = 0; i < ObjList.size(); i++) {
+//            ObjList.get(i).getWlw().updateTestResult(Integer.parseInt(String.valueOf(OxList.charAt(i))));
+//        }
+        wordListRepository.updateTestResult(wlws, String.valueOf(OxList));
     }
 }
