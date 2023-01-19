@@ -1,11 +1,12 @@
 .form-popup {
     display: none;
-    position: fixed;
+    position: relative;
     border: 3px solid #f1f1f1;
     z-index: 9;
     background-color: #c2c2c2;
     border-radius: 0.6em;
     padding-left: 2em;
+    width: 10em;
 }
 
 .selectBox{
