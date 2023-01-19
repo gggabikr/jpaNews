@@ -22,20 +22,20 @@ public class WordListService {
     private final CustomWordListToWordRepositoryImpl wordListToWordRepository;
     private final MemberRepository memberRepository;
 
-    //==create WordList==//
+    // ==create WordList==//
     @Transactional
     public Long createWordList(Long memberId, Word... words) {
 
-        //Refer entities
+        // Refer entities
         Member member = memberRepository.findOne(memberId);
 
-        if(words.length >0){
+        if (words.length > 0) {
             List<WordListToWord> wlws = WordListToWord.createWordListToWord(words);
             WordList newWordList = WordList.createWordList(member, wlws.toArray(new WordListToWord[0]));
             newWordList.changeWordListName(wordListNaming(memberId));
             wordListRepository.save(newWordList);
             return newWordList.getId();
-        }else {
+        } else {
             WordList newWordList = WordList.createWordList(member);
             newWordList.changeWordListName(wordListNaming(memberId));
             wordListRepository.save(newWordList);
@@ -43,10 +43,10 @@ public class WordListService {
         }
     }
 
-    //==WordList naming==//
-    public String wordListNaming(Long memberId){
+    // ==WordList naming==//
+    public String wordListNaming(Long memberId) {
 
-        for(int i = 1; i<1000; i++) {
+        for (int i = 1; i < 1000; i++) {
             String j;
             if (i < 10) {
                 j = "0" + i;
@@ -54,58 +54,58 @@ public class WordListService {
                 j = String.valueOf(i);
             }
             String wordListName = "Unnamed List" + j;
-            if(wordListRepository.findOneByWordListNameAndMemberId(wordListName, memberId).size() == 0){
+            if (wordListRepository.findOneByWordListNameAndMemberId(wordListName, memberId).size() == 0) {
                 return wordListName;
             }
         }
         return "NoMoreNameAvailable";
     }
 
-    public Long changeWordListName(Long wordListId, String wordListName){
+    public Long changeWordListName(Long wordListId, String wordListName) {
         wordListRepository.changeWordListName(wordListId, wordListName);
         return wordListId;
     }
 
-
-    //==delete WordList==//
+    // ==delete WordList==//
     @Transactional
-    public void deleteWordList(Long wordListId){
+    public void deleteWordList(Long wordListId) {
         List<WordListToWord> allWlwByWordList = wordListToWordRepository.findAllByWordList(wordListId);
-        for(WordListToWord wlw: allWlwByWordList){
+        for (WordListToWord wlw : allWlwByWordList) {
             wordListToWordRepository.deleteWlw(wlw.getId());
         }
         wordListRepository.deleteWordList(wordListId);
     }
 
-    public WordList findOneWordList(Long wordListId){
+    public WordList findOneWordList(Long wordListId) {
         return wordListRepository.findOne(wordListId);
     }
 
-    public List<WordList> findAllWordListByMember(Long memberId){
+    public List<WordList> findAllWordListByMember(Long memberId) {
         return wordListRepository.findAllByMember(memberId);
     }
 
-    public List<WordList> findAllByWordListWithMemorizedStatus(Long memberId, int percent){
-        return wordListRepository.findAllByMemorizedStatus(memberId,percent);
+    public List<WordList> findAllByWordListWithMemorizedStatus(Long memberId, int percent) {
+        return wordListRepository.findAllByMemorizedStatus(memberId, percent);
     }
 
-    //add & delete wlw from the wordlist
+    // add & delete wlw from the wordlist
     @Transactional
-    public Long addWordsToWordList(Long wordListId, Word... words){
+    public Long addWordsToWordList(Long wordListId, Word... words) {
         WordList wordList = wordListRepository.findOne(wordListId);
         List<WordListToWord> wordListToWords = WordListToWord.createWordListToWord(words);
         System.out.println(wordListToWords);
-        for(WordListToWord wlw: wordListToWords){
+        for (WordListToWord wlw : wordListToWords) {
             wordList.saveWordListToWord(wlw);
             wordListToWordRepository.createWlw(wlw);
         }
         wordList.updateMemorizedStatus();
         return wordListId;
     }
+
     @Transactional
-    public Long deleteWordsFromWordList(Long wordListId, WordListToWord... wordListToWords){
+    public Long deleteWordsFromWordList(Long wordListId, WordListToWord... wordListToWords) {
         WordList wordList = wordListRepository.findOne(wordListId);
-        for(WordListToWord wlw: wordListToWords){
+        for (WordListToWord wlw : wordListToWords) {
             wordList.getWordListToWords().remove(wlw);
             wordListToWordRepository.deleteWlw(wlw.getId());
         }
@@ -114,10 +114,11 @@ public class WordListService {
     }
 
     @Transactional
-    public Long deleteWordsFromWordListWithIds(Long wordListId, Long... wordIds){
+    public Long deleteWordsFromWordListWithIds(Long wordListId, Long... wordIds) {
         WordList wordList = wordListRepository.findOne(wordListId);
-        for(Long wordId: wordIds){
-            wordList.getWordListToWords().remove(wordListToWordRepository.findByWordIdAndWordListId(wordListId, wordId).get(0));
+        for (Long wordId : wordIds) {
+            wordList.getWordListToWords()
+                    .remove(wordListToWordRepository.findByWordIdAndWordListId(wordListId, wordId).get(0));
             wordListToWordRepository.deleteWlw(wordListId, wordId);
         }
         wordList.updateMemorizedStatus();
@@ -125,58 +126,61 @@ public class WordListService {
     }
 
     /*
-         //==test==//
-    */
+     * //==test==//
+     */
 
-//    public List<String> makeAnswerList(WordListToWord wlw) throws Exception {
-//        List<String> answers = new ArrayList<>();
-//        String rightAnswer = wlw.getWord().getMeaning();
-//        answers.add(rightAnswer);
-//        List<Word> byWordClass = wordRepository.findByWordClass(String.valueOf(wlw.getWord().getWordClass()));
-//        for (int i = 0; i<3; i++){
-//            String wrongAnswer = byWordClass.get((int) (Math.random() * byWordClass.size())).getMeaning();
-//            if(!answers.contains(wrongAnswer))
-//            answers.add(wrongAnswer);
-//        }
-//        //in the case if there's not enough word data in DB
-//        if(answers.size()<4){
-//            List<Word> allWords = wordRepository.findAll();
-//            while(answers.size()<4){
-//                String wrongAnswer = allWords.get((int) (Math.random() * allWords.size())).getMeaning();
-//                if(!answers.contains(wrongAnswer))
-//                    answers.add(wrongAnswer);
-//            }
-//        }
-//
-//        Collections.shuffle(answers);
-//        System.out.println("단어: "+ wlw.getWord().getName());
-//        System.out.println("선택지: "+ answers);
-//        return answers;
-//    }
+    // public List<String> makeAnswerList(WordListToWord wlw) throws Exception {
+    // List<String> answers = new ArrayList<>();
+    // String rightAnswer = wlw.getWord().getMeaning();
+    // answers.add(rightAnswer);
+    // List<Word> byWordClass =
+    // wordRepository.findByWordClass(String.valueOf(wlw.getWord().getWordClass()));
+    // for (int i = 0; i<3; i++){
+    // String wrongAnswer = byWordClass.get((int) (Math.random() *
+    // byWordClass.size())).getMeaning();
+    // if(!answers.contains(wrongAnswer))
+    // answers.add(wrongAnswer);
+    // }
+    // //in the case if there's not enough word data in DB
+    // if(answers.size()<4){
+    // List<Word> allWords = wordRepository.findAll();
+    // while(answers.size()<4){
+    // String wrongAnswer = allWords.get((int) (Math.random() *
+    // allWords.size())).getMeaning();
+    // if(!answers.contains(wrongAnswer))
+    // answers.add(wrongAnswer);
+    // }
+    // }
+    //
+    // Collections.shuffle(answers);
+    // System.out.println("단어: "+ wlw.getWord().getName());
+    // System.out.println("선택지: "+ answers);
+    // return answers;
+    // }
 
     public testQuestionObj makeAnswerList(WordListToWord wlw) throws Exception {
         List<String> answers = new ArrayList<>();
         String rightAnswer = wlw.getWord().getMeaning();
         answers.add(rightAnswer);
         List<Word> byWordClass = wordRepository.findByWordClass(String.valueOf(wlw.getWord().getWordClass()));
-        for (int i = 0; i<3; i++){
+        for (int i = 0; i < 3; i++) {
             String wrongAnswer = byWordClass.get((int) (Math.random() * byWordClass.size())).getMeaning();
-            if(!answers.contains(wrongAnswer))
+            if (!answers.contains(wrongAnswer))
                 answers.add(wrongAnswer);
         }
-        //in the case if there's not enough word data in DB
-        if(answers.size()<4){
+        // in the case if there's not enough word data in DB
+        if (answers.size() < 4) {
             List<Word> allWords = wordRepository.findAll();
-            while(answers.size()<4){
+            while (answers.size() < 4) {
                 String wrongAnswer = allWords.get((int) (Math.random() * allWords.size())).getMeaning();
-                if(!answers.contains(wrongAnswer))
+                if (!answers.contains(wrongAnswer))
                     answers.add(wrongAnswer);
             }
         }
 
         Collections.shuffle(answers);
-//        System.out.println("단어: "+ wlw.getWord().getName());
-//        System.out.println("선택지: "+ answers);
+        // System.out.println("단어: "+ wlw.getWord().getName());
+        // System.out.println("선택지: "+ answers);
         testQuestionObj testObj = new testQuestionObj();
         testObj.setWlw(wlw);
         testObj.setAnswerList(answers);
@@ -184,6 +188,38 @@ public class WordListService {
         return testObj;
     }
 
+    // public int checkRightOrWrong(List<String> answerList, String userInput)
+    // throws Exception {
+    //// if(answerList.get(userInput).equals())
+    // String[] split = userInput.split("S");
+    // Long wlwId = Long.valueOf(split[0]);
+    // int userAnswer = Integer.parseInt(split[1]);
+    // if(answerList.get(userAnswer).equals(wordListToWordRepository.findOne(wlwId).getWord().getMeaning())){
+    // return 1;
+    // } else{
+    // return 0;
+    // }
+    // }
+
+    // public int checkRightOrWrong(WordListToWord rightAnswer, int userInput)
+    // throws Exception {
+    // List<String> answerList = makeAnswerList(rightAnswer);
+    // int indexOfRightAnswer =
+    // answerList.indexOf(rightAnswer.getWord().getMeaning());
+    // System.out.println("정답: "+ indexOfRightAnswer);
+    // System.out.println("유저의 답: "+ userInput);
+    // if (userInput==indexOfRightAnswer){
+    // return 1;
+    // } else {return 0;}
+    // }
+
+    public int checkRightOrWrong(testQuestionObj obj) throws Exception {
+        int indexOfRightAnswer = obj.getIndexOfCorrectAns();
+        int userInput = obj.getIndexOfUserInput();
+//        System.out.println("정답: "+ indexOfRightAnswer);
+//        System.out.println("유저의 답: "+ userInput);
+        if (userInput==indexOfRightAnswer){
+=======
 //    public int checkRightOrWrong(List<String> answerList, String userInput) throws Exception {
 ////        if(answerList.get(userInput).equals())
 //        String[] split = userInput.split("S");
@@ -207,43 +243,55 @@ public class WordListService {
 //        } else {return 0;}
 //    }
 
-    public int checkRightOrWrong(testQuestionObj obj) throws Exception {
-        int indexOfRightAnswer = obj.getIndexOfCorrectAns();
-        int userInput = obj.getIndexOfUserInput();
-//        System.out.println("정답: "+ indexOfRightAnswer);
-//        System.out.println("유저의 답: "+ userInput);
-        if (userInput==indexOfRightAnswer){
+    public int checkRightOrWrong(testQuestionObj obj) {
+        if (obj.getIndexOfCorrectAns()==obj.getIndexOfUserInput()){
+>>>>>>> Stashed changes
             return 1;
         } else {return 0;}
     }
 
+    // Test words for selected words
+    <<<<<<<Updated upstream
 
-
-    //Test words for selected words
     @Transactional
     public void testWords(WordListToWord... wlws) throws Exception {
 
-        List<WordListToWord> SelectedWlws = List.of(wlws);
-        testWords_code_fragment(SelectedWlws);
-    }
-
-    //Test random selected words
-    @Transactional
-    public void testWords(Long wordListId,int numOfWords) throws Exception {
-
-        List<WordListToWord> randomSelectedWlws
-                = wordListToWordRepository.RandomSelect(wordListId, numOfWords);
-
+        List<WordListToWord> randomSelectedWlws = List.of(wlws);
         testWords_code_fragment(randomSelectedWlws);
+=======
+//    @Transactional
+//    public void testWords(WordListToWord... wlws) throws Exception {
+//
+//        List<WordListToWord> SelectedWlws = List.of(wlws);
+//        testWords_code_fragment(SelectedWlws);
+//    }
+
+    @Transactional
+    public void testWords(ArrayList<testQuestionObj> Objs) throws Exception {
+        testWords_code_fragment(Objs);
+>>>>>>> Stashed changes
+    }
+
+    // Test random selected words
+    @Transactional
+    public void testWords(Long wordListId, int numOfWords) throws Exception {
+
+        List<WordListToWord> randomSelectedWlws = wordListToWordRepository.RandomSelect(wordListId, numOfWords);
+
+        ArrayList<testQuestionObj> testObjs = new ArrayList<>();
+        for (WordListToWord wlw : randomSelectedWlws) {
+            testObjs.add(makeAnswerList(wlw));
+        }
+        // ??? 이렇게 되면 유저 인풋을 받는 단계가 어려워진다. 컨트롤러에서 만들고 유저인풋까지 받아와서 여기서 처리하도록 다시 만들자.
     }
 
     @Transactional
-    public Long resetTestResult(Long wlwId){
+    public Long resetTestResult(Long wlwId) {
         return wordListToWordRepository.findOne(wlwId).resetTestResults();
     }
 
     @Transactional
-    public Long toggleStatus(Long wlwId){
+    public Long toggleStatus(Long wlwId) {
         WordListToWord wlw = wordListToWordRepository.findOne(wlwId);
         wlw.updateStatus();
         return wlw.getWordList().getId();
@@ -252,14 +300,23 @@ public class WordListService {
     private void testWords_code_fragment(List<WordListToWord> selectedWlws) throws Exception {
         StringBuilder OxList = new StringBuilder();
 
-        for (WordListToWord wlw : selectedWlws) {
-            testQuestionObj testObj = makeAnswerList(wlw);
-            int OX = checkRightOrWrong(testObj);
+        for (WordListToWord wlw : randomSelectedWlws) {
+
+<<<<<<< Updated upstream
+//            //==for test the method==//
+//            Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+//            System.out.println("Enter the answer");
+//            int userInput = myObj.nextInt();  // Read user input
+
+            //need to be replaced with actual user input//
+            int userInput = 0;
+            System.out.println();
+            int OX = checkRightOrWrong(wlw, userInput);
             OxList.append(OX);
         }
         System.out.println(OxList);
-        for(int i = 0; i< selectedWlws.size(); i++){
-            selectedWlws.get(i).updateTestResult(Integer.parseInt(String.valueOf(OxList.charAt(i))));
+        for(int i = 0; i< randomSelectedWlws.size(); i++){
+            randomSelectedWlws.get(i).updateTestResult(Integer.parseInt(String.valueOf(OxList.charAt(i))));
         }
     }
 }

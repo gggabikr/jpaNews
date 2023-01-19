@@ -387,6 +387,7 @@ public class WordListServiceTest {
         List<WordListToWord> allByWordList = wordListToWordRepository.findAllByWordList(wordListId);
 
         //then
+<<<<<<< Updated upstream
         for(int i=0;i<5;i++){
             wordListService.testWords(
                     allByWordList.get(0),
@@ -395,6 +396,16 @@ public class WordListServiceTest {
                     allByWordList.get(6),
                     allByWordList.get(8));
         }
+=======
+//        for(int i=0;i<5;i++){
+//            wordListService.testWords(
+//                    allByWordList.get(0),
+//                    allByWordList.get(2),
+//                    allByWordList.get(4),
+//                    allByWordList.get(6),
+//                    allByWordList.get(8));
+//        }
+>>>>>>> Stashed changes
 
         for(int i=0; i<9;i+=2){
             Assertions.assertEquals(5, wordListService.findOneWordList(wordListId).getWordListToWords().get(i).getRecentTest().length());
