@@ -198,6 +198,14 @@ tr:nth-child(even) {
     bottom: 30%;
 }
 
-td{
+td, th{
     text-align: center;
+}
+
+#selectAll{
+    text-align: center;
+}
+
+.articleContainer{
+    width: 60%;
 }
