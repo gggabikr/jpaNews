@@ -40,7 +40,7 @@
                               </form>
                               <table class= "table" style= "background-color: white; text-aline: center;">
                                 <tr>
-                                  <th style="width:13%;">Select</th>
+                                  <th style="width:13%;" id= "selectAll">Select <br><input type= "checkbox" onclick= "checkAllOrNothing(this)"></th>
                                   <th style= "width:50%;">Word</th>
                                   <th>Memorized?</th>
                                   <th>Test Results</th>
@@ -142,6 +142,13 @@
                 const resultPopUp = document.getElementById("resultContainer");
                 resultPopUp.classList.add("noShow");
                 resultPopUp.innerHTML = "";
+            }
+
+            function checkAllOrNothing(target){
+                const checkboxes = document.getElementsByName('checkedWords');
+                checkboxes.forEach((checkbox) => {
+                  checkbox.checked = target.checked;
+                })
             }
         </script>
       </body>
