@@ -236,10 +236,6 @@ public class HomeController {
         return "redirect:/user/wordList";
     }
 
-    <<<<<<<
-
-    Updated upstream=======
-
     @GetMapping("user/deleteWLWsFromList/{wordListId}")
     public String deleteWLWsFromList(@PathVariable Long wordListId, @RequestParam Long[] checkedWords, Model model) {
 
@@ -353,7 +349,5 @@ public class HomeController {
         model.addAttribute("testObjs", TestOBJS);
 
         return "testResultPage";
-    }>>>>>>>
-
-    Stashed changes
+    }
 }
