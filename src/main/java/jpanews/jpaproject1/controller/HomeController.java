@@ -227,4 +227,120 @@ public class HomeController {
         return "redirect:/user/wordList";
     }
 
+<<<<<<< Updated upstream
+=======
+    @GetMapping("user/deleteWLWsFromList/{wordListId}")
+    public String deleteWLWsFromList(@PathVariable Long wordListId, @RequestParam Long[] checkedWords, Model model){
+
+        try{
+        System.out.println("wordListId: " + wordListId);
+//        for(Long id:checkedWords){
+//            System.out.println(id);
+//            wlwRepository.deleteWlw(wordListId, id);}
+            wordListService.deleteWordsFromWordListWithIds(wordListId, checkedWords);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            model.addAttribute("message", e.getMessage());
+            return "errorPage";
+        }
+        return "redirect:/user/inWordList?wordListSelect=" + wordListId;
+    }
+
+    @GetMapping("/user/resetTestResult/{wlwId}")
+    public String resetTestResults(@PathVariable Long wlwId, Model model) {
+        Long wordListId;
+        try {
+//            WordListToWord wordListToWord = wlwRepository.findOne(wlwId);
+            wordListId = wordListService.resetTestResult(wlwId);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+            model.addAttribute("message", e.getMessage());
+            return "errorPage";
+        }
+        return "redirect:/user/inWordList?wordListSelect=" + wordListId;
+    }
+
+    @GetMapping("/user/toggleStatus/{wlwId}")
+    public String toggleStatus(@PathVariable Long wlwId){
+        Long wordListId = wordListService.toggleStatus(wlwId);
+        return "redirect:/user/inWordList?wordListSelect="+wordListId;
+    }
+
+    @ModelAttribute("TestOBJS")
+    public ArrayList<testQuestionObj> TestOBJS(){
+        return new ArrayList<>();
+    }
+
+    @GetMapping("/user/testWords/{wordListId}")
+    public String testWords(
+            @PathVariable Long wordListId,
+            @RequestParam @Nullable Long[] checkedWords,
+            Model model,
+            @ModelAttribute("TestOBJS") ArrayList<testQuestionObj> TestOBJS) throws Exception {
+            if(checkedWords != null && checkedWords.length>0){
+            //find wlws with ID values
+            ArrayList<WordListToWord> wlws = new ArrayList<>();
+            for(Long wlwId: checkedWords){
+                wlws.add(wlwRepository.findByWordIdAndWordListIdWithWordData(wordListId, wlwId).get(0));
+            }
+            //words to be tested
+            WordListToWord[] wlwList = wlws.toArray(new WordListToWord[0]);
+
+            //list of testObj for each words in above list
+
+            for(WordListToWord wlw: wlwList){
+                testQuestionObj testObj = wordListService.makeAnswerList(wlw);
+                TestOBJS.add(testObj);
+            }
+
+//            for(testQuestionObj obj: TestOBJS){
+//                System.out.println(obj.getWlw().getWord().getName() + ", " +obj.getIndexOfCorrectAns());
+//                System.out.println(obj.getAnswerList());
+//                System.out.println("----------------------------");
+//            }
+
+            //==테스트를 해봅시당 ! ==//
+            model.addAttribute("testObjs", TestOBJS);
+
+//            wordListService.testWords(wlwList);
+            return "testWordPage";
+        } else{
+            //test random words
+            model.addAttribute("wordListId", wordListId);
+            System.out.println("checkedWords is null");
+        }
+        return "testWordPage";
+    }
+
+    @PostMapping("/user/markTest")
+    public String testResultPage(
+            @RequestParam Map<String, String> requestParams,
+            @ModelAttribute("TestOBJS") ArrayList<testQuestionObj> TestOBJS,
+            Model model) throws Exception {
+
+        for(testQuestionObj Obj: TestOBJS){
+            for(String key: requestParams.keySet()){
+                if(Objects.equals(Obj.getWlw().getWord().getName(), key)){
+                    Obj.setIndexOfUserInput(Integer.parseInt(requestParams.get(key).split("S")[1]));
+                }
+            }
+        }
+
+        //여기서 테스트 결과 반영하기.
+        wordListService.testWords(TestOBJS);
+//        for(testQuestionObj Obj: TestOBJS){
+//            if(Obj.getIndexOfUserInput() == Obj.getIndexOfCorrectAns()){
+//                //testCodeFragment 부분에서 새로 answer list를 만드는게 문제인듯하다.
+//                //이미 만들어진 앤서리스트를 넘겨서 채점을 하는 방식으로 바꾸기.
+//            }
+//        }
+
+        model.addAttribute("testObjs", TestOBJS);
+
+        return "testResultPage";
+    }
+>>>>>>> Stashed changes
 }
