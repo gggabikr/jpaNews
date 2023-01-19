@@ -2,10 +2,13 @@ package jpanews.jpaproject1.repository;
 
 import jpanews.jpaproject1.domain.Member;
 import jpanews.jpaproject1.domain.WordList;
+import jpanews.jpaproject1.domain.WordListToWord;
+import jpanews.jpaproject1.service.testQuestionObj;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -64,5 +67,12 @@ public class WordListRepository {
         WordList wordList = em.find(WordList.class, wordListId);
         wordList.changeWordListName(wordListName);
         return wordListId;
+    }
+
+    public void updateTestResult(ArrayList<WordListToWord> wlws, String OxList){
+        for (int i = 0; i < wlws.size(); i++) {
+            WordListToWord wordListToWord = em.find(WordListToWord.class, wlws.get(i).getId());
+            wordListToWord.updateTestResult(Integer.parseInt(String.valueOf(OxList.charAt(i))));
+        }
     }
 }
