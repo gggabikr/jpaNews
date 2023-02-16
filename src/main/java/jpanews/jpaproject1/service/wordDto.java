@@ -12,7 +12,6 @@ public class wordDto {
     private Long Id;
     @NotEmpty
     private String wordName;
-    @NotEmpty
     private String wordClass;
     @NotEmpty
     private String wordMeaning;
