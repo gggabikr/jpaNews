@@ -85,13 +85,13 @@ public class WordService {
         return wordRepository.findAll();
     }
 
-    public List<Word> findAllKorWords(){
-        return wordRepository.findAllKorWord();
-    }
-
-    public List<Word> findAllEngWords(){
-        return wordRepository.findAllEngWord();
-    }
+//    public List<Word> findAllKorWords(){
+//        return wordRepository.findAllKorWord();
+//    }
+//
+//    public List<Word> findAllEngWords(){
+//        return wordRepository.findAllEngWord();
+//    }
 
     public List<Word> findWithWordClass(String str) throws Exception {
         return wordRepository.findByWordClass(str);
@@ -99,6 +99,10 @@ public class WordService {
 //            NOUN, VERB, ADJECTIVE, ADVERB,
 //            PRONOUN, DETERMINER, PREPOSITION,
 //            CONJUNCTION, INTERJECTION
+    }
+
+    public List<Word> findWithStringOnlyExactResults(String str) throws Exception{
+        return wordRepository.findByName(str);
     }
 
     public List<Word> findWithString(String str) throws Exception{
@@ -111,10 +115,12 @@ public class WordService {
         boolean ifFirstCharIsStar = String.valueOf(str.charAt(0)).equals("*");
         boolean ifLastCharIsStar = String.valueOf(str.charAt(length - 1)).equals("*");
 
-        String wordWithoutLastChar = str.substring(0, length - 1);
-        String wordWithoutFirstChar = str.substring(1);
-        String wordWithoutBothEnd = str.substring(1,length - 1);
-
+        String wordWithoutLastChar;
+        String wordWithoutFirstChar;
+        String wordWithoutBothEnd;
+        wordWithoutLastChar = str.substring(0, length - 1);
+        wordWithoutFirstChar = str.substring(1);
+        wordWithoutBothEnd = str.substring(1, length - 1);
         List<Word> wordsNameStartingWith = wordRepository.findByNameStartingWith(wordWithoutLastChar);
         List<Word> wordsNameEndingWith = wordRepository.findByNameEndingWith(wordWithoutFirstChar);
         List<Word> exactMatch = wordRepository.findByName(str);
@@ -182,9 +188,14 @@ public class WordService {
                         tempArr[1] = tempArr[1].substring(0, i).trim();
                     }
                 }
-                String substring = line.substring(indexOfBracketClose + 1);
-                if(Objects.equals(substring.substring(-1), "\""))
-                tempArr[2] = substring.trim();
+                String subString = line.substring(indexOfBracketClose + 1);
+                if(Objects.equals(subString.substring(subString.length() -1), "\"")) {
+                    if(subString.endsWith("\"")){
+                        subString = subString.substring(0, subString.length() -1);
+                    }
+                    tempArr[2] = subString.trim();
+                }
+                tempArr[2] = subString.trim();
 //                System.out.println(Arrays.toString(tempArr));
                 Word word = new Word();
                 word.setName(tempArr[0].replaceAll("\"", ""));
@@ -224,7 +235,7 @@ public class WordService {
                 } else{
                     word.setWordClass(WordClass.NOTABAILABLE);
                 }
-                word.setMeaning(substring);
+                word.setMeaning(subString);
 //                saveWordToDb(word);
 //                System.out.println(word.getName() + ", " +word.getWordClass()
 //                        + ", " + word.getMeaning());
