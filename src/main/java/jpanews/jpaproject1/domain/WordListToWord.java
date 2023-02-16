@@ -47,7 +47,7 @@ public class WordListToWord {
             WordListToWord wordListToWord = new WordListToWord();
             wordListToWord.setWord(word);
             wordListToWord.setAddDate(Timestamp.valueOf(LocalDateTime.now()).getTime());
-            wordListToWord.setStatus(true);
+            wordListToWord.setStatus(false);
             wordListToWord.setFailedCount(0);
             wordListToWord.setTestedCount(0);
             wordListToWord.setRecentTest("");
