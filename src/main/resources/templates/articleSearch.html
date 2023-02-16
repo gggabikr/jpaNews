@@ -27,12 +27,19 @@
                     </p>
                   </div>
               </div>
-<!--               <form action="/" method="get"> -->
-<!--                   <input placeholder = "Enter article's URL..." type="search" title="search" class="form-control form-group"></input> -->
-<!--                   <a href="#" role="button" class="btn btn-primary btn-lg"> -->
-<!--                       <span>START</span> -->
-<!--                   </a> -->
-<!--               </form> -->
+
+              <div th:each= "word:${wordData}" class= "noShow">
+                <div th:id= "${word.key}" class= "noShow">
+                    <h4 th:text= "${word.key}"></h4>
+                    <div th:each= "eachWord: ${word.value}">
+                        <!--<span th:text= "${eachWord.wordName}"></span><br> -->
+                        <span th:if ="${eachWord.wordClass}" th:text= "${eachWord.wordClass}"></span>
+                        <br th:if ="${eachWord.wordClass}">
+                        <span th:text= "${eachWord.wordMeaning}"></span><br><br>
+                    </div>
+                </div>
+                <br><br>
+              </div>
 
               <div th:replace="fragments/footer :: footer">
           </div> <!-- /container -->
@@ -52,5 +59,7 @@
 
   자바스크립트를 사용해서 DB에 접근할 수는 없을까?
   혹은 자바스크립트를 통해서 스프링으로 접근하는건?
+
+  AJAX와 JSP를 배워보기로 결정했다. AJAX를
 
   -->
