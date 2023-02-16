@@ -8,8 +8,8 @@
           <div class="container">
               <div th:replace="fragments/bodyHeader :: bodyHeader"/>
               <h1>Article</h1>
-              <div class="jumbotron">
-                  <div class= "articleContainer">
+              <div class="jumbotron column" style= "padding:0">
+                  <div class= "articleContainer tableSideBySide" style= "margin-left:0; width:85%">
                     <h2 class= "wrapper" id= "title" >
                         <th:block th:each="eachWord: ${ArticleTitle}">
                             <span th:class="${#strings.toLowerCase(eachWord.replaceAll('[^A-Za-z0-9\-]', ''))}+ ' popup_word'" th:text= "${{ArticleTitle} != null} ? ${eachWord} : ' '"> </span>
@@ -26,20 +26,22 @@
                         </th:block>
                     </p>
                   </div>
+
+                  <div th:each= "word:${wordData}" class= "noShow wordMeaningTable tableSideBySide wordDetail">
+                    <div th:id= "${word.key}"  class= "noShow">
+                        <h3 th:text= "${word.key}"></h3>
+                        <div th:each= "eachWord: ${word.value}" th:data-wordId= "${eachWord.id}">
+                            <!--<span th:text= "${eachWord.wordName}"></span><br> -->
+                            <input type= "checkbox" th:value= "${eachWord.id}">
+                            <span th:if ="${eachWord.wordClass}" th:text= "${eachWord.wordClass}" class= "wordClassSpan"></span>
+                            <br th:if ="${eachWord.wordClass}">
+                            <span th:text= "${eachWord.wordMeaning}"></span><br><br>
+                        </div>
+                    </div>
+                  </div>
               </div>
 
-              <div th:each= "word:${wordData}" class= "noShow">
-                <div th:id= "${word.key}" class= "noShow">
-                    <h4 th:text= "${word.key}"></h4>
-                    <div th:each= "eachWord: ${word.value}">
-                        <!--<span th:text= "${eachWord.wordName}"></span><br> -->
-                        <span th:if ="${eachWord.wordClass}" th:text= "${eachWord.wordClass}"></span>
-                        <br th:if ="${eachWord.wordClass}">
-                        <span th:text= "${eachWord.wordMeaning}"></span><br><br>
-                    </div>
-                </div>
-                <br><br>
-              </div>
+
 
               <div th:replace="fragments/footer :: footer">
           </div> <!-- /container -->
