@@ -16,6 +16,19 @@ const mouseOnPopUp = function (event) {
     // const word = document.getElementById('title').childNodes;
     let text = event.currentTarget.classList[0];
     console.log(text)
+    let detailWordInfo = document.getElementById(text);
+    const addBtn = document.createElement("button");
+    // addBtn.createTextNode("Add To WordList");
+    // const addBtn = "<button>Add To WordList</button>";
+
+    if(detailWordInfo.classList.contains("noShow")){
+        detailWordInfo.classList.remove("noShow");
+        detailWordInfo.parentElement.classList.remove("noShow");
+        detailWordInfo.insertAdjacentElement("beforeend", addBtn);
+    } else{
+        detailWordInfo.classList.add("noShow");
+        detailWordInfo.parentElement.classList.add("noShow");
+    }
     // setTimeout(event.currentTarget.classList[0], 1300);
 
 
