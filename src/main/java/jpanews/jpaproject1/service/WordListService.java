@@ -61,6 +61,7 @@ public class WordListService {
         return "NoMoreNameAvailable";
     }
 
+    @Transactional
     public Long changeWordListName(Long wordListId, String wordListName) {
         wordListRepository.changeWordListName(wordListId, wordListName);
         return wordListId;
@@ -160,32 +161,12 @@ public class WordListService {
         return testObj;
     }
 
-//    public int checkRightOrWrong(List<String> answerList, String userInput) throws Exception {
-////        if(answerList.get(userInput).equals())
-//        String[] split = userInput.split("S");
-//        Long wlwId = Long.valueOf(split[0]);
-//        int userAnswer = Integer.parseInt(split[1]);
-//        if(answerList.get(userAnswer).equals(wordListToWordRepository.findOne(wlwId).getWord().getMeaning())){
-//            return 1;
-//        } else{
-//            return 0;
-//        }
-//    }
-
 
     public int checkRightOrWrong(testQuestionObj obj) {
         if (obj.getIndexOfCorrectAns()==obj.getIndexOfUserInput()){
             return 1;
         } else {return 0;}
     }
-
-
-//    @Transactional
-//    public void testWords(WordListToWord... wlws) throws Exception {
-//
-//        List<WordListToWord> SelectedWlws = List.of(wlws);
-//        testWords_code_fragment(SelectedWlws);
-//    }
 
     @Transactional
     public void testWords(ArrayList<testQuestionObj> Objs) throws Exception {
@@ -216,28 +197,6 @@ public class WordListService {
         wlw.updateStatus();
         return wlw.getWordList().getId();
     }
-
-//    private void testWords_code_fragment(List<WordListToWord> selectedWlws) throws Exception {
-//        StringBuilder OxList = new StringBuilder();
-//
-//        for (WordListToWord wlw : selectedWlws) {
-//
-////            //==for test the method==//
-////            Scanner myObj = new Scanner(System.in);  // Create a Scanner object
-////            System.out.println("Enter the answer");
-////            int userInput = myObj.nextInt();  // Read user input
-//
-//            //need to be replaced with actual user input//
-//            int userInput = 0;
-//            System.out.println();
-//            int OX = checkRightOrWrong(wlw, userInput);
-//            OxList.append(OX);
-//        }
-//        System.out.println(OxList);
-//        for(int i = 0; i< selectedWlws.size(); i++){
-//            selectedWlws.get(i).updateTestResult(Integer.parseInt(String.valueOf(OxList.charAt(i))));
-//        }
-//    }
 
     @Transactional
     public void testWords_code_fragment(ArrayList<testQuestionObj> ObjList) {
