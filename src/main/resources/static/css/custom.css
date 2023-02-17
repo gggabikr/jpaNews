@@ -18,6 +18,10 @@ body{
     /*padding: 2em 0;*/
 }
 
+table{
+    border: solid 2px darkgray;
+}
+
 .searchButton{
     border-radius: 30px;
     height: 2em;
