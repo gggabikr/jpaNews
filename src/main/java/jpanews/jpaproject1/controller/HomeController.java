@@ -90,6 +90,15 @@ public class HomeController {
         return "redirect:/user/wordList";
     }
 
+    @GetMapping("/changeWordListName")
+    public String ChangeWordListName(@RequestParam("nameChange") String nameChange, @RequestParam("wordListSelect") String wordListSelect){
+//        System.out.println(nameChange);
+//        System.out.println(wordListSelect);
+        Long wordListId = Long.valueOf(wordListSelect);
+        wordListService.changeWordListName(wordListId, nameChange);
+        return "redirect:/user/wordList";
+    }
+
     @GetMapping("/admin")
     public String AdminPage() {
         return "admin";
