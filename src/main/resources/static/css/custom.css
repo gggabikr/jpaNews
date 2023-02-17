@@ -65,10 +65,6 @@ input[type="radio"]{
     margin-bottom: 0.5em;
 }
 
-.noShow{
-    display: none;
-}
-
 #searchGuide{
     display: inline-flex;
     color: white;
@@ -281,6 +277,28 @@ td, th{
     padding: 0 2px;
 }
 
+#nameChangeWindow{
+    background-color: rgba(255, 255, 255, 0.7);
+    width: 200px;
+    height: 100px;
+    border: solid 2px rgba(91, 91, 91, 0.73);
+    border-radius: 20px;
+}
+
+.flexWithCentering{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#nameChange{
+    border-radius: 4px;
+    padding: 0 5px;
+    border: solid 2px rgba(91, 91, 91, 0.73);
+}
+
+
 .rightAns{
     background-color: rgba(88, 178, 88, 0.5);
 }
@@ -291,4 +309,8 @@ td, th{
 
 .noSelAns{
     background-color: rgba(238, 165, 39, 0.5);
+}
+
+.noShow{
+    display: none;
 }
