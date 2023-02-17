@@ -18,11 +18,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.support.RequestContextUtils;
+
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.*;
 
@@ -57,7 +55,7 @@ public class HomeController {
     // principal){
     public String ToWordList(Model model, @ModelAttribute("TestOBJS") ArrayList<testQuestionObj> TestOBJS) {
         TestOBJS.clear();
-        getWordlists(model);
+        SearchController.getWordLists(model, memberService, wordListService);
         return "wordListPage";
     }
 
@@ -169,7 +167,7 @@ public class HomeController {
             // word.getMeaning());
             // }
             model.addAttribute("result", searchWithString);
-            getWordlists(model);
+            SearchController.getWordLists(model, memberService, wordListService);
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -181,24 +179,6 @@ public class HomeController {
             result = "searchWordResult";
         }
         return result;
-    }
-
-    private void getWordlists(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("username: " + authentication.getName()); // == username
-        if (!authentication.getName().equals("anonymousUser")) {
-            Member member = memberService.findByUsername(authentication.getName()).get(0);
-            // System.out.println("member's name: " + member.getUsername());
-            // System.out.println("member's role: " + member.getRole());
-            // System.out.println("member's id: " + member.getId());
-            List<WordList> wordListByMember = wordListService.findAllWordListByMember(member.getId());
-            for (WordList wordList : wordListByMember) {
-                wordList.updateMemorizedStatus();
-            }
-            model.addAttribute("member", member);
-            model.addAttribute("wordLists", wordListByMember);
-
-        }
     }
 
     @GetMapping("/admin/modifyWord/{wordId}")
