@@ -208,11 +208,20 @@ public class HomeController {
     }
 
     @GetMapping("/addWordToList/{wordId}")
-    public String addWordToList(@PathVariable Long wordId, @RequestParam Long listSelect) {
+    public String addWordToList(@PathVariable String wordId, @RequestParam Long listSelect) {
         System.out.println("word Id: " + wordId);
         System.out.println("list Id: " + listSelect);
-        Word word = wordService.findById(wordId);
-        wordListService.addWordsToWordList(listSelect, word);
+        if(!wordId.contains("D")){
+            Word word = wordService.findById(Long.valueOf(wordId));
+            wordListService.addWordsToWordList(listSelect, word);
+        }else{
+            String[] wordIds = wordId.split("D");
+            for(String eachId: wordIds){
+                Word word = wordService.findById(Long.valueOf(eachId));
+                wordListService.addWordsToWordList(listSelect, word);
+            }
+        }
+
         return "redirect:/user/wordList";
     }
 
