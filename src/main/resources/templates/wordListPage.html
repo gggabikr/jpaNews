@@ -41,35 +41,59 @@
 <!--                         <option th:each="wordList: ${wordLists}" th:value="${wordList.id}" th:text = "${wordList.wordListName}">Cat</option> -->
 <!--                       </optgroup> -->
 <!--                     </select> -->
-
+                    <div class= "noShow" id= "nameChangeWindow">
+                        <input type= "text" id="nameChange" name="nameChange" minlength="4" maxlength="30" placeholder= "Enter new name">
+                        <div>
+                            <button type= "button" class= "btn btn-primary btn-sm" id= "changeNameSubmitBtn" onclick= "changeWordlistName()">Submit</button>
+                            <button type= "button" class= "btn btn-primary btn-sm" id= "changeNameCancelBtn" onclick= "openChangeNameForm()">Cancel</button>
+                        </div>
+                    </div>
                     <br><br>
-                    <a class="btn btn-primary btn-sm" href= "/addNewWordList" style= "width: 7em;"> Add... </a>
-<!--                     <a href= "/" th:href= "@{|/deleteWordList/${wordListSelect}|}">Delete...</a> -->
-<!--                     <input class="btn btn-primary btn-sm" type="submit" value= "gotInto"> -->
-                    <input class="btn btn-primary btn-sm" value= "Delete..." id= "deleteButton" onclick="deleteWordlist();" style= "width: 7em;">
+                    <a class= "btn btn-primary btn-sm" href= "/addNewWordList" style= "width: 8em;"> Add... </a>
+                    <input class= "btn btn-primary btn-sm" value= "Delete..." id= "deleteButton" onclick= "deleteWordlist();" style= "width: 8em;">
+                    <button type= "button" class= "btn btn-primary btn-sm" id= "chgNameFormOpenBtn" onclick= "openChangeNameForm();" style= "width: 8em;">Change name</button>
                   </form>
-
               </div>
-
 
               <div th:replace="fragments/footer :: footer">
           </div> <!-- /container -->
         <script>
             function openForm(){
                 if(document.getElementById("form-popup").style.display == "block"){
-                    document.getElementById("form-popup").style.display = "none"
+                    document.getElementById("form-popup").style.display = "none";
                 } else{
-                    document.getElementById("form-popup").style.display = "block"
+                    document.getElementById("form-popup").style.display = "block";
                 }
             }
 
             function deleteWordlist(){
-                    const form = document.getElementById("selectForm");
-                    const val = document.getElementById("wordListSelect").value;
-                    form.action = '/deleteWordList';
-                    form.submit();
-                    form.action = '/user/inWordList';
+                const form = document.getElementById("selectForm");
+                const val = document.getElementById("wordListSelect").value;
+                form.action = '/deleteWordList';
+                form.submit();
+                form.action = '/user/inWordList';
+            }
+
+            function openChangeNameForm(){
+                const nameInputWin = document.getElementById("nameChangeWindow");
+                if(nameInputWin.classList.contains("noShow")){
+                    nameInputWin.classList.remove("noShow");
+                    nameInputWin.classList.add("flexWithCentering");
+                } else{
+                    nameInputWin.classList.add("noShow");
+                    nameInputWin.classList.remove("flexWithCentering");
                 }
+            }
+
+            function changeWordlistName(){
+                const form = document.getElementById("selectForm");
+//                 const val = document.getElementById("wordListSelect").value;
+//                 const nameInput = document.getElementById("nameChange").value;
+                form.action = "/changeWordListName";
+                form.submit();
+                form.action = '/user/inWordList';
+            }
+
             const form = document.getElementById("selectForm");
             form.addEventListener("dblclick", function(){form.submit()});
         </script>
