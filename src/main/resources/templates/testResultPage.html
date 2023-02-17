@@ -15,24 +15,36 @@
 
                     <div th:if= "${testObj.indexOfCorrectAns != testObj.indexOfUserInput}" th:object= "${testObj}">
                         <div th:each= "answer,iter:${testObj.answerList}">
-                            <span class= "testChoices" th:if= "${testObj.indexOfCorrectAns == iter.index}"><i class='fa-solid fa-circle-check'></i></span>
-                            <span class= "testChoices" th:if= "${testObj.indexOfCorrectAns == iter.index}" th:text= "${answer}"></span>
-
-                            <span class= "testChoices" th:if= "${testObj.indexOfCorrectAns != iter.index and testObj.indexOfUserInput == iter.index}"><i class='fa-sharp fa-solid fa-circle-xmark'></i></span>
-                            <span class= "testChoices" th:if= "${testObj.indexOfCorrectAns != iter.index and testObj.indexOfUserInput == iter.index}" th:text= "${answer}"></span>
-
-                            <span class= "testChoices" th:if= "${testObj.indexOfCorrectAns != iter.index and testObj.indexOfUserInput != iter.index}">></span>
-                            <span class= "testChoices" th:if= "${testObj.indexOfCorrectAns != iter.index and testObj.indexOfUserInput != iter.index}" th:text= "${answer}"></span>
+                            <!--right answer from incorrect question-->
+                            <div class= "testChoiceContainer rightAns" th:if= "${testObj.indexOfCorrectAns == iter.index}">
+                                <span class= "testChoices"><i class='fa-solid fa-circle-check'></i></span>
+                                <span class= "testChoices" th:text= "${answer}"></span>
+                            </div>
+                            <!--wrong answer that the user selected from incorrect question-->
+                            <div class= "testChoiceContainer wrongAns" th:if= "${testObj.indexOfCorrectAns != iter.index and testObj.indexOfUserInput == iter.index}">
+                                <span class= "testChoices"><i class='fa-sharp fa-solid fa-circle-xmark'></i></span>
+                                <span class= "testChoices" th:text= "${answer}"></span>
+                            </div>
+                            <!--wrong answers from incorrect question-->
+                            <div class= "testChoiceContainer noSelAns" th:if= "${testObj.indexOfCorrectAns != iter.index and testObj.indexOfUserInput != iter.index}">
+                                <span class= "testChoices"><i class="fa-solid fa-triangle-exclamation"></i></span>
+                                <span class= "testChoices" th:text= "${answer}"></span>
+                            </div>
                         </div>
                     </div>
 
                     <div th:if= "${testObj.indexOfCorrectAns == testObj.indexOfUserInput}" th:object= "${testObj}">
                         <div th:each= "answer,iter:${testObj.answerList}">
-                            <span class= "testChoices" th:if= "${testObj.indexOfCorrectAns == iter.index}"><i class='fa-solid fa-circle-check'></i></span>
-                            <span class= "testChoices" th:if= "${testObj.indexOfCorrectAns == iter.index}" th:text= "${answer}"></span>
-
-                            <span class= "testChoices" th:if= "${testObj.indexOfUserInput != iter.index}">></span>
-                            <span class= "testChoices" th:if= "${testObj.indexOfUserInput != iter.index}" th:text= "${answer}"></span>
+                            <!--right answer (that the user selected) from correct question-->
+                            <div class= "testChoiceContainer rightAns" th:if= "${testObj.indexOfCorrectAns == iter.index}">
+                                <span class= "testChoices"><i class='fa-solid fa-circle-check'></i></span>
+                                <span class= "testChoices" th:text= "${answer}"></span>
+                            </div>
+                            <!--wrong answers from correct question-->
+                            <div class= "testChoiceContainer noSelAns" th:if= "${testObj.indexOfUserInput != iter.index}">
+                                <span class= "testChoices" ><i class="fa-solid fa-triangle-exclamation"></i></span>
+                                <span class= "testChoices" th:text= "${answer}"></span>
+                            </div>
                         </div>
                     </div>
                 </div><br>
