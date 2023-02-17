@@ -32,13 +32,28 @@
                         <h3 th:text= "${word.key}"></h3>
                         <div th:each= "eachWord: ${word.value}" th:data-wordId= "${eachWord.id}">
                             <!--<span th:text= "${eachWord.wordName}"></span><br> -->
-                            <input type= "checkbox" th:value= "${eachWord.id}">
+                            <input th:if ="${eachWord.id}" type= "checkbox" th:value= "${eachWord.id}" name= "wordCheck" class= "largerCheckBox checkedWords">
                             <span th:if ="${eachWord.wordClass}" th:text= "${eachWord.wordClass}" class= "wordClassSpan"></span>
                             <br th:if ="${eachWord.wordClass}">
                             <span th:text= "${eachWord.wordMeaning}"></span><br><br>
                         </div>
                     </div>
                   </div>
+              </div>
+
+
+              <div if id= "formLocation" sec:authorize="isAuthenticated()" class= "noShow">
+                  <form action="#" th:object="${word}" id="AddWordToWordlistForm" name= "AddWordToWordlistForm" method="GET">
+                    <button type= "button" class= "btn btn-primary" id= "addFormCloseBtn">X</button>
+                    <p>Select a wordList to add.</p>
+                    <select name="listSelect" id= "listSelect" size="6" style= "margin-bottom: 0.5em;">
+                      <optgroup label="Your vocabulary lists">
+                        <option th:each="wordList: ${wordLists}" th:value="${wordList.id}" th:text = "${wordList.wordListName}"></option>
+                      </optgroup>
+                    </select>
+                    <br>
+                    <input class="btn btn-primary btn-sm selectBtn" id= "selectBtn" value= "Select">
+                  </form>
               </div>
 
 
