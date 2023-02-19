@@ -222,7 +222,7 @@ public class articleCrawling {
             dto.ArticleBody.addAll(Arrays.asList(split));
 
             System.out.println("body completed: "+dto.ArticleBody);
-            dto.getArticleBody().add(text);
+//            dto.getArticleBody().add(text);
             //ul, li 같은 리스트들을 어떻게 처리할지 고민해보자.
         }
         return dto;
