@@ -9,38 +9,13 @@
               <div th:replace="fragments/bodyHeader :: bodyHeader"/>
               <h1>Vocabulary List</h1>
               <div class="jumbotron">
-                  <a href= "#" onclick= "openForm()"><i class="fa-regular fa-filter"></i>filter</a><br>
-                  <div class = "form-popup" id= "form-popup">
-                    <form action= "/" method= "GET" class= "form-container form-horizontal">
-                      <label class= "checkbox ">
-                        <input type= "checkbox" id= "inlineCheckbox1" value= "1"> 1
-                      </label>
-                      <label class= "checkbox">
-                        <input type= "checkbox" id= "inlineCheckbox2" value= "2"> 2
-                      </label>
-                      <label class= "checkbox">
-                        <input type= "checkbox" id= "inlineCheckbox3" value= "3"> 3
-                      </label>
-                      <label class= "checkbox">
-                        <input type= "checkbox" id= "inlineCheckbox4" value= "4"> 4
-                      </label>
-                      <button type= "submit" class= "btn btn-sm btn-primary">apply</button>
-                    </form>
-                  </div>
-
                   <form action= "/user/inWordList" th:object= "${wordLists}" method= "GET" id= "selectForm">
-<!--                     <select class= "selectBox" name="wordListSelect" size="21" onchange="this.form.submit()"> -->
                     <select class= "selectBox" id="wordListSelect" name="wordListSelect" size="21">
                       <optgroup label="Your vocabulary lists">
                         <option th:each="wordList: ${wordLists}" th:value="${wordList.id}" th:text = "${wordList.wordListName} + '.........' + ${wordList.numerator} + '/' + ${wordList.denominator}"></option>
                       </optgroup>
                     </select>
 
-<!--                     <select name="wordListSelect" size="20"> -->
-<!--                       <optgroup label="Your vocabulary lists"> -->
-<!--                         <option th:each="wordList: ${wordLists}" th:value="${wordList.id}" th:text = "${wordList.wordListName}">Cat</option> -->
-<!--                       </optgroup> -->
-<!--                     </select> -->
                     <div class= "noShow" id= "nameChangeWindow">
                         <input type= "text" id="nameChange" name="nameChange" minlength="4" maxlength="30" placeholder= "Enter new name">
                         <div>
@@ -58,14 +33,6 @@
               <div th:replace="fragments/footer :: footer">
           </div> <!-- /container -->
         <script>
-            function openForm(){
-                if(document.getElementById("form-popup").style.display == "block"){
-                    document.getElementById("form-popup").style.display = "none";
-                } else{
-                    document.getElementById("form-popup").style.display = "block";
-                }
-            }
-
             function deleteWordlist(){
                 const form = document.getElementById("selectForm");
                 const val = document.getElementById("wordListSelect").value;

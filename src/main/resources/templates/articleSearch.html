@@ -31,7 +31,6 @@
                     <div th:id= "${word.key}"  class= "noShow">
                         <h3 th:text= "${word.key}"></h3>
                         <div th:each= "eachWord: ${word.value}" th:data-wordId= "${eachWord.id}">
-                            <!--<span th:text= "${eachWord.wordName}"></span><br> -->
                             <input th:if ="${eachWord.id}" type= "checkbox" th:value= "${eachWord.id}" name= "wordCheck" class= "largerCheckBox checkedWords">
                             <span th:if ="${eachWord.wordClass}" th:text= "${eachWord.wordClass}" class= "wordClassSpan"></span>
                             <br th:if ="${eachWord.wordClass}">
@@ -63,20 +62,3 @@
           <script th:src=@{/js/word_popup.js}></script>
       </body>
   </html>
-
-<!--다시 생각해보자. 일단 자바스크립트에서 자바로 직접적으로 파라미터를 전송하는 방법은 존재하지않는다.
- 이 상황에서 내가 할 수 있는건 페이지를 불러올때 모든 단어의 이름/ 뜻을 불러와서 보이지않는 p태그를 만들어서 덮어씌워두고,
- 어떤 단어를 선택 했을떄, 해당 단어값과 같은 값을 가진 p태그를 보이도록 만들어주는 동시에,
- 단어 이름을 가진 보이지않는 체크박스를 체크하도록해서 add버튼을 누를때 그 모든 값을 get 방식으로 전송해서
-  단어장에 추가하도록.
-
-  각각의 단어는 두개의 클래스를 가진 스판태그로 만들어두었다. 각각은 단어명, 그리고 popup_word라는 클래스를 가진다.
-  단어장에서 단어를 클릭하면 뜻이 나오게 할때 modelAttribute로 모든 wlw에대해 단어데이터와 함께 불러온것처럼
-  이것도 각각의 단어들에대해서 모든 단어데이터를 가져와야 할까..?
-
-  자바스크립트를 사용해서 DB에 접근할 수는 없을까?
-  혹은 자바스크립트를 통해서 스프링으로 접근하는건?
-
-  AJAX와 JSP를 배워보기로 결정했다. AJAX를
-
-  -->

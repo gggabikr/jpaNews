@@ -22,7 +22,6 @@
                   <td th:text= "${word.meaning}"/>
                   <td sec:authorize="isAuthenticated()"><button class= "addBtn" onclick = "addToWordListForm(event);" th:value= "${word.id}">+</button></td>
                   <th sec:authorize ="hasRole('ROLE_ADMIN')"><a th:href="@{/admin/modifyWord/{id}(id = ${word.id})}">Edit</a></th>
-<!--                   <td><a th:href="@{/addWordToList/{id}(id = ${word.id})}">+</a></td> -->
                 </tr>
               </table>
               <div if id= "formLocation" sec:authorize="isAuthenticated()" class= "noShow">
