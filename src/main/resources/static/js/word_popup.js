@@ -43,7 +43,7 @@ const mouseOnPopUp = function (event) {
     if(byClassName != null){
         for(let ele of byClassName){
             ele.classList.add("noShow");
-            ele.parentElement.classList.add("noShow");
+            // ele.parentElement.classList.add("noShow");
         }
     }
     if(byClassName1 != null && byClassName1.length>0){
