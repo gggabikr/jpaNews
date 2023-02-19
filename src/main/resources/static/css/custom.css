@@ -314,3 +314,26 @@ td, th{
 .noShow{
     display: none;
 }
+
+.popup_word, .wordsInList{
+    cursor: pointer;
+}
+
+/*prevent some weird customizing from bootstrap*/
+.panel, .well, .show{
+    display: inline-block !important;
+    background-color: inherit;
+    margin: inherit;
+    box-shadow: inherit;
+    border-radius: inherit;
+}
+
+.popup_word:hover{
+    color: #23527c;
+    background-color: #dedede;
+    border-radius: 3px;
+}
+
+#title, #subtitle{
+    line-height: 1.2;
+}
