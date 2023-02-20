@@ -320,12 +320,16 @@ td, th{
 }
 
 /*prevent some weird customizing from bootstrap*/
-.panel, .well, .show{
+.wrapper> .panel, .well, .show{
     display: inline-block !important;
     background-color: inherit;
     margin: inherit;
     box-shadow: inherit;
     border-radius: inherit;
+    padding: inherit;
+    border: inherit;
+    min-height: 0;
+    margin: 0;
 }
 
 .popup_word:hover{
