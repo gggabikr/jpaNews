@@ -18,7 +18,7 @@
                 <tr th:each= "word: ${result}">
                   <td th:text= "${word.id}" sec:authorize ="hasRole('ROLE_ADMIN')"/>
                   <td th:text= "${word.name}"/>
-                  <td th:text= "${word.wordClass}"/>
+                  <td th:text= "${#strings.equals(word.wordClass, 'NOTAVAILABLE')} ?  'N/A' : ${word.wordClass}"/>
                   <td th:text= "${word.meaning}"/>
                   <td sec:authorize="isAuthenticated()"><button class= "addBtn" onclick = "addToWordListForm(event);" th:value= "${word.id}">+</button></td>
                   <th sec:authorize ="hasRole('ROLE_ADMIN')"><a th:href="@{/admin/modifyWord/{id}(id = ${word.id})}">Edit</a></th>

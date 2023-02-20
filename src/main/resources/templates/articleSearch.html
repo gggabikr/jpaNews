@@ -32,7 +32,7 @@
                         <h3 th:text= "${word.key}"></h3>
                         <div th:each= "eachWord: ${word.value}" th:data-wordId= "${eachWord.id}">
                             <input th:if ="${eachWord.id}" type= "checkbox" th:value= "${eachWord.id}" name= "wordCheck" class= "largerCheckBox checkedWords">
-                            <span th:if ="${eachWord.wordClass}" th:text= "${eachWord.wordClass}" class= "wordClassSpan"></span>
+                            <span th:if ="${eachWord.wordClass}" th:text= "${#strings.equals(eachWord.wordClass, 'NOTAVAILABLE')} ?  'N/A' : ${eachWord.wordClass}" class= "wordClassSpan"></span>
                             <br th:if ="${eachWord.wordClass}">
                             <span th:text= "${eachWord.wordMeaning}"></span><br><br>
                         </div>

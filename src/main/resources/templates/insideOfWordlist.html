@@ -49,7 +49,7 @@
 
                                 <tr th:each= "wlw: ${WLWs}">
                                   <td class= "center"><input type="checkbox" th:id="${wlw.word.name}+${wlw.word.id}" name="checkedWords" th:value="${wlw.word.id}" form= "formForInsideList"></td>
-                                  <td th:text= "${wlw.word.name}" class= "wordsInList" th:value= "${wlw.word.meaning}" th:wordClass= "${wlw.word.wordClass}" onclick= "openWordDetail(event)"/>
+                                  <td th:text= "${wlw.word.name}" class= "wordsInList" th:value= "${wlw.word.meaning}" th:wordClass= "${#strings.equals(wlw.word.wordClass, 'NOTAVAILABLE')} ?  'N/A' : ${wlw.word.wordClass}" onclick= "openWordDetail(event)"/>
                                   <td th:if= "${wlw.status == TRUE}" th:text= "O" class= "wordsInList" th:value = "${wlw.id}" onclick= "toggleStatus(event)"/>
                                   <td th:if= "${wlw.status == FALSE}" th:text= "X" class= "wordsInList" th:value = "${wlw.id}" onclick= "toggleStatus(event)"/>
                                   <td><a class= "testDetail" th:value= "${wlw.recentTest}" th:wlw= "${wlw.id}" href= "#" onclick= "testDetail(event)">Details..</a></td>
