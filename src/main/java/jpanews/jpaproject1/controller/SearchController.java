@@ -28,6 +28,10 @@ public class SearchController {
     @GetMapping("/searchURL")
     public String searchURL(Model model, String URL) throws Exception {
         System.out.println(URL);
+        if(URL.length()<5){
+            model.addAttribute("message", "Check the URL again please.");
+            return "errorPage";
+        }
         crawlingDto dto = articleCrawling.crawl(URL);
 //        System.out.println(dto.getTitle());
 //        System.out.println(dto.getSubTitle());
@@ -37,6 +41,11 @@ public class SearchController {
         allWordsOfArticle.addAll(dto.getTitle_each());
         allWordsOfArticle.addAll(dto.getSubTitle_each());
         allWordsOfArticle.addAll(dto.getArticleBody());
+
+        if(allWordsOfArticle.size()<30){
+            model.addAttribute("message", "Check the URL again please.");
+            return "errorPage";
+        }
 
         HashMap<String, ArrayList<wordDto>> wordData = new HashMap<>();
         for (String word: allWordsOfArticle) {
