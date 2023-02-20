@@ -49,7 +49,7 @@
 //
 //
 //                if(tempArr[1].contains("imp") || tempArr[1].contains("p. p") || tempArr[1].contains("p pr")| tempArr[1].length() == 0 || tempArr[1].equals("n/a")){
-//                    word.setWordClass(WordClass.NOTABAILABLE);
+//                    word.setWordClass(WordClass.NOTAVAILABLE);
 //                } else if (tempArr[1].equals("n") || tempArr[1].equals("n.")){
 //                    word.setWordClass(WordClass.NOUN);
 //                } else if (tempArr[1].equals("v") || tempArr[1].contains("v.")){
@@ -79,7 +79,7 @@
 //                } else if (tempArr[1].contains("n") || tempArr[1].contains("n.")){
 //                    word.setWordClass(WordClass.NOUN);
 //                } else{
-//                    word.setWordClass(WordClass.NOTABAILABLE);
+//                    word.setWordClass(WordClass.NOTAVAILABLE);
 //                }
 //                word.setMeaning(line.substring(indexOfBracketClose+1));
 ////                wordRepository.save(word);
