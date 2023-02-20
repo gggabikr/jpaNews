@@ -10,7 +10,7 @@
               <form role="form" th:action="@{/sign-up}" th:object="${MemberInfoDto}" method="POST" onsubmit = "return finalCheck()">
                     <div class="form-group">
                         <label for="username" class="form-label">Username</label>
-                        <input type="text" th:field="*{username}" name="username" id="username" class="form-control" required>
+                        <input type="text" th:field="*{username}" name="username" id="username" class="form-control" required spellcheck = "false">
                         <ul class="id-checker noshow">
                             <li class="id-length nopassChecker">
                                 <i class="far fa-times-circle"></i>
